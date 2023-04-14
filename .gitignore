@@ -5,3 +5,4 @@ raytracer
 *.ppm
 vgcore*
 .vscode
+test
