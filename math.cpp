@@ -101,12 +101,12 @@ Math::Vector3D Math::Ray::getDirection() const
     return _direction;
 }
 
-Math::Point3D Math::Ray::setOrigin(Math::Point3D &origin)
+void Math::Ray::setOrigin(Math::Point3D &origin)
 {
     _origin = origin;
 }
 
-Math::Vector3D Math::Ray::setDirection(Math::Vector3D &direction)
+void Math::Ray::setDirection(Math::Vector3D &direction)
 {
     _direction = direction;
 }

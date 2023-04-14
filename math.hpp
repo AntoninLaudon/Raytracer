@@ -49,8 +49,8 @@ namespace Math {
             ~Ray();
             Point3D getOrigin() const;
             Vector3D getDirection() const;
-            Point3D setOrigin(Point3D &origin);
-            Vector3D setDirection(Vector3D &direction);
+            void setOrigin(Point3D &origin);
+            void setDirection(Vector3D &direction);
         private:
             Point3D _origin;
             Vector3D _direction;
