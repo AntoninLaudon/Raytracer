@@ -225,6 +225,6 @@ std::ostream &operator<<(std::ostream &os, const Math::Point3D &p)
 
 std::ostream &operator<<(std::ostream &os, const Math::Ray &r)
 {
-    os << "O: " << r.getOrigin() << " D: " << r.getDirection();
+    os << "O:" << r.getOrigin() << " D:" << r.getDirection();
     return os;
 }
