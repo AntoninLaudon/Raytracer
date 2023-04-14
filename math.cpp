@@ -46,17 +46,17 @@ double Math::Vector3D::getZ() const
     return _z;
 }
 
-double Math::Vector3D::setX(double x)
+void Math::Vector3D::setX(double x)
 {
     _x = x;
 }
 
-double Math::Vector3D::setY(double y)
+void Math::Vector3D::setY(double y)
 {
     _y = y;
 }
 
-double Math::Vector3D::setZ(double z)
+void Math::Vector3D::setZ(double z)
 {
     _z = z;
 }
@@ -76,17 +76,17 @@ double Math::Point3D::getZ() const
     return _z;
 }
 
-double Math::Point3D::setX(double x)
+void Math::Point3D::setX(double x)
 {
     _x = x;
 }
 
-double Math::Point3D::setY(double y)
+void Math::Point3D::setY(double y)
 {
     _y = y;
 }
 
-double Math::Point3D::setZ(double z)
+void Math::Point3D::setZ(double z)
 {
     _z = z;
 }

@@ -16,9 +16,9 @@ namespace Math {
             double getX() const;
             double getY() const;
             double getZ() const;
-            double setX(double x);
-            double setY(double y);
-            double setZ(double z);
+            void setX(double x);
+            void setY(double y);
+            void setZ(double z);
         private:
             double _x;
             double _y;
@@ -33,9 +33,9 @@ namespace Math {
             double getX() const;
             double getY() const;
             double getZ() const;
-            double setX(double x);
-            double setY(double y);
-            double setZ(double z);
+            void setX(double x);
+            void setY(double y);
+            void setZ(double z);
         private:
             double _x;
             double _y;
@@ -74,13 +74,13 @@ Math::Vector3D operator/(const Math::Vector3D &v1, const Math::Vector3D &v2);
 Math::Vector3D operator/(const Math::Vector3D &v1, const double &d);
 
 void operator+=(Math::Vector3D &v1, const Math::Vector3D &v2);
-void operator+=(Math::Vector3D &v1, const double &d);
+void operator+=(Math::Vector3D &v1, double &d);
 
 void operator-=(Math::Vector3D &v1, const Math::Vector3D &v2);
-void operator-=(Math::Vector3D &v1, const double &d);
+void operator-=(Math::Vector3D &v1, double &d);
 
 void operator*=(Math::Vector3D &v1, const Math::Vector3D &v2);
-void operator*=(Math::Vector3D &v1, const double &d);
+void operator*=(Math::Vector3D &v1, double &d);
 
 void operator/=(Math::Vector3D &v1, const Math::Vector3D &v2);
 void operator/=(Math::Vector3D &v1, const double &d);
