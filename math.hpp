@@ -8,6 +8,8 @@
 #ifndef MATH_HPP_
 #define MATH_HPP_
 
+#include <iostream>
+
 namespace Math {
     class Vector3D {
         public:
@@ -84,5 +86,9 @@ void operator*=(Math::Vector3D &v1, double &d);
 
 void operator/=(Math::Vector3D &v1, const Math::Vector3D &v2);
 void operator/=(Math::Vector3D &v1, const double &d);
+
+std::ostream &operator<<(std::ostream &os, const Math::Vector3D &v);
+std::ostream &operator<<(std::ostream &os, const Math::Point3D &p);
+std::ostream &operator<<(std::ostream &os, const Math::Ray &r);
 
 #endif /* !MATH_HPP_ */

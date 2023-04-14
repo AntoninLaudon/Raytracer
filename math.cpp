@@ -211,5 +211,20 @@ void operator/=(Math::Vector3D &v1, const double scalar)
     v1.setZ(v1.getZ() / scalar);
 }
 
+std::ostream &operator<<(std::ostream &os, const Math::Vector3D &v)
+{
+    os << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ")";
+    return os;
+}
 
+std::ostream &operator<<(std::ostream &os, const Math::Point3D &p)
+{
+    os << "(" << p.getX() << ", " << p.getY() << ", " << p.getZ() << ")";
+    return os;
+}
 
+std::ostream &operator<<(std::ostream &os, const Math::Ray &r)
+{
+    os << "O: " << r.getOrigin() << " D: " << r.getDirection();
+    return os;
+}
