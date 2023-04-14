@@ -1,0 +1,7 @@
+note.txt
+*.o
+*.so
+raytracer
+*.ppm
+vgcore*
+.vscode
