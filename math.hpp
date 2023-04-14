@@ -79,13 +79,13 @@ Math::Vector3D operator/(const Math::Vector3D &v1, const Math::Vector3D &v2);
 Math::Vector3D operator/(const Math::Vector3D &v1, const double &d);
 
 void operator+=(Math::Vector3D &v1, const Math::Vector3D &v2);
-void operator+=(Math::Vector3D &v1, double &d);
+void operator+=(Math::Vector3D &v1, const double &d);
 
 void operator-=(Math::Vector3D &v1, const Math::Vector3D &v2);
-void operator-=(Math::Vector3D &v1, double &d);
+void operator-=(Math::Vector3D &v1, const double &d);
 
 void operator*=(Math::Vector3D &v1, const Math::Vector3D &v2);
-void operator*=(Math::Vector3D &v1, double &d);
+void operator*=(Math::Vector3D &v1, const double &d);
 
 void operator/=(Math::Vector3D &v1, const Math::Vector3D &v2);
 void operator/=(Math::Vector3D &v1, const double &d);
