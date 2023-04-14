@@ -106,6 +106,8 @@ std::ostream &operator<<(std::ostream &os, const Math::Vector3D &v);
 Math::Point3D operator+(const Math::Point3D &p1, const Math::Point3D &p2);
 Math::Point3D operator+(const Math::Point3D &p1, const double &d);
 Math::Point3D operator+(const double &d, const Math::Point3D &p1);
+Math::Point3D operator+(const Math::Point3D &p1, const Math::Vector3D &v1);
+Math::Point3D operator+(const Math::Vector3D &v1, const Math::Point3D &p1);
 
 Math::Point3D operator-(const Math::Point3D &p1, const Math::Point3D &p2);
 Math::Point3D operator-(const Math::Point3D &p1, const double &d);
@@ -123,6 +125,7 @@ Math::Point3D operator-(const Math::Point3D &p);
 
 void operator+=(Math::Point3D &p1, const Math::Point3D &p2);
 void operator+=(Math::Point3D &p1, const double &d);
+void operator+=(Math::Point3D &p1, const Math::Vector3D &v1);
 
 void operator-=(Math::Point3D &p1, const Math::Point3D &p2);
 void operator-=(Math::Point3D &p1, const double &d);

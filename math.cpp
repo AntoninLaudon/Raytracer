@@ -243,6 +243,14 @@ Math::Point3D operator+(const double &scalar, const Math::Point3D &p1)
 {
     return Math::Point3D(p1.getX() + scalar, p1.getY() + scalar, p1.getZ() + scalar);
 }
+Math::Point3D operator+(const Math::Point3D &p1, const Math::Vector3D &v1)
+{
+    return Math::Point3D(p1.getX() + v1.getX(), p1.getY() + v1.getY(), p1.getZ() + v1.getZ());
+}
+Math::Point3D operator+(const Math::Vector3D &v1, const Math::Point3D &p1)
+{
+    return Math::Point3D(p1.getX() + v1.getX(), p1.getY() + v1.getY(), p1.getZ() + v1.getZ());
+}
 
 Math::Point3D operator-(const Math::Point3D &p1, const Math::Point3D &p2)
 {
@@ -305,6 +313,12 @@ void operator+=(Math::Point3D &p1, const double &scalar)
     p1.setX(p1.getX() + scalar);
     p1.setY(p1.getY() + scalar);
     p1.setZ(p1.getZ() + scalar);
+}
+void operator+=(Math::Point3D &p1, const Math::Vector3D &v1)
+{
+    p1.setX(p1.getX() + v1.getX());
+    p1.setY(p1.getY() + v1.getY());
+    p1.setZ(p1.getZ() + v1.getZ());
 }
 
 void operator-=(Math::Point3D &p1, const Math::Point3D &p2)
