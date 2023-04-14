@@ -64,6 +64,8 @@ namespace Math {
 
 }
 
+// Vector3D
+
 Math::Vector3D operator+(const Math::Vector3D &v1, const Math::Vector3D &v2);
 Math::Vector3D operator+(const Math::Vector3D &v1, const double &d);
 Math::Vector3D operator+(const double &d, const Math::Vector3D &v1);
@@ -78,6 +80,9 @@ Math::Vector3D operator*(const double &d, const Math::Vector3D &v1);
 
 Math::Vector3D operator/(const Math::Vector3D &v1, const Math::Vector3D &v2);
 Math::Vector3D operator/(const Math::Vector3D &v1, const double &d);
+Math::Vector3D operator/(const double &d, const Math::Vector3D &v1);
+
+Math::Vector3D operator-(const Math::Vector3D &v);
 
 void operator+=(Math::Vector3D &v1, const Math::Vector3D &v2);
 void operator+=(Math::Vector3D &v1, const double &d);
@@ -91,20 +96,50 @@ void operator*=(Math::Vector3D &v1, const double &d);
 void operator/=(Math::Vector3D &v1, const Math::Vector3D &v2);
 void operator/=(Math::Vector3D &v1, const double &d);
 
+bool operator==(const Math::Vector3D &v1, const Math::Vector3D &v2);
+bool operator!=(const Math::Vector3D &v1, const Math::Vector3D &v2);
+
+std::ostream &operator<<(std::ostream &os, const Math::Vector3D &v);
+
+// Point3D
+
+Math::Point3D operator+(const Math::Point3D &p1, const Math::Point3D &p2);
+Math::Point3D operator+(const Math::Point3D &p1, const double &d);
+Math::Point3D operator+(const double &d, const Math::Point3D &p1);
+
+Math::Point3D operator-(const Math::Point3D &p1, const Math::Point3D &p2);
+Math::Point3D operator-(const Math::Point3D &p1, const double &d);
+Math::Point3D operator-(const double &d, const Math::Point3D &p1);
+
+Math::Point3D operator*(const Math::Point3D &p1, const Math::Point3D &p2);
+Math::Point3D operator*(const Math::Point3D &p1, const double &d);
+Math::Point3D operator*(const double &d, const Math::Point3D &p1);
+
+Math::Point3D operator/(const Math::Point3D &p1, const Math::Point3D &p2);
+Math::Point3D operator/(const Math::Point3D &p1, const double &d);
+Math::Point3D operator/(const double &d, const Math::Point3D &p1);
+
+Math::Point3D operator-(const Math::Point3D &p);
+
 void operator+=(Math::Point3D &p1, const Math::Point3D &p2);
-void operator+=(Math::Point3D &p1, double &d);
+void operator+=(Math::Point3D &p1, const double &d);
 
 void operator-=(Math::Point3D &p1, const Math::Point3D &p2);
-void operator-=(Math::Point3D &p1, double &d);
+void operator-=(Math::Point3D &p1, const double &d);
 
 void operator*=(Math::Point3D &p1, const Math::Point3D &p2);
-void operator*=(Math::Point3D &p1, double &d);
+void operator*=(Math::Point3D &p1, const double &d);
 
 void operator/=(Math::Point3D &p1, const Math::Point3D &p2);
 void operator/=(Math::Point3D &p1, const double &d);
 
-std::ostream &operator<<(std::ostream &os, const Math::Vector3D &v);
+bool operator==(const Math::Point3D &p1, const Math::Point3D &p2);
+bool operator!=(const Math::Point3D &p1, const Math::Point3D &p2);
+
 std::ostream &operator<<(std::ostream &os, const Math::Point3D &p);
+
+// Ray
+
 std::ostream &operator<<(std::ostream &os, const Math::Ray &r);
 
 #endif /* !MATH_HPP_ */
