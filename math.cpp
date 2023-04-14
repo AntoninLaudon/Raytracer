@@ -22,6 +22,11 @@ double Math::Vector3D::length() const
     return sqrt(pow(_x, 2) + pow(_y, 2) + pow(_z, 2));
 }
 
+double Math::Vector3D::dot(const Math::Vector3D &v) const
+{
+    return _x * v.getX() + _y * v.getY() + _z * v.getZ();
+}
+
 // Point3D
 
 Math::Point3D::Point3D(double x, double y, double z) : _x(x), _y(y), _z(z)

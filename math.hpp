@@ -17,6 +17,7 @@ namespace Math {
             Vector3D(double x = 0, double y = 0, double z = 0);
             ~Vector3D();
             double length() const;
+            double dot(const Vector3D &v) const;
             double getX() const;
             double getY() const;
             double getZ() const;
