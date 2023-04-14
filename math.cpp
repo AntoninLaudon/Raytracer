@@ -115,11 +115,11 @@ Math::Vector3D operator+(const Math::Vector3D &v1, const Math::Vector3D &v2)
 {
     return Math::Vector3D(v1.getX() + v2.getX(), v1.getY() + v2.getY(), v1.getZ() + v2.getZ());
 }
-Math::Vector3D operator+(const Math::Vector3D &v1, const double scalar)
+Math::Vector3D operator+(const Math::Vector3D &v1, const double &scalar)
 {
     return Math::Vector3D(v1.getX() + scalar, v1.getY() + scalar, v1.getZ() + scalar);
 }
-Math::Vector3D operator+(const double scalar, const Math::Vector3D &v1)
+Math::Vector3D operator+(const double &scalar, const Math::Vector3D &v1)
 {
     return Math::Vector3D(v1.getX() + scalar, v1.getY() + scalar, v1.getZ() + scalar);
 }
@@ -128,11 +128,11 @@ Math::Vector3D operator-(const Math::Vector3D &v1, const Math::Vector3D &v2)
 {
     return Math::Vector3D(v1.getX() - v2.getX(), v1.getY() - v2.getY(), v1.getZ() - v2.getZ());
 }
-Math::Vector3D operator-(const Math::Vector3D &v1, const double scalar)
+Math::Vector3D operator-(const Math::Vector3D &v1, const double &scalar)
 {
     return Math::Vector3D(v1.getX() - scalar, v1.getY() - scalar, v1.getZ() - scalar);
 }
-Math::Vector3D operator-(const double scalar, const Math::Vector3D &v1)
+Math::Vector3D operator-(const double &scalar, const Math::Vector3D &v1)
 {
     return Math::Vector3D(scalar - v1.getX(), scalar - v1.getY(), scalar - v1.getZ());
 }
@@ -141,11 +141,11 @@ Math::Vector3D operator*(const Math::Vector3D &v1, const Math::Vector3D &v2)
 {
     return Math::Vector3D(v1.getX() * v2.getX(), v1.getY() * v2.getY(), v1.getZ() * v2.getZ());
 }
-Math::Vector3D operator*(const Math::Vector3D &v1, const double scalar)
+Math::Vector3D operator*(const Math::Vector3D &v1, const double &scalar)
 {
     return Math::Vector3D(v1.getX() * scalar, v1.getY() * scalar, v1.getZ() * scalar);
 }
-Math::Vector3D operator*(const double scalar, const Math::Vector3D &v1)
+Math::Vector3D operator*(const double &scalar, const Math::Vector3D &v1)
 {
     return Math::Vector3D(v1.getX() * scalar, v1.getY() * scalar, v1.getZ() * scalar);
 }
@@ -154,7 +154,7 @@ Math::Vector3D operator/(const Math::Vector3D &v1, const Math::Vector3D &v2)
 {
     return Math::Vector3D(v1.getX() / v2.getX(), v1.getY() / v2.getY(), v1.getZ() / v2.getZ());
 }
-Math::Vector3D operator/(const Math::Vector3D &v1, const double scalar)
+Math::Vector3D operator/(const Math::Vector3D &v1, const double &scalar)
 {
     return Math::Vector3D(v1.getX() / scalar, v1.getY() / scalar, v1.getZ() / scalar);
 }
@@ -165,7 +165,7 @@ void operator+=(Math::Vector3D &v1, const Math::Vector3D &v2)
     v1.setY(v1.getY() + v2.getY());
     v1.setZ(v1.getZ() + v2.getZ());
 }
-void operator+=(Math::Vector3D &v1, const double scalar)
+void operator+=(Math::Vector3D &v1, const double &scalar)
 {
     v1.setX(v1.getX() + scalar);
     v1.setY(v1.getY() + scalar);
@@ -178,7 +178,7 @@ void operator-=(Math::Vector3D &v1, const Math::Vector3D &v2)
     v1.setY(v1.getY() - v2.getY());
     v1.setZ(v1.getZ() - v2.getZ());
 }
-void operator-=(Math::Vector3D &v1, const double scalar)
+void operator-=(Math::Vector3D &v1, const double &scalar)
 {
     v1.setX(v1.getX() - scalar);
     v1.setY(v1.getY() - scalar);
@@ -191,7 +191,7 @@ void operator*=(Math::Vector3D &v1, const Math::Vector3D &v2)
     v1.setY(v1.getY() * v2.getY());
     v1.setZ(v1.getZ() * v2.getZ());
 }
-void operator*=(Math::Vector3D &v1, const double scalar)
+void operator*=(Math::Vector3D &v1, const double &scalar)
 {
     v1.setX(v1.getX() * scalar);
     v1.setY(v1.getY() * scalar);
@@ -204,7 +204,7 @@ void operator/=(Math::Vector3D &v1, const Math::Vector3D &v2)
     v1.setY(v1.getY() / v2.getY());
     v1.setZ(v1.getZ() / v2.getZ());
 }
-void operator/=(Math::Vector3D &v1, const double scalar)
+void operator/=(Math::Vector3D &v1, const double &scalar)
 {
     v1.setX(v1.getX() / scalar);
     v1.setY(v1.getY() / scalar);
