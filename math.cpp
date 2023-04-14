@@ -7,6 +7,8 @@
 
 #include "math.hpp"
 
+// Vector3D
+
 Math::Vector3D::Vector3D(double x, double y, double z) : _x(x), _y(y), _z(z)
 {
 }
@@ -14,6 +16,13 @@ Math::Vector3D::Vector3D(double x, double y, double z) : _x(x), _y(y), _z(z)
 Math::Vector3D::~Vector3D()
 {
 }
+
+double Math::Vector3D::length() const
+{
+    return sqrt(pow(_x, 2) + pow(_y, 2) + pow(_z, 2));
+}
+
+// Point3D
 
 Math::Point3D::Point3D(double x, double y, double z) : _x(x), _y(y), _z(z)
 {

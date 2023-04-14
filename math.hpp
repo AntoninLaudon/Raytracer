@@ -8,6 +8,7 @@
 #ifndef MATH_HPP_
 #define MATH_HPP_
 
+#include <cmath>
 #include <iostream>
 
 namespace Math {
@@ -15,6 +16,7 @@ namespace Math {
         public:
             Vector3D(double x = 0, double y = 0, double z = 0);
             ~Vector3D();
+            double length() const;
             double getX() const;
             double getY() const;
             double getZ() const;
@@ -60,6 +62,7 @@ namespace Math {
     };
 
 }
+
 Math::Vector3D operator+(const Math::Vector3D &v1, const Math::Vector3D &v2);
 Math::Vector3D operator+(const Math::Vector3D &v1, const double &d);
 Math::Vector3D operator+(const double &d, const Math::Vector3D &v1);
