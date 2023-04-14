@@ -220,52 +220,52 @@ void operator/=(Math::Vector3D &v1, const double &scalar)
     v1.setZ(v1.getZ() / scalar);
 }
 
-void operator+(Math::Point3D &p1, const Math::Point3D &p2)
+void operator+=(Math::Point3D &p1, const Math::Point3D &p2)
 {
     p1.setX(p1.getX() + p2.getX());
     p1.setY(p1.getY() + p2.getY());
     p1.setZ(p1.getZ() + p2.getZ());
 }
-void operator+(Math::Point3D &p1, const double scalar)
+void operator+=(Math::Point3D &p1, const double scalar)
 {
     p1.setX(p1.getX() + scalar);
     p1.setY(p1.getY() + scalar);
     p1.setZ(p1.getZ() + scalar);
 }
 
-void operator-(Math::Point3D &p1, const Math::Point3D &p2)
+void operator-=(Math::Point3D &p1, const Math::Point3D &p2)
 {
     p1.setX(p1.getX() - p2.getX());
     p1.setY(p1.getY() - p2.getY());
     p1.setZ(p1.getZ() - p2.getZ());
 }
-void operator-(Math::Point3D &p1, const double scalar)
+void operator-=(Math::Point3D &p1, const double scalar)
 {
     p1.setX(p1.getX() - scalar);
     p1.setY(p1.getY() - scalar);
     p1.setZ(p1.getZ() - scalar);
 }
 
-void operator*(Math::Point3D &p1, const Math::Point3D &p2)
+void operator*=(Math::Point3D &p1, const Math::Point3D &p2)
 {
     p1.setX(p1.getX() * p2.getX());
     p1.setY(p1.getY() * p2.getY());
     p1.setZ(p1.getZ() * p2.getZ());
 }
-void operator*(Math::Point3D &p1, const double scalar)
+void operator*=(Math::Point3D &p1, const double scalar)
 {
     p1.setX(p1.getX() * scalar);
     p1.setY(p1.getY() * scalar);
     p1.setZ(p1.getZ() * scalar);
 }
 
-void operator/(Math::Point3D &p1, const Math::Point3D &p2)
+void operator/=(Math::Point3D &p1, const Math::Point3D &p2)
 {
     p1.setX(p1.getX() / p2.getX());
     p1.setY(p1.getY() / p2.getY());
     p1.setZ(p1.getZ() / p2.getZ());
 }
-void operator/(Math::Point3D &p1, const double scalar)
+void operator/=(Math::Point3D &p1, const double scalar)
 {
     p1.setX(p1.getX() / scalar);
     p1.setY(p1.getY() / scalar);
