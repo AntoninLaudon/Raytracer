@@ -5,8 +5,7 @@
 ** math
 */
 
-#ifndef MATH_HPP_
-#define MATH_HPP_
+#pragma once
 
 #include <cmath>
 #include <iostream>
@@ -144,5 +143,3 @@ std::ostream &operator<<(std::ostream &os, const Math::Point3D &p);
 // Ray
 
 std::ostream &operator<<(std::ostream &os, const Math::Ray &r);
-
-#endif /* !MATH_HPP_ */
