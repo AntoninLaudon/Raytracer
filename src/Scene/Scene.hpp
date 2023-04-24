@@ -8,12 +8,13 @@
 #pragma once
 
 #include <vector>
+#include <string>
 #include "IElement.hpp"
 
 namespace Raytracer {
     class Scene {
         public:
-            Scene();
+            Scene(std::string path);
             ~Scene();
         protected:
         private:

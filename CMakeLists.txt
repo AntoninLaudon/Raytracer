@@ -11,8 +11,8 @@ set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(raytracer
-    main.cpp
-    math.cpp
+    src/main.cpp
+    src/math.cpp
     src/Core/Core.cpp
     src/PPM_generator/Generation.cpp
     src/Scene/Scene.cpp)
