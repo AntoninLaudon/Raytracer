@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic CMakeFiles/raytracer.dir/src/Core/Core.cpp.o CMakeFiles/raytracer.dir/src/PPM_generator/Generation.cpp.o CMakeFiles/raytracer.dir/src/Scene/Scene.cpp.o -o raytracer  -ldl 
