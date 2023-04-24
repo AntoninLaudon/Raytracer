@@ -6,4 +6,5 @@ raytracer
 vgcore*
 .vscode
 test
+*.mdj
 build
