@@ -1,0 +1,3 @@
+/home/chris/delivery/OOP/B-OOP-400-TLS-4-1-raytracer-tom.laiolo/CMakeFiles/rebuild_cache.dir
+/home/chris/delivery/OOP/B-OOP-400-TLS-4-1-raytracer-tom.laiolo/CMakeFiles/edit_cache.dir
+/home/chris/delivery/OOP/B-OOP-400-TLS-4-1-raytracer-tom.laiolo/CMakeFiles/raytracer.dir
