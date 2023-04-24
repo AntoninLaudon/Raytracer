@@ -8,8 +8,8 @@
 #include <iostream>
 #include "math.hpp"
 #include "Factory.hpp"
-#include "Elements/Camera.hpp"
-#include "Elements/Primitive.hpp"
+#include "Camera.hpp"
+#include "Primitive.hpp"
 #include "Core.hpp"
 
 int main()
