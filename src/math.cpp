@@ -414,3 +414,39 @@ std::ostream &operator<<(std::ostream &os, const Math::Ray &r)
     os << "O:" << r.getOrigin() << " D:" << r.getDirection();
     return os;
 }
+
+Math::Sphere::Sphere(Math::Point3D center, double radius)
+{
+    _center = center;
+    _radius = radius;
+}
+
+Math::Sphere::~Sphere()
+{
+
+}
+
+Math::Point3D Math::Sphere::getCenter() const
+{
+    return _center;
+}
+
+double Math::Sphere::getRadius() const
+{
+    return _radius;
+}
+
+void Math::Sphere::setCenter(Point3D &center)
+{
+    _center = center;
+}
+
+void Math::Sphere::setRadius(double radius)
+{
+    _radius = radius;
+}
+
+bool Math::Sphere::hits(const Math::Ray &ray) const
+{
+    // Return true if the ray hits the sphere
+}

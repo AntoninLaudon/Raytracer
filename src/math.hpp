@@ -61,6 +61,30 @@ namespace Math {
         protected:
     };
 
+    class Sphere {
+        public:
+            Sphere(Point3D center, double radius);
+            ~Sphere();
+            Point3D getCenter() const;
+            double getRadius() const;
+            void setCenter(Point3D &center);
+            void setRadius(double radius);
+            bool hits(const Ray &ray) const;
+        private:
+            Point3D _center;
+            double _radius;
+    };
+
+    class Rectangle3D {
+        public:
+            Rectangle3D();
+            ~Rectangle3D();
+            Point3D pointAt(double u, double v);
+        private:
+            Point3D _origin;
+            Vector3D _bottom_side;
+            Vector3D _left_side;
+    };
 }
 
 // Vector3D

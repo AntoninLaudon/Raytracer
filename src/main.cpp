@@ -44,5 +44,5 @@ int main()
     std::cout << "primitive2 name: " << primitive2->getName() << " position: " << primitive2->getPosition() << std::endl;
     std::cout << "light name: " << light->getName() << " position: " << light->getPosition() << std::endl;
 
-    light->Intersect();
+    
 }
