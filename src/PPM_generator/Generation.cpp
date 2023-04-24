@@ -11,7 +11,7 @@ PPM::PPM::PPM(int width, int height)
 {
     _width = width;
     _height = height;
-    _pixels = new RBG[width * height];
+    _pixels = new RGB[width * height];
     _version = "P3";
     fill({0, 0, 0});
 }
@@ -26,11 +26,20 @@ void PPM::PPM::setVersion(std::string version)
     _version = version;
 }
 
-void PPM::PPM::setPixel(int x, int y, RBG color)
+void PPM::PPM::setPixel(int x, int y, RGB color)
 {
     if (x < 0 || x >= _width || y < 0 || y >= _height)
         return;
     _pixels[y * _width + x] = color;
+}
+
+void PPM::PPM::bufferToImage(const RGB **pixels)
+{
+    for (int i = 0; pixels[i]; i++) {
+        for (int j = 0; pixels[i][j].b; j++) {
+            setPixel(j, i, pixels[i][j]);
+        }
+    }
 }
 
 void PPM::PPM::save(const char *filename)
@@ -54,7 +63,7 @@ void PPM::PPM::save(const char *filename)
         } else {
             for (int i = 0; i < _height; i++) {
                 for (int j = 0; j < _width; j++)
-                    output.write((char *)&_pixels[i * _width + j], sizeof(RBG));
+                    output.write((char *)&_pixels[i * _width + j], sizeof(RGB));
             }
         }
     }
@@ -66,7 +75,7 @@ void PPM::PPM::clear()
     fill({0, 0, 0});
 }
 
-void PPM::PPM::fill(RBG color)
+void PPM::PPM::fill(RGB color)
 {
     for (int i = 0; i < _width * _height; i++)
         _pixels[i] = color;

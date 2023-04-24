@@ -12,7 +12,7 @@
 #include <cmath>
 
 namespace PPM {
-    struct RBG {
+    struct RGB {
         unsigned char r;
         unsigned char g;
         unsigned char b;
@@ -22,15 +22,16 @@ namespace PPM {
             PPM(int width, int height);
             ~PPM();
             void setVersion(std::string version);
-            void setPixel(int x, int y, RBG color);
+            void setPixel(int x, int y, RGB color);
+            void bufferToImage(const RGB **pixels);
             void save(const char *filename);
             void clear();
-            void fill(RBG color);
+            void fill(RGB color);
         protected:
         private:
             int _width;
             int _height;
             std::string _version;
-            RBG *_pixels;
+            RGB *_pixels;
     };
 }
