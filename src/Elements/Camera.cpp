@@ -5,33 +5,61 @@
 ** camera
 */
 
+#include "math.hpp"
 #include "Camera.hpp"
 
-Raytracer::Camera::Camera(
-    const std::string& name, Math::Vector3D& position, Math::Vector3D& rotation)
+// Rectangle3D
+
+Raytracer::Rectangle3d::Rectangle3d()
 {
-    _name = name;
-    _position = position;
-    _rotation = rotation;
-    _type = CAMERA;
+    _origin = Math::Point3D(0, 0, 0);
+    _bottom_side = Math::Vector3D(0, 0, 0);
+    _left_side = Math::Vector3D(0, 0, 0);
+}
+
+Raytracer::Rectangle3d::Rectangle3d(Math::Point3D origin, Math::Vector3D width, Math::Vector3D height)
+{
+    _origin = origin;
+    _bottom_side = width;
+    _left_side = height;
+}
+
+Raytracer::Rectangle3d::~Rectangle3d()
+{
+}
+
+Math::Point3D Raytracer::Rectangle3d::getorigin()
+{
+    return _origin;
+}
+
+Math::Point3D Raytracer::Rectangle3d::pointAt(double u, double v)
+{
+    return _origin + _bottom_side * u + _left_side * v;
+}
+
+Raytracer::Camera::Camera(Math::Point3D origin, Raytracer::Rectangle3d screen)
+{
+    _origin = origin;
+    _screen = screen;
 }
 
 Raytracer::Camera::~Camera()
 {
 }
 
-void Raytracer::Camera::translate(float x, float y, float z)
+Raytracer::Rectangle3d Raytracer::Camera::getScreen()
 {
-    _position.setX(_position.getX() + x);
-    _position.setY(_position.getY() + y);
-    _position.setZ(_position.getZ() + z);
+    return _screen;
 }
 
-void Raytracer::Camera::clearElement()
-{
-}
-
-Math::Point3D Raytracer::Camera::Intersect()
-{
-    return Math::Point3D();
-}
+//Math::Ray Raytracer::Camera::ray(double u, double v)
+//{
+//    Math::Point3D origin = _origin;
+//    Math::Vector3D direction = Math::Vector3D(
+//        _screen.getA().getX() + u * (_screen.getB().getX() - _screen.getA().getX()),
+//        _screen.getA().getY() + v * (_screen.getB().getY() - _screen.getA().getY()),
+//        _screen.getA().getZ() + v * (_screen.getB().getZ() - _screen.getA().getZ())
+//    );
+//    return Math::Ray(origin, direction);
+//}

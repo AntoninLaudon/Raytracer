@@ -74,17 +74,6 @@ namespace Math {
             Point3D _center;
             double _radius;
     };
-
-    class Rectangle3D {
-        public:
-            Rectangle3D(Point3D origin, Vector3D bottom_side, Vector3D left_side);
-            ~Rectangle3D();
-            Point3D pointAt(double u, double v);
-        private:
-            Point3D _origin;
-            Vector3D _bottom_side;
-            Vector3D _left_side;
-    };
 }
 
 // Vector3D
