@@ -448,23 +448,14 @@ void Math::Sphere::setRadius(double radius)
 
 bool Math::Sphere::hits(const Math::Ray &ray) const
 {
-    double a = ray.getDirection().dot(ray.getDirection());
-    double b = 2 * ray.getDirection().dot(Math::Vector3D((ray.getOrigin() - _center).getX(), (ray.getOrigin() - _center).getY(), (ray.getOrigin() - _center).getZ()));
-    double c = (ray.getDirection().getX() - _center.getX() + ray.getDirection().getY() - _center.getY() + ray.getDirection().getZ() - _center.getZ()) * (ray.getDirection().getX() - _center.getX() + ray.getDirection().getY() - _center.getY() + ray.getDirection().getZ() - _center.getZ()) - _radius * _radius;
-    double delta = b * b - 4 * a * c;
-
-    if (delta < 0)
+    Math::Vector3D L (_center.getX() - ray.getOrigin().getX(), _center.getY() - ray.getOrigin().getY(), _center.getZ() - ray.getOrigin().getZ());
+    double tca = L.dot(ray.getDirection()) / (ray.getDirection().length() * ray.getDirection().length());
+    //std::cout << "ray length: " << ray.getDirection().length() << std::endl;
+    //std::cout << "L : " << L << std::endl;
+    //std::cout << "L dot: " << L.dot(ray.getDirection()) << std::endl;
+    //std::cout << "tca: " << tca << std::endl;
+    if (tca < 0)
         return false;
-    else if (delta == 0)
-        return true;
-    else
-    {
-        double t1 = (-b - sqrt(delta)) / (2 * a);
-        double t2 = (-b + sqrt(delta)) / (2 * a);
-        if (t1 < 0 && t2 < 0)
-            return false;
-        else
-            return true;
-    }
+    return true;
 }
 
