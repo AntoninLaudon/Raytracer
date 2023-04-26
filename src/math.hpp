@@ -77,7 +77,7 @@ namespace Math {
 
     class Rectangle3D {
         public:
-            Rectangle3D();
+            Rectangle3D(Point3D origin, Vector3D bottom_side, Vector3D left_side);
             ~Rectangle3D();
             Point3D pointAt(double u, double v);
         private:

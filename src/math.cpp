@@ -495,3 +495,18 @@ bool Math::Sphere::hits(const Math::Ray &ray) const
     // The ray hits the sphere
     return true;
 }
+
+// Rectangle3D #####################################################################################################################
+
+Math::Rectangle3D::Rectangle3D(Math::Point3D origin, Math::Vector3D width, Math::Vector3D height) : _origin(origin), _bottom_side(width), _left_side(height)
+{
+}
+
+Math::Rectangle3D::~Rectangle3D()
+{
+}
+
+Math::Point3D Math::Rectangle3D::pointAt(double u, double v)
+{
+    return _origin + _bottom_side * u + _left_side * v;
+}

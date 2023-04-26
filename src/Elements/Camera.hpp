@@ -11,7 +11,7 @@
 #include "AElement.hpp"
 
 namespace Raytracer {
-    class Camera : public AElement{
+    class Camera {
         public:
             Camera(const std::string& name, Math::Vector3D& position, Math::Vector3D& rotation);
             ~Camera();
@@ -24,5 +24,6 @@ namespace Raytracer {
             }
         protected:
         private:
+            Math::Rectangle3D _rectangle;
     };
 }
