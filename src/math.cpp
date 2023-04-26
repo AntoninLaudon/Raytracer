@@ -7,7 +7,7 @@
 
 #include "math.hpp"
 
-// Vector3D
+// Vector3D ################################################################################################################
 
 Math::Vector3D::Vector3D(double x, double y, double z) : _x(x), _y(y), _z(z)
 {
@@ -191,7 +191,7 @@ std::ostream &operator<<(std::ostream &os, const Math::Vector3D &v)
     return os;
 }
 
-// Point3D
+// Point3D #################################################################################################################
 
 Math::Point3D::Point3D(double x, double y, double z) : _x(x), _y(y), _z(z)
 {
@@ -379,7 +379,7 @@ std::ostream &operator<<(std::ostream &os, const Math::Point3D &p)
     return os;
 }
 
-// Ray
+// Ray #####################################################################################################################
 
 Math::Ray::Ray(Math::Point3D origin, Math::Vector3D direction) : _origin(origin), _direction(direction)
 {

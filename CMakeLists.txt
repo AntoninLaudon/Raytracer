@@ -24,8 +24,9 @@ add_executable(raytracer
 target_link_libraries(raytracer PUBLIC dl)
     
 target_include_directories(raytracer PUBLIC
-    src
-    src/Core
-    src/Elements
-    src/PPM_generator
-    src/Scene)
+    src/
+    src/Core/
+    src/Elements/
+    src/PPM_generator/
+    src/Scene/
+)
