@@ -5,7 +5,7 @@
 ** camera
 */
 
-#include "math.hpp"
+#include "Math.hpp"
 #include "Camera.hpp"
 
 // Rectangle3D
@@ -53,13 +53,9 @@ Raytracer::Rectangle3d Raytracer::Camera::getScreen()
     return _screen;
 }
 
-//Math::Ray Raytracer::Camera::ray(double u, double v)
-//{
-//    Math::Point3D origin = _origin;
-//    Math::Vector3D direction = Math::Vector3D(
-//        _screen.getA().getX() + u * (_screen.getB().getX() - _screen.getA().getX()),
-//        _screen.getA().getY() + v * (_screen.getB().getY() - _screen.getA().getY()),
-//        _screen.getA().getZ() + v * (_screen.getB().getZ() - _screen.getA().getZ())
-//    );
-//    return Math::Ray(origin, direction);
-//}
+Math::Ray Raytracer::Camera::ray(double u, double v)
+{
+    Math::Point3D point = _screen.pointAt(u, v);
+    Math::Vector3D direction (point.getX() - _origin.getX(), point.getY() - _origin.getY(), point.getZ() - _origin.getZ());
+    return Math::Ray(_origin, direction);
+}

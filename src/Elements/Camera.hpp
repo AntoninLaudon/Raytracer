@@ -8,7 +8,7 @@
 #pragma once
 
 #include <memory>
-#include "math.hpp"
+#include "Math.hpp"
 namespace Raytracer {
 
     class Rectangle3d {

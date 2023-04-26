@@ -5,7 +5,7 @@
 ** math
 */
 
-#include "math.hpp"
+#include "Math.hpp"
 
 // Vector3D ################################################################################################################
 
@@ -448,51 +448,23 @@ void Math::Sphere::setRadius(double radius)
 
 bool Math::Sphere::hits(const Math::Ray &ray) const
 {
-    // Ray origin
-    Math::Point3D o = ray.getOrigin();
-    // Ray direction
-    Math::Vector3D d = ray.getDirection();
+    double a = ray.getDirection().dot(ray.getDirection());
+    double b = 2 * ray.getDirection().dot(Math::Vector3D((ray.getOrigin() - _center).getX(), (ray.getOrigin() - _center).getY(), (ray.getOrigin() - _center).getZ()));
+    double c = (ray.getDirection().getX() - _center.getX() + ray.getDirection().getY() - _center.getY() + ray.getDirection().getZ() - _center.getZ()) * (ray.getDirection().getX() - _center.getX() + ray.getDirection().getY() - _center.getY() + ray.getDirection().getZ() - _center.getZ()) - _radius * _radius;
+    double delta = b * b - 4 * a * c;
 
-    // Sphere center
-    Math::Point3D c = getCenter();
-    // Sphere radius
-    double r = getRadius();
-
-    // Ray origin to sphere center
-    Math::Vector3D oc (o.getX() - c.getX(), o.getY() - c.getY(), o.getZ() - c.getZ());
-
-    // Ray origin to sphere center projection on ray direction
-    double tca = oc.dot(d);
-
-    // If tca is negative, the ray is pointing away from the sphere
-    if (tca < 0)
+    if (delta < 0)
         return false;
-
-    // Distance between ray origin and sphere center
-    double d2 = oc.dot(oc) - tca * tca;
-
-    // If d2 is greater than the radius squared, the ray misses the sphere
-    if (d2 > r * r)
-        return false;
-
-    // Distance between ray origin and sphere intersection
-    double thc = sqrt(r * r - d2);
-
-    // Distance between ray origin and first sphere intersection
-    double t0 = tca - thc;
-
-    // Distance between ray origin and second sphere intersection
-    double t1 = tca + thc;
-
-    // If t0 is negative, the ray starts inside the sphere
-    if (t0 < 0)
-        t0 = t1;
-
-    // If t0 is negative, the ray starts inside the sphere
-    if (t0 < 0)
-        return false;
-
-    // The ray hits the sphere
-    return true;
+    else if (delta == 0)
+        return true;
+    else
+    {
+        double t1 = (-b - sqrt(delta)) / (2 * a);
+        double t2 = (-b + sqrt(delta)) / (2 * a);
+        if (t1 < 0 && t2 < 0)
+            return false;
+        else
+            return true;
+    }
 }
 
