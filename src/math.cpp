@@ -448,8 +448,50 @@ void Math::Sphere::setRadius(double radius)
 
 bool Math::Sphere::hits(const Math::Ray &ray) const
 {
-    // Return true if the ray hits the sphere
-    if (ray.getOrigin() == _center)
-        return true;
-    return false;
+    // Ray origin
+    Math::Point3D o = ray.getOrigin();
+    // Ray direction
+    Math::Vector3D d = ray.getDirection();
+
+    // Sphere center
+    Math::Point3D c = getCenter();
+    // Sphere radius
+    double r = getRadius();
+
+    // Ray origin to sphere center
+    Math::Vector3D oc (o.getX() - c.getX(), o.getY() - c.getY(), o.getZ() - c.getZ());
+
+    // Ray origin to sphere center projection on ray direction
+    double tca = oc.dot(d);
+
+    // If tca is negative, the ray is pointing away from the sphere
+    if (tca < 0)
+        return false;
+
+    // Distance between ray origin and sphere center
+    double d2 = oc.dot(oc) - tca * tca;
+
+    // If d2 is greater than the radius squared, the ray misses the sphere
+    if (d2 > r * r)
+        return false;
+
+    // Distance between ray origin and sphere intersection
+    double thc = sqrt(r * r - d2);
+
+    // Distance between ray origin and first sphere intersection
+    double t0 = tca - thc;
+
+    // Distance between ray origin and second sphere intersection
+    double t1 = tca + thc;
+
+    // If t0 is negative, the ray starts inside the sphere
+    if (t0 < 0)
+        t0 = t1;
+
+    // If t0 is negative, the ray starts inside the sphere
+    if (t0 < 0)
+        return false;
+
+    // The ray hits the sphere
+    return true;
 }
