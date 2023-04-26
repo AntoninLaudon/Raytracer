@@ -12,12 +12,23 @@
 
 class LibLoader {
     public:
+        /**
+         * @brief Construct a new Lib Loader object
+        */
         LibLoader() : _handle(nullptr) {}
         
+        /**
+         * @brief Destroy the Lib Loader object
+        */
         ~LibLoader() {
             Close();
         }
 
+        /**
+         * @brief Open a dynamic library
+         * 
+         * @param libName The name of the library to open
+        */
         bool Open(const std::string& libName) {
             Close();
             _handle = dlopen(libName.c_str(), RTLD_LAZY);
@@ -31,6 +42,9 @@ class LibLoader {
             return true;
         }
 
+        /**
+         * @brief Close the dynamic library
+        */
         void Close() {
             if (_handle) {
                 dlclose(_handle);
@@ -40,6 +54,17 @@ class LibLoader {
             }
         }
 
+        /**
+         * @brief Get a symbol from the dynamic library
+         * @brief Call the method like that : GetSymbol<type>("symbol_name")
+         * 
+         * @tparam T The type of the symbol
+         * @param symbol_name The name of the symbol
+         * 
+         * @return T The symbol
+         * @return nullptr If the symbol is not found
+         * @return nullptr If the library is not open
+        */
         template<typename T>
         T GetSymbol(const std::string& symbol_name) {
             if (!_handle) {
@@ -58,10 +83,16 @@ class LibLoader {
             return reinterpret_cast<T>(symbol);
         }
 
+        /**
+         * @brief Get the last error
+        */
         std::string GetLastError() const {
             return _error;
         }
 
+        /**
+         * @brief Get the name of the library
+        */
         std::string GetLibName() const {
             return _libName;
         }
