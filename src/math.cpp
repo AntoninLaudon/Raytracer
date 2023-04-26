@@ -449,4 +449,7 @@ void Math::Sphere::setRadius(double radius)
 bool Math::Sphere::hits(const Math::Ray &ray) const
 {
     // Return true if the ray hits the sphere
+    if (ray.getOrigin() == _center)
+        return true;
+    return false;
 }
