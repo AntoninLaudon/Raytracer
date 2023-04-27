@@ -446,6 +446,7 @@ void Math::Sphere::setRadius(double radius)
     _radius = radius;
 }
 
+
 bool Math::Sphere::hits(const Math::Ray &ray) const
 {
     Math::Point3D origin = ray.getOrigin();
