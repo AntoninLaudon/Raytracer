@@ -10,6 +10,7 @@
 #include <fstream>
 #include <iostream>
 #include <cmath>
+#include <vector>
 
 namespace PPM {
     struct RGB {
@@ -50,7 +51,7 @@ namespace PPM {
              * 
              * @param pixels 
              */
-            void bufferToImage(const RGB **pixels);
+            void bufferToImage(std::vector<RGB> pixels);
             /**
              * @brief Save the image in _pixels into a file.
              * 
@@ -89,6 +90,6 @@ namespace PPM {
              * @brief The pixels of the final image.
              * 
              */
-            RGB *_pixels;
+            std::vector<RGB> _pixels;
     };
 }

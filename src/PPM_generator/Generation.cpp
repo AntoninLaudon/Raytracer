@@ -11,14 +11,12 @@ PPM::PPM::PPM(int width, int height)
 {
     _width = width;
     _height = height;
-    _pixels = new RGB[width * height];
     _version = "P3";
     fill({0, 0, 0});
 }
 
 PPM::PPM::~PPM()
 {
-    delete[] _pixels;
 }
 
 void PPM::PPM::setVersion(std::string version)
@@ -33,13 +31,10 @@ void PPM::PPM::setPixel(int x, int y, RGB color)
     _pixels[y * _width + x] = color;
 }
 
-void PPM::PPM::bufferToImage(const RGB **pixels)
+void PPM::PPM::bufferToImage(std::vector<RGB> pixels)
 {
-    for (int i = 0; pixels[i]; i++) {
-        for (int j = 0; pixels[i][j].b; j++) {
-            setPixel(j, i, pixels[i][j]);
-        }
-    }
+    for (int i = 0; i < _width * _height; i++)
+        _pixels[i] = pixels[i];
 }
 
 void PPM::PPM::save(const char *filename)
