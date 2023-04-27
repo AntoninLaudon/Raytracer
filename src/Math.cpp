@@ -252,9 +252,9 @@ Math::Point3D operator+(const Math::Vector3D &v1, const Math::Point3D &p1)
     return Math::Point3D(p1.getX() + v1.getX(), p1.getY() + v1.getY(), p1.getZ() + v1.getZ());
 }
 
-Math::Point3D operator-(const Math::Point3D &p1, const Math::Point3D &p2)
+Math::Vector3D operator-(const Math::Point3D &p1, const Math::Point3D &p2)
 {
-    return Math::Point3D(p1.getX() - p2.getX(), p1.getY() - p2.getY(), p1.getZ() - p2.getZ());
+    return Math::Vector3D(p1.getX() - p2.getX(), p1.getY() - p2.getY(), p1.getZ() - p2.getZ());
 }
 Math::Point3D operator-(const Math::Point3D &p1, const double &scalar)
 {
@@ -448,13 +448,14 @@ void Math::Sphere::setRadius(double radius)
 
 bool Math::Sphere::hits(const Math::Ray &ray) const
 {
-    Math::Vector3D L (_center.getX() - ray.getOrigin().getX(), _center.getY() - ray.getOrigin().getY(), _center.getZ() - ray.getOrigin().getZ());
-    double tca = L.dot(ray.getDirection()) / (ray.getDirection().length() * ray.getDirection().length());
-    //std::cout << "ray length: " << ray.getDirection().length() << std::endl;
-    //std::cout << "L : " << L << std::endl;
-    //std::cout << "L dot: " << L.dot(ray.getDirection()) << std::endl;
-    //std::cout << "tca: " << tca << std::endl;
-    if (tca < 0)
+    Math::Point3D origin = ray.getOrigin();
+    Math::Vector3D direction = ray.getDirection();
+    Math::Vector3D oc = origin - _center;
+    Math::Vector3D pv (oc.getY() * direction.getZ() - oc.getZ() * direction.getY(),
+                       oc.getZ() * direction.getX() - oc.getX() * direction.getZ(),
+                       oc.getX() * direction.getY() - oc.getY() * direction.getX());
+    
+    if (pv.length() / direction.length() > _radius)
         return false;
     return true;
 }
