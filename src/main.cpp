@@ -12,8 +12,9 @@
 #include "Primitive.hpp"
 #include "Light.hpp"
 #include "Core.hpp"
+#include "Generation.hpp"
 
-int main()
+int playground()
 {
     Factory factory;
 
@@ -44,5 +45,13 @@ int main()
     std::cout << "primitive2 name: " << primitive2->getName() << " position: " << primitive2->getPosition() << std::endl;
     std::cout << "light name: " << light->getName() << " position: " << light->getPosition() << std::endl;
 
-    
+    PPM::PPM ppm = PPM::PPM(1920, 1080);
+    ppm.fill(PPM::RGB(123, 189, 2));
+    ppm.save("test.ppm");
+    return 0;
+}
+
+int main()
+{
+    return playground();
 }

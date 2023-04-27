@@ -446,7 +446,9 @@ void Math::Sphere::setRadius(double radius)
     _radius = radius;
 }
 
+
 bool Math::Sphere::hits(const Math::Ray &ray) const
 {
-    // Return true if the ray hits the sphere
+    
+    return true;
 }
