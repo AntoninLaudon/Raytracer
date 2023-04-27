@@ -32,8 +32,9 @@ void PPM::PPM::setPixel(int x, int y, RGB color)
 
 void PPM::PPM::bufferToImage(std::vector<RGB> pixels)
 {
-    for (int i = 0; i < _width * _height; i++)
-        _pixels[i] = pixels[i];
+    for (auto pixel : pixels) {
+        _pixels.push_back(pixel);
+    }
 }
 
 void PPM::PPM::save(const char *filename)
