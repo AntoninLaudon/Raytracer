@@ -33,6 +33,7 @@ namespace Raytracer {
         protected:
             ElemType _type;
             std::string _name;
+            Math::Point3D _origin;
             Math::Vector3D _position;
             Math::Vector3D _rotation;
         private:

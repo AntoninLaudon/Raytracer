@@ -5,9 +5,9 @@
 ** math
 */
 
-#include "math.hpp"
+#include "Math.hpp"
 
-// Vector3D
+// Vector3D ################################################################################################################
 
 Math::Vector3D::Vector3D(double x, double y, double z) : _x(x), _y(y), _z(z)
 {
@@ -191,7 +191,7 @@ std::ostream &operator<<(std::ostream &os, const Math::Vector3D &v)
     return os;
 }
 
-// Point3D
+// Point3D #################################################################################################################
 
 Math::Point3D::Point3D(double x, double y, double z) : _x(x), _y(y), _z(z)
 {
@@ -252,9 +252,9 @@ Math::Point3D operator+(const Math::Vector3D &v1, const Math::Point3D &p1)
     return Math::Point3D(p1.getX() + v1.getX(), p1.getY() + v1.getY(), p1.getZ() + v1.getZ());
 }
 
-Math::Point3D operator-(const Math::Point3D &p1, const Math::Point3D &p2)
+Math::Vector3D operator-(const Math::Point3D &p1, const Math::Point3D &p2)
 {
-    return Math::Point3D(p1.getX() - p2.getX(), p1.getY() - p2.getY(), p1.getZ() - p2.getZ());
+    return Math::Vector3D(p1.getX() - p2.getX(), p1.getY() - p2.getY(), p1.getZ() - p2.getZ());
 }
 Math::Point3D operator-(const Math::Point3D &p1, const double &scalar)
 {
@@ -379,7 +379,7 @@ std::ostream &operator<<(std::ostream &os, const Math::Point3D &p)
     return os;
 }
 
-// Ray
+// Ray #####################################################################################################################
 
 Math::Ray::Ray(Math::Point3D origin, Math::Vector3D direction) : _origin(origin), _direction(direction)
 {
@@ -449,6 +449,15 @@ void Math::Sphere::setRadius(double radius)
 
 bool Math::Sphere::hits(const Math::Ray &ray) const
 {
+    Math::Point3D origin = ray.getOrigin();
+    Math::Vector3D direction = ray.getDirection();
+    Math::Vector3D oc = origin - _center;
+    Math::Vector3D pv (oc.getY() * direction.getZ() - oc.getZ() * direction.getY(),
+                       oc.getZ() * direction.getX() - oc.getX() * direction.getZ(),
+                       oc.getX() * direction.getY() - oc.getY() * direction.getX());
     
+    if (pv.length() / direction.length() > _radius)
+        return false;
     return true;
 }
+

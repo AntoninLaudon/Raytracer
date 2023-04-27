@@ -8,7 +8,7 @@
 #pragma once
 
 #include <string>
-#include "math.hpp"
+#include "Math.hpp"
 
 namespace Raytracer {
     enum ElemType {

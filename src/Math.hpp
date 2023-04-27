@@ -74,17 +74,6 @@ namespace Math {
             Point3D _center;
             double _radius;
     };
-
-    class Rectangle3D {
-        public:
-            Rectangle3D();
-            ~Rectangle3D();
-            Point3D pointAt(double u, double v);
-        private:
-            Point3D _origin;
-            Vector3D _bottom_side;
-            Vector3D _left_side;
-    };
 }
 
 // Vector3D
@@ -132,7 +121,7 @@ Math::Point3D operator+(const double &d, const Math::Point3D &p1);
 Math::Point3D operator+(const Math::Point3D &p1, const Math::Vector3D &v1);
 Math::Point3D operator+(const Math::Vector3D &v1, const Math::Point3D &p1);
 
-Math::Point3D operator-(const Math::Point3D &p1, const Math::Point3D &p2);
+Math::Vector3D operator-(const Math::Point3D &p1, const Math::Point3D &p2);
 Math::Point3D operator-(const Math::Point3D &p1, const double &d);
 Math::Point3D operator-(const double &d, const Math::Point3D &p1);
 

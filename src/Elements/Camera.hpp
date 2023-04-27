@@ -8,21 +8,30 @@
 #pragma once
 
 #include <memory>
-#include "AElement.hpp"
-
+#include "Math.hpp"
 namespace Raytracer {
-    class Camera : public AElement{
+
+    class Rectangle3d {
         public:
-            Camera(const std::string& name, Math::Vector3D& position, Math::Vector3D& rotation);
+            Rectangle3d();
+            Rectangle3d(Math::Point3D origin, Math::Vector3D bottom_side, Math::Vector3D left_side);
+            ~Rectangle3d();
+            Math::Point3D pointAt(double u, double v);
+            Math::Point3D getorigin();
+        private:
+            Math::Point3D _origin;
+            Math::Vector3D _bottom_side;
+            Math::Vector3D _left_side;
+    };
+    class Camera {
+        public:
+            Camera(Math::Point3D origin, Rectangle3d screen);
             ~Camera();
-            void translate(float x, float y, float z);
-            //void rotate(float x, float y, float z);
-            void clearElement();
-            Math::Point3D Intersect();
-            static std::shared_ptr<Raytracer::IElement> createObject(const std::string& name, Math::Vector3D& position, Math::Vector3D& rotation) {
-                return std::make_shared<Raytracer::Camera>(name, position, rotation);
-            }
+            Rectangle3d getScreen();
+            Math::Ray ray(double u, double v);
         protected:
         private:
+            Math::Point3D _origin;
+            Rectangle3d _screen;
     };
 }
