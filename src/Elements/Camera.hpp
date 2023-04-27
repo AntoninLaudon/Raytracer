@@ -11,11 +11,11 @@
 #include "Math.hpp"
 namespace Raytracer {
 
-    class Rectangle3d {
+    class Rectangle3D {
         public:
-            Rectangle3d();
-            Rectangle3d(Math::Point3D origin, Math::Vector3D bottom_side, Math::Vector3D left_side);
-            ~Rectangle3d();
+            Rectangle3D();
+            Rectangle3D(Math::Point3D origin, Math::Vector3D bottom_side, Math::Vector3D left_side);
+            ~Rectangle3D();
             Math::Point3D pointAt(double u, double v);
             Math::Point3D getorigin();
         private:
@@ -25,13 +25,13 @@ namespace Raytracer {
     };
     class Camera {
         public:
-            Camera(Math::Point3D origin, Rectangle3d screen);
+            Camera(Math::Point3D origin, Rectangle3D screen);
             ~Camera();
-            Rectangle3d getScreen();
+            Rectangle3D getScreen();
             Math::Ray ray(double u, double v);
         protected:
         private:
             Math::Point3D _origin;
-            Rectangle3d _screen;
+            Rectangle3D _screen;
     };
 }

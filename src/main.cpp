@@ -15,7 +15,7 @@
 
 int main ()
 {
-    Raytracer::Camera cam (Math::Point3D (0, 0, 0), Raytracer::Rectangle3d (Math::Point3D (0, 0, 1), Math::Vector3D (1, 0, 0), Math::Vector3D (0, 1, 0)));
+    Raytracer::Camera cam (Math::Point3D (0, 0, 0), Raytracer::Rectangle3D (Math::Point3D (0, 0, 1), Math::Vector3D (1, 0, 0), Math::Vector3D (0, 1, 0)));
     Math::Sphere s (Math::Point3D (0, 0, 2), 0.5);
     Math::Sphere s2 (Math::Point3D (7, 5, 7), 1);
     std::cout << "P3" << std::endl;
