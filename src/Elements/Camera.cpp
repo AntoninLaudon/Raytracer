@@ -10,35 +10,35 @@
 
 // Rectangle3D
 
-Raytracer::Rectangle3d::Rectangle3d()
+Raytracer::Rectangle3D::Rectangle3D()
 {
     _origin = Math::Point3D(0, 0, 0);
     _bottom_side = Math::Vector3D(0, 0, 0);
     _left_side = Math::Vector3D(0, 0, 0);
 }
 
-Raytracer::Rectangle3d::Rectangle3d(Math::Point3D origin, Math::Vector3D width, Math::Vector3D height)
+Raytracer::Rectangle3D::Rectangle3D(Math::Point3D origin, Math::Vector3D width, Math::Vector3D height)
 {
     _origin = origin;
     _bottom_side = width;
     _left_side = height;
 }
 
-Raytracer::Rectangle3d::~Rectangle3d()
+Raytracer::Rectangle3D::~Rectangle3D()
 {
 }
 
-Math::Point3D Raytracer::Rectangle3d::getorigin()
+Math::Point3D Raytracer::Rectangle3D::getorigin()
 {
     return _origin;
 }
 
-Math::Point3D Raytracer::Rectangle3d::pointAt(double u, double v)
+Math::Point3D Raytracer::Rectangle3D::pointAt(double u, double v)
 {
     return _origin + _bottom_side * u + _left_side * v;
 }
 
-Raytracer::Camera::Camera(Math::Point3D origin, Raytracer::Rectangle3d screen)
+Raytracer::Camera::Camera(Math::Point3D origin, Raytracer::Rectangle3D screen)
 {
     _origin = origin;
     _screen = screen;
@@ -48,7 +48,7 @@ Raytracer::Camera::~Camera()
 {
 }
 
-Raytracer::Rectangle3d Raytracer::Camera::getScreen()
+Raytracer::Rectangle3D Raytracer::Camera::getScreen()
 {
     return _screen;
 }
