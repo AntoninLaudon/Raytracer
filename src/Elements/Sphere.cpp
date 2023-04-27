@@ -7,8 +7,7 @@
 
 #include "Sphere.hpp"
 
-Raytracer::Sphere::Sphere(
-    const std::string& name, Math::Point3D& center, Math::Vector3D& rotation, Math::Vector3D direction, double radius)
+Raytracer::Sphere::Sphere(const std::string &name, Math::Point3D center, Math::Vector3D rotation, Math::Vector3D direction, double radius)
 {
     _name = name;
     _center = center;
