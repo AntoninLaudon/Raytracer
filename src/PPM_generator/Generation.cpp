@@ -12,7 +12,6 @@ PPM::PPM::PPM(int width, int height)
     _width = width;
     _height = height;
     _version = "P3";
-    fill({0, 0, 0});
 }
 
 PPM::PPM::~PPM()
@@ -73,5 +72,5 @@ void PPM::PPM::clear()
 void PPM::PPM::fill(RGB color)
 {
     for (int i = 0; i < _width * _height; i++)
-        _pixels[i] = color;
+        _pixels.push_back(color);
 }
