@@ -28,6 +28,6 @@ namespace Raytracer {
             virtual void setName(std::string name) = 0;
             virtual void translate(double x, double y, double z) = 0;
             virtual void rotate(double x, double y, double z) = 0;
-            virtual PPM::RGB hits() = 0;
+            virtual PPM::RGB hits(const Math::Ray &ray) = 0;
     };
 }

@@ -10,14 +10,14 @@
 #include "Factory.hpp"
 #include "Camera.hpp"
 #include "Sphere.hpp"
-#include "Light.hpp"
 #include "Core.hpp"
 #include "Generation.hpp"
+
 int main ()
 {
     Raytracer::Camera cam (Math::Point3D (0, 0, 0), Raytracer::Rectangle3D (Math::Point3D (0, 0, 1), Math::Vector3D (1, 0, 0), Math::Vector3D (0, 1, 0)));
-    Math::Sphere s (Math::Point3D (0, 0, 2), 0.5);
-    Math::Sphere s2 (Math::Point3D (7, 5, 7), 1);
+    Raytracer::Sphere s ("s", Math::Point3D (0, 0, 2), Math::Vector3D (1, 0, 0), Math::Vector3D (1, 0, 0), 0.5);
+    Raytracer::Sphere s2 ("s2", Math::Point3D (7, 5, 7), Math::Vector3D (1, 0, 0), Math::Vector3D (1, 0, 0), 1);
     PPM::PPM img = PPM::PPM(1000, 1000);
     std::vector<PPM::RGB> pixels;
 

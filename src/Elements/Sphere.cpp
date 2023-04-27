@@ -8,11 +8,13 @@
 #include "Sphere.hpp"
 
 Raytracer::Sphere::Sphere(
-    const std::string &name, Math::Vector3D &position, Math::Vector3D &rotation)
+    const std::string& name, Math::Point3D& center, Math::Vector3D& rotation, Math::Vector3D direction, double radius)
 {
     _name = name;
-    _position = position;
+    _center = center;
+    _direction = direction;
     _rotation = rotation;
+    _radius = radius;
     _type = PRIMITIVE;
 }
 
@@ -20,18 +22,25 @@ Raytracer::Sphere::~Sphere()
 {
 }
 
-void Raytracer::Sphere::translate(float x, float y, float z)
+void Raytracer::Sphere::translate(double x, double y, double z)
 {
-    _position.setX(_position.getX() + x);
-    _position.setY(_position.getY() + y);
-    _position.setZ(_position.getZ() + z);
+    _center.setX(_center.getX() + x);
+    _center.setY(_center.getY() + y);
+    _center.setZ(_center.getZ() + z);
+}
+
+void Raytracer::Sphere::rotate(double x, double y, double z)
+{
+    _rotation.setX(_rotation.getX() + x);
+    _rotation.setY(_rotation.getY() + y);
+    _rotation.setZ(_rotation.getZ() + z);
 }
 
 void Raytracer::Sphere::clearElement()
 {
 }
 
-bool Math::Sphere::hits(const Math::Ray &ray) const
+PPM::RGB Raytracer::Sphere::hits(const Math::Ray &ray)
 {
     Math::Point3D origin = ray.getOrigin();
     Math::Vector3D direction = ray.getDirection();
@@ -41,6 +50,6 @@ bool Math::Sphere::hits(const Math::Ray &ray) const
                        oc.getX() * direction.getY() - oc.getY() * direction.getX());
     
     if (pv.length() / direction.length() > _radius)
-        return false;
-    return true;
+        return PPM::RGB(0, 0, 0);
+    return PPM::RGB(255, 255, 255);
 }
