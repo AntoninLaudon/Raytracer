@@ -20,22 +20,20 @@ namespace Raytracer {
             virtual std::string getName() const {
                 return _name;
             }
-            virtual Math::Vector3D getPosition() const {
-                return _position;
+            virtual Math::Point3D getCenter() const {
+                return _center;
             }
             virtual void setName(std::string name) {
                 _name = name;
             }
-            virtual void translate(float x, float y, float z) = 0;
-            //virtual void rotate(float x, float y, float z) = 0;
-            virtual void clearElement() = 0;
-            virtual Math::Point3D Intersect() = 0;
+            virtual void translate(double x, double y, double z) = 0;
+            virtual void rotate(double x, double y, double z) = 0;
+            virtual PPM::RGB hits() = 0;
         protected:
             ElemType _type;
             std::string _name;
-            Math::Point3D _origin;
-            Math::Vector3D _position;
+            Math::Point3D _center;
+            Math::Vector3D _direction;
             Math::Vector3D _rotation;
-        private:
     };
 }

@@ -11,16 +11,16 @@
 #include "AElement.hpp"
 
 namespace Raytracer {
-    class Primitive : public AElement{
+    class Sphere : public AElement{
         public:
-            Primitive(const std::string& name, Math::Vector3D& position, Math::Vector3D& rotation);
-            ~Primitive();
+            Sphere(const std::string& name, Math::Vector3D& position, Math::Vector3D& rotation);
+            ~Sphere();
             void translate(float x, float y, float z);
             //void rotate(float x, float y, float z);
             void clearElement();
-            Math::Point3D Intersect();
+            bool hits(const Math::Ray &ray) const;
             static std::shared_ptr <Raytracer::IElement> createObject(const std::string& name, Math::Vector3D& position, Math::Vector3D& rotation) {
-                return std::make_shared<Raytracer::Primitive>(name, position, rotation);
+                return std::make_shared<Raytracer::Sphere>(name, position, rotation);
             }
         protected:
         private:
