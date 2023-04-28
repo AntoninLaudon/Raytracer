@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+#include <libconfig.h++>
 #include "Math.hpp"
 #include "Factory.hpp"
 #include "Camera.hpp"

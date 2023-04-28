@@ -8,7 +8,7 @@
 #pragma once
 
 #include <string>
-#include "Scene.hpp"
+#include "SceneManager.hpp"
 
 namespace Raytracer {
     class Core {
@@ -20,6 +20,6 @@ namespace Raytracer {
             void Render();
         protected:
         private:
-            Raytracer::Scene *_scene;
+            Raytracer::SceneManager *_scene;
     };
 }

@@ -18,9 +18,9 @@ add_executable(raytracer
     src/Elements/Camera.cpp
     src/Elements/Sphere.cpp
     src/PPM_generator/Generation.cpp
-    src/Scene/Scene.cpp)
+    src/Scene/SceneManager.cpp)
     
-target_link_libraries(raytracer PUBLIC dl)
+target_link_libraries(raytracer PUBLIC dl config++)
     
 target_include_directories(raytracer PUBLIC
     src/

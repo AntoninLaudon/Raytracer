@@ -9,7 +9,7 @@
 
 Raytracer::Core::Core()
 {
-   _scene = new Raytracer::Scene("scenes/scene1.json");
+   _scene = new Raytracer::SceneManager("scenes/scene1.json");
 }
 
 Raytracer::Core::~Core()
