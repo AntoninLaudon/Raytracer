@@ -35,20 +35,19 @@ void Raytracer::Sphere::rotate(double x, double y, double z)
     _rotation.setZ(_rotation.getZ() + z);
 }
 
-void Raytracer::Sphere::clearElement()
+std::shared_ptr<Math::Point3D> Raytracer::Sphere::hits(const Math::Ray &ray)
 {
-}
+    Math::Point3D a = ray.getOrigin();
+    Math::Vector3D u = ray.getDirection();
+    // _center;
+    // _radius;
 
-PPM::RGB Raytracer::Sphere::hits(const Math::Ray &ray)
-{
-    Math::Point3D origin = ray.getOrigin();
-    Math::Vector3D direction = ray.getDirection();
-    Math::Vector3D oc = origin - _center;
-    Math::Vector3D pv (oc.getY() * direction.getZ() - oc.getZ() * direction.getY(),
-                       oc.getZ() * direction.getX() - oc.getX() * direction.getZ(),
-                       oc.getX() * direction.getY() - oc.getY() * direction.getX());
-    
-    if (pv.length() / direction.length() > _radius)
-        return PPM::RGB(0, 0, 0);
-    return PPM::RGB(255, 255, 255);
+    // pow(x - _center.getX()) + pow(y - _center.getY()) + pow(z - _center.getZ()) = pow(_radius);
+
+    // pow(a.getX() + u.getX() * t - _center.getX()) + pow(a.getY() + u.getY() * t - _center.getY()) + pow(a.getZ() + u.getZ() * t - _center.getZ()) = pow(_radius);
+
+    // pow(a.getX() + u.getX() * t - _center.getX()) + pow(a.getY() + u.getY() * t - _center.getY()) + pow(a.getZ() + u.getZ() * t - _center.getZ()) = pow(_radius);
+    //take the line before and replace the pow(x) by (x * x)
+    // 
+    return std::make_shared<Math::Point3D>(0, 0, 0);
 }
