@@ -445,19 +445,3 @@ void Math::Sphere::setRadius(double radius)
 {
     _radius = radius;
 }
-
-
-bool Math::Sphere::hits(const Math::Ray &ray) const
-{
-    Math::Point3D origin = ray.getOrigin();
-    Math::Vector3D direction = ray.getDirection();
-    Math::Vector3D oc = origin - _center;
-    Math::Vector3D pv (oc.getY() * direction.getZ() - oc.getZ() * direction.getY(),
-                       oc.getZ() * direction.getX() - oc.getX() * direction.getZ(),
-                       oc.getX() * direction.getY() - oc.getY() * direction.getX());
-    
-    if (pv.length() / direction.length() > _radius)
-        return false;
-    return true;
-}
-
