@@ -53,7 +53,7 @@ int playground()
 
 int main ()
 {
-    Raytracer::Camera cam (Math::Point3D (0, 0, 0), Raytracer::Rectangle3D (Math::Point3D (0, 0, 1), Math::Vector3D (1, 0, 0), Math::Vector3D (0, 1, 0)));
+    Raytracer::Camera cam (Math::Point3D (0, 0, 0), Raytracer::Rectangle3D (Math::Point3D (1, 1, 1), Math::Vector3D (-2, 0, 0), Math::Vector3D (0, -2, 0)));
     Math::Sphere s (Math::Point3D (0, 0, 2), 0.5);
     Math::Sphere s2 (Math::Point3D (7, 5, 7), 1);
     PPM::PPM img = PPM::PPM(1000, 1000);
@@ -64,9 +64,15 @@ int main ()
             double u = x/1000;
             double v = y/1000;
             Math::Ray r = cam.ray (u, v);
-            if (s.hits (r)) {
+            // if (x == 500 && y == 500) {
+            //     std::cout << "ray: " << r << std::endl;
+            //     std::cout << *s.hits(r) << std::endl;
+            // }
+            if (s.hits(r)) {
+                // std::cout << "1 hit: " << *s.hits(r) << std::endl;
                 pixels.push_back(PPM::RGB(255, 0, 0));
-            } else if (s2.hits (r)) {
+            } else if (s2.hits(r)) {
+                // std::cout << "2 hit: " << *s2.hits(r) << std::endl;
                 pixels.push_back(PPM::RGB(0, 0, 255));
             } else {
                 pixels.push_back(PPM::RGB(0, 0, 0));
@@ -75,5 +81,6 @@ int main ()
     }
     img.bufferToImage(pixels);
     img.save("img2.ppm");
+
     return 0;
 }
