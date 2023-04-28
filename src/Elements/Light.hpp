@@ -9,6 +9,7 @@
 
 #include <memory>
 #include "AElement.hpp"
+#include "Data.hpp"
 
 namespace Raytracer {
     class Light : public AElement{
@@ -19,8 +20,8 @@ namespace Raytracer {
             //void rotate(float x, float y, float z);
             void clearElement();
             Math::Point3D Intersect();
-            static std::shared_ptr <Raytracer::IElement> createObject(const std::string& name, Math::Vector3D& position, Math::Vector3D& rotation) {
-                return std::make_shared<Raytracer::Light>(name, position, rotation);
+            static std::shared_ptr <Raytracer::IElement> createObject(Raytracer::Data data) {
+                return std::make_shared<Raytracer::Light>(data.getName(), data.getCenter(), data.getRotation());
             }
         protected:
         private:

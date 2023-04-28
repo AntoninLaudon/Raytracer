@@ -31,10 +31,10 @@ void Factory::unregisterObject(Raytracer::ElemType type) {
     }
 }
 
-std::shared_ptr<Raytracer::IElement> Factory::createObject(Raytracer::ElemType type, std::string name, Math::Vector3D position, Math::Vector3D rotation) {
-    auto it = _map.find(type);
+std::shared_ptr<Raytracer::IElement> Factory::createObject(Raytracer::Data data) {
+    auto it = _map.find(data.getType());
     if (it != _map.end()) {
-        return it->second(name, position, rotation);
+        return it->second(data);
     }
     return nullptr;
 }

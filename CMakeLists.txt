@@ -15,6 +15,7 @@ add_executable(raytracer
     src/Factory.cpp
     src/Math.cpp
     src/Core/Core.cpp
+    src/Elements/Data.cpp
     src/Elements/Camera.cpp
     src/Elements/Sphere.cpp
     src/PPM_generator/Generation.cpp
