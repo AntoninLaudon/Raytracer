@@ -9,6 +9,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <memory>
 
 namespace Math {
     class Vector3D {
@@ -69,7 +70,7 @@ namespace Math {
             double getRadius() const;
             void setCenter(Point3D &center);
             void setRadius(double radius);
-            bool hits(const Ray &ray) const;
+            std::shared_ptr<Math::Point3D> hits(const Ray &ray) const;
         private:
             Point3D _center;
             double _radius;
