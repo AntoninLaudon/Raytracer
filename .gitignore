@@ -8,3 +8,4 @@ vgcore*
 test
 *.mdj
 build
+cmake-build-debug
