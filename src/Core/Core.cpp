@@ -25,10 +25,11 @@ void Raytracer::Core::Run()
 
 void Raytracer::Core::CreateScene(std::string path)
 {
-    path = path;
-    //_scene = Raytracer::Scene(path);
+    _scene = new Raytracer::SceneManager(path.c_str());
+    _scene->ParseScene();
 }
 
 void Raytracer::Core::Render()
 {
+    _scene->Render();
 }

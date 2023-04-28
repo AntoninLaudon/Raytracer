@@ -1,0 +1,10 @@
+# ninja log v5
+1	864	1682685832917149015	CMakeFiles/raytracer.dir/src/Math.cpp.o	bb252f7ca194ee3d
+1	960	1682685833014149466	CMakeFiles/raytracer.dir/src/Elements/Camera.cpp.o	5020cadadaff90ca
+1	1027	1682685833071149731	CMakeFiles/raytracer.dir/src/Elements/Sphere.cpp.o	4db8226018241ff9
+1	1284	1682685833338150972	CMakeFiles/raytracer.dir/src/main.cpp.o	493764295e60b0e9
+0	1368	1682685833421151357	CMakeFiles/raytracer.dir/src/Core/Core.cpp.o	a3f64090d7b7c57d
+1	1378	1682685833432151409	CMakeFiles/raytracer.dir/src/Factory.cpp.o	aca0d444fa556c5c
+865	1764	1682685833819153207	CMakeFiles/raytracer.dir/src/PPM_generator/Generation.cpp.o	3fb409549b17a9ad
+966	1882	1682685833936153751	CMakeFiles/raytracer.dir/src/Scene/SceneManager.cpp.o	7ed4df100742b05b
+1882	1950	1682685834004154067	/home/chris/delivery/OOP/B-OOP-400-TLS-4-1-raytracer-tom.laiolo/raytracer	4c9beafd6912aea3

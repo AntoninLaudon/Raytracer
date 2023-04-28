@@ -9,21 +9,27 @@
 
 #include "IElement.hpp"
 #include "Camera.hpp"
+#include "Math.hpp"
+#include "Factory.hpp"
 
 #include <vector>
 #include <libconfig.h++>
 #include <stdexcept>
+#include <memory>
+#include <string.h>
 
 namespace Raytracer {
     class SceneManager {
     public:
         SceneManager(const char *path);
         void ParseScene();
-        IElement *GetCamera(const libconfig::Config *cfg);
+        void Render();
+        void CreateCamera(const libconfig::Setting *elem);
         ~SceneManager();
     protected:
     private:
         std::string _path;
-        std::vector<Raytracer::IElement *> _elements;
+        std::shared_ptr<Raytracer::Camera> _camera;
+        std::vector<std::shared_ptr<Raytracer::IElement>> _elements;
     };
 };
