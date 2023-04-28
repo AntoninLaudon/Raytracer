@@ -17,7 +17,9 @@ namespace Raytracer {
         CAMERA,
         PRIMITIVE,
         LIGHT,
-        SKYBOX
+        SKYBOX,
+        SPHERE,
+        NONE
     };
 
     class IElement {
