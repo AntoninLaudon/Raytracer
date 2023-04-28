@@ -26,7 +26,7 @@ int main ()
             double u = x/1000;
             double v = y/1000;
             Math::Ray r = cam.ray (u, v);
-            pixels.push_back(s.hits(r));
+            // pixels.push_back(s.hits(r));
             // if (s.hits (r)) {
             //     pixels.push_back(PPM::RGB(255, 0, 0));
             // } else if (s2.hits (r)) {

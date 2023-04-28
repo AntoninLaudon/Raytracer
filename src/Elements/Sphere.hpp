@@ -17,12 +17,10 @@ namespace Raytracer {
             ~Sphere();
             void translate(double x, double y, double z);
             void rotate(double x, double y, double z);
-            void clearElement();
-            PPM::RGB hits(const Math::Ray &ray);
+            std::shared_ptr<Math::Point3D> hits(const Math::Ray &ray);
             static std::shared_ptr <Raytracer::IElement> createObject(const std::string &name, Math::Point3D position, Math::Vector3D rotation, Math::Vector3D direction, double radius = 1) {
                 return std::make_shared<Raytracer::Sphere>(name, position, rotation, direction, radius);
             }
-        protected:
         private:
             double _radius;
     };

@@ -8,6 +8,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include "Math.hpp"
 #include "Generation.hpp"
 
@@ -28,6 +29,6 @@ namespace Raytracer {
             virtual void setName(std::string name) = 0;
             virtual void translate(double x, double y, double z) = 0;
             virtual void rotate(double x, double y, double z) = 0;
-            virtual PPM::RGB hits(const Math::Ray &ray) = 0;
+            virtual std::shared_ptr<Math::Point3D> hits(const Math::Ray &ray) = 0;
     };
 }
