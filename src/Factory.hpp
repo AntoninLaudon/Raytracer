@@ -12,13 +12,14 @@
 #include <string>
 
 #include "IElement.hpp"
+#include "Data.hpp"
 
 class Factory {
-    typedef std::shared_ptr<Raytracer::IElement> (*CreateFunction)(const std::string& name, Math::Vector3D& position, Math::Vector3D& rotation);
+    typedef std::shared_ptr<Raytracer::IElement> (*CreateFunction)(Raytracer::Data data);
     public:
         Factory();
         ~Factory();
-        std::shared_ptr<Raytracer::IElement> createObject(Raytracer::ElemType, std::string name, Math::Vector3D position, Math::Vector3D rotation);
+        std::shared_ptr<Raytracer::IElement> createObject(Raytracer::Data data);
         void registerObject(Raytracer::ElemType, CreateFunction cf);
         void unregisterObject(Raytracer::ElemType);
     protected:

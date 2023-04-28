@@ -8,7 +8,9 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 #include "AElement.hpp"
+#include "Data.hpp"
 
 namespace Raytracer {
     class Sphere : public AElement{
@@ -18,8 +20,8 @@ namespace Raytracer {
             void translate(double x, double y, double z);
             void rotate(double x, double y, double z);
             std::shared_ptr<Math::Point3D> hits(const Math::Ray &ray);
-            static std::shared_ptr <Raytracer::IElement> createObject(const std::string &name, Math::Point3D position, Math::Vector3D rotation, Math::Vector3D direction, double radius = 1) {
-                return std::make_shared<Raytracer::Sphere>(name, position, rotation, direction, radius);
+            static std::shared_ptr <Raytracer::IElement> createObject(Raytracer::Data data) {
+                return std::make_shared<Raytracer::Sphere>(data.getName(), data.getCenter(), data.getRotation(), data.getDirection(), data.getDouble());
             }
         private:
             double _radius;

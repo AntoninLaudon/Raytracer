@@ -27,8 +27,6 @@ PPM::RGB colorFromPoint(Math::Point3D land, Math::Sphere sphere, PPM::RGB color,
 
     double percent = ((distance - closest)) / (farthest - closest);
 
-
-
     return PPM::RGB(color.r * (1 - percent), color.g * (1 - percent), color.b * (1 - percent));
 
 }
