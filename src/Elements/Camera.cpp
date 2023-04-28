@@ -53,6 +53,11 @@ Raytracer::Rectangle3D Raytracer::Camera::getScreen()
     return _screen;
 }
 
+Math::Point3D Raytracer::Camera::getOrigin()
+{
+    return _origin;
+}
+
 Math::Ray Raytracer::Camera::ray(double u, double v)
 {
     Math::Point3D point = _screen.pointAt(u, v);

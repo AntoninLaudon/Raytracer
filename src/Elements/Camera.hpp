@@ -27,6 +27,7 @@ namespace Raytracer {
         public:
             Camera(Math::Point3D origin, Rectangle3D screen);
             ~Camera();
+            Math::Point3D getOrigin();
             Rectangle3D getScreen();
             Math::Ray ray(double u, double v);
         protected:
