@@ -11,7 +11,9 @@
 #include "Camera.hpp"
 #include "Math.hpp"
 #include "Factory.hpp"
+#include "LibLoader.hpp"
 
+#include <filesystem>
 #include <vector>
 #include <libconfig.h++>
 #include <stdexcept>
@@ -31,5 +33,6 @@ namespace Raytracer {
         std::string _path;
         std::shared_ptr<Raytracer::Camera> _camera;
         std::vector<std::shared_ptr<Raytracer::IElement>> _elements;
+        std::vector<LibLoader> _loader;
     };
 };

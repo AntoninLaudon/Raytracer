@@ -14,12 +14,12 @@
 
 namespace Raytracer {
     enum ElemType {
+        NONE,
         CAMERA,
         PRIMITIVE,
         LIGHT,
         SKYBOX,
-        SPHERE,
-        NONE
+        SPHERE
     };
 
     class IElement {

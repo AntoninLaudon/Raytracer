@@ -21,6 +21,7 @@ Factory::~Factory()
 }
 
 void Factory::registerObject(Raytracer::ElemType type, CreateFunction cf) {
+    std::cout << "Registering " << type << std::endl;
     _map[type] = cf;
 }
 

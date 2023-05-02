@@ -14,16 +14,16 @@
 #include "Core.hpp"
 #include "Generation.hpp"
 
-PPM::RGB colorFromPoint(Math::Point3D land, Math::Sphere sphere, PPM::RGB color, Math::Point3D origin)
+PPM::RGB colorFromPoint(Math::Point3D land, Raytracer::Sphere sphere, PPM::RGB color, Math::Point3D origin)
 {
     double closest = Math::Vector3D(sphere.getCenter() - origin).length() - sphere.getRadius();
     double farthest = Math::Vector3D(sphere.getCenter() - origin).length();
 
     double distance = Math::Vector3D(land - origin).length();
 
-    std::cout << "closest: " << closest << std::endl;
-    std::cout << "farthest: " << farthest << std::endl;
-    std::cout << "distance: " << distance << std::endl;
+    // std::cout << "closest: " << closest << std::endl;
+    // std::cout << "farthest: " << farthest << std::endl;
+    // std::cout << "distance: " << distance << std::endl;
 
     double percent = ((distance - closest)) / (farthest - closest);
 
@@ -41,8 +41,8 @@ int main ()
     //     std::cerr << e.what() << std::endl;
     // }
     Raytracer::Camera cam (Math::Point3D (0, 0, 0), Raytracer::Rectangle3D (Math::Point3D (1, 1, 1), Math::Vector3D (-2, 0, 0), Math::Vector3D (0, -2, 0)));
-    Math::Sphere s (Math::Point3D (0, 0, 2), 0.5);
-    Math::Sphere s2 (Math::Point3D (7, 5, 7), 1);
+    Raytracer::Sphere s ("s1", Math::Point3D (0, 0, 2), Math::Vector3D (0, 0, 0), Math::Vector3D (0, 0, 0), 0.5);
+    Raytracer::Sphere s2 ("s2", Math::Point3D (0, 0, 5), Math::Vector3D (0, 0, 0), Math::Vector3D (0, 0, 0), 2);
     PPM::PPM img = PPM::PPM(1000, 1000);
     std::vector<PPM::RGB> pixels;
 
@@ -69,7 +69,5 @@ int main ()
     }
     img.bufferToImage(pixels);
     img.save("img2.ppm");
-
-
     return 0;
 }

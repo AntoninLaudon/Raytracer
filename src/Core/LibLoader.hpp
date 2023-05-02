@@ -34,7 +34,7 @@ class LibLoader {
             _handle = dlopen(libName.c_str(), RTLD_LAZY);
             if (!_handle) {
                 _error = dlerror();
-                std::cerr << "Erreur : impossible de charger la librairie dynamique." << std::endl;
+                std::cerr << "Error : can't open dynamic library." << std::endl;
                 std::cerr << _error << std::endl;
                 return false;
             }
@@ -65,22 +65,22 @@ class LibLoader {
          * @return nullptr If the symbol is not found
          * @return nullptr If the library is not open
         */
-        template<typename T>
-        T GetSymbol(const std::string& symbol_name) {
+        // template<typename T>
+        void *GetSymbol(const std::string& symbol_name) {
             if (!_handle) {
-                _error = "La librairie n'est pas ouverte.";
-                std::cerr << "Erreur : " << _error << std::endl;
+                _error = "Library is not open";
+                std::cerr << "Error : " << _error << std::endl;
                 return nullptr;
             }
 
-            void* symbol = dlsym(_handle, symbol_name.c_str());
+            void *symbol = dlsym(_handle, symbol_name.c_str());
             if (!symbol) {
                 _error = dlerror();
-                std::cerr << "Erreur : impossible de trouver le symbole." << std::endl;
+                std::cerr << "Error : can't find symbol." << std::endl;
                 std::cerr << _error << std::endl;
                 return nullptr;
             }
-            return reinterpret_cast<T>(symbol);
+            return symbol;
         }
 
         /**

@@ -19,7 +19,7 @@ Raytracer::SceneManager::~SceneManager()
 void Raytracer::SceneManager::ParseScene()
 {
     libconfig::Config cfg;
-    Factory factory;
+    std::shared_ptr<Factory> factory;
     try {
         cfg.readFile(_path.c_str());
     } catch (const libconfig::FileIOException &error) {
@@ -32,13 +32,28 @@ void Raytracer::SceneManager::ParseScene()
     try {
         //Add all plugins of .so files in the factory
         std::cout << "Loading plugins..." << std::endl;
+
+        for (const auto &file : std::filesystem::directory_iterator("plugins/")) {
+            if (file.path().extension() == ".so") {
+                LibLoader loader;
+                if (loader.Open(file.path().string())) {
+                    _loader.push_back(loader);
+                    auto type = reinterpret_cast<Raytracer::ElemType (*)()>(loader.GetSymbol("getType"))();
+                    auto create = reinterpret_cast<std::shared_ptr<Raytracer::IElement> (*)(Raytracer::Data)>(loader.GetSymbol("createObject"));
+                    if (type && create)
+                        factory->registerObject(type, create);
+                }
+            }
+        }
+
         //Add all elements of the scene in the vector
         for (auto &elem : cfg.getRoot()) {
             if (strcmp(elem.getName(), "camera") == 0) {
                 std::cout << "Loading camera..." << std::endl;
                 CreateCamera(&elem);
-            }
-            //factory.createObject()
+            }// else {
+            //     //TODO Chris : créer le data pour tous les autres éléments puis appelle factory.createobject(data)
+            // }
         }
         
     } catch (const libconfig::ParseException &error) {

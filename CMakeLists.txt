@@ -30,3 +30,7 @@ target_include_directories(raytracer PUBLIC
     src/PPM_generator/
     src/Scene/
 )
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/plugins/sphere)
+
+add_dependencies(raytracer sphere)

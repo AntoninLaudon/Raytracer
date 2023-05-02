@@ -20,9 +20,7 @@ namespace Raytracer {
             void translate(double x, double y, double z);
             void rotate(double x, double y, double z);
             std::shared_ptr<Math::Point3D> hits(const Math::Ray &ray);
-            static std::shared_ptr <Raytracer::IElement> createObject(Raytracer::Data data) {
-                return std::make_shared<Raytracer::Sphere>(data.getName(), data.getCenter(), data.getRotation(), data.getDirection(), data.getDouble());
-            }
+            double getRadius() const {return _radius;}
         private:
             double _radius;
     };

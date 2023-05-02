@@ -61,20 +61,6 @@ namespace Math {
             Vector3D _direction;
         protected:
     };
-
-    class Sphere {
-        public:
-            Sphere(Point3D center, double radius);
-            ~Sphere();
-            Point3D getCenter() const;
-            double getRadius() const;
-            void setCenter(Point3D &center);
-            void setRadius(double radius);
-            std::shared_ptr<Math::Point3D> hits(const Ray &ray) const;
-        private:
-            Point3D _center;
-            double _radius;
-    };
 }
 
 // Vector3D
