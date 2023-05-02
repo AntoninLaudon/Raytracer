@@ -15,7 +15,7 @@
 #include "Data.hpp"
 
 class Factory {
-    typedef std::shared_ptr<Raytracer::IElement> (*CreateFunction)(Raytracer::Data data);
+    typedef std::shared_ptr<Raytracer::IElement> (*CreateFunction)(Raytracer::Data);
     public:
         Factory();
         ~Factory();

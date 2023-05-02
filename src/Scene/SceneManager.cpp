@@ -19,7 +19,7 @@ Raytracer::SceneManager::~SceneManager()
 void Raytracer::SceneManager::ParseScene()
 {
     libconfig::Config cfg;
-    std::shared_ptr<Factory> factory;
+    std::shared_ptr<Factory> factory = std::make_shared<Factory>();
     try {
         cfg.readFile(_path.c_str());
     } catch (const libconfig::FileIOException &error) {
