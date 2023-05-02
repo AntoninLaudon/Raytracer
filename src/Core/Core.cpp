@@ -9,7 +9,6 @@
 
 Raytracer::Core::Core()
 {
-   _scene = new Raytracer::SceneManager("scenes/scene1.json");
 }
 
 Raytracer::Core::~Core()
@@ -25,7 +24,7 @@ void Raytracer::Core::Run()
 
 void Raytracer::Core::CreateScene(std::string path)
 {
-    _scene = new Raytracer::SceneManager(path.c_str());
+    _scene = std::make_shared<Raytracer::SceneManager>(path.c_str());
     _scene->ParseScene();
 }
 

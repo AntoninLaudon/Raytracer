@@ -17,10 +17,10 @@ namespace Raytracer {
             ~Core();
             void Run();
             void CreateScene(std::string path);
-            Raytracer::SceneManager *GetScene() const { return _scene; };
+            std::shared_ptr<Raytracer::SceneManager> GetScene() const { return _scene; };
             void Render();
         protected:
         private:
-            Raytracer::SceneManager *_scene;
+            std::shared_ptr<Raytracer::SceneManager> _scene;
     };
 }
