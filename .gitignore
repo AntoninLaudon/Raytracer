@@ -9,3 +9,4 @@ test
 *.mdj
 build
 cmake-build-debug
+.idea
