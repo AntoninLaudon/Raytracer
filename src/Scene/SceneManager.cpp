@@ -82,4 +82,5 @@ void Raytracer::SceneManager::Render()
     PPM::PPM img = PPM::PPM(1000, 1000);
     img.bufferToImage(pixels);
     img.save("screenshots/test.ppm");
+    std::cout << "Done" << std::endl;
 }
