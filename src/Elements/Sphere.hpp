@@ -15,7 +15,7 @@
 namespace Raytracer {
     class Sphere : public AElement{
         public:
-            Sphere(const std::string name, Math::Point3D center, Math::Vector3D rotation, Math::Vector3D direction, double radius = 1);
+            Sphere(const std::string name, Math::Point3D center, Math::Vector3D rotation, Math::Vector3D direction, PPM::RGB rgb, double radius = 1);
             ~Sphere();
             void translate(double x, double y, double z);
             void rotate(double x, double y, double z);

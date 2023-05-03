@@ -88,14 +88,45 @@ void Raytracer::SceneManager::CreateCamera(const libconfig::Setting *elem)
 void Raytracer::SceneManager::Render()
 {
     std::cout << "Rendering..." << std::endl;
+    PPM::PPM img = PPM::PPM(1000, 1000);
     std::vector<PPM::RGB> pixels;
-    for (int i = 0; i < 1000; i++) {
-        for (int j = 0; j < 1000; j++) {
-            //pixels.push_back(_camera->ray(i, j));
-            pixels.push_back(PPM::RGB(255, 0, 0));
+    std::vector<std::shared_ptr<Math::Point3D>> p;
+    Math::Point3D shortest(0, 0, 0);
+    size_t size = _elements.size();
+    double shortestDist = -1;
+    for (double y = 1000; y > 0; y--) {
+        for (double x = 0; x < 1000; x++) {
+            double u = x/1000;
+            double v = y/1000;
+            Math::Ray r = _camera->ray(u, v);
+            p.clear();
+            for (size_t i = 0; i < size; i++) {
+                std::shared_ptr<Math::Point3D> tmp = _elements[i]->hits(r);
+                if (tmp) {
+                    p.push_back(tmp);
+                }
+            }
+            for (size_t i = 0; i < p.size(); i++) {
+                Math::Vector3D tmp = _camera->getOrigin() - *p[i].get();
+                if (shortestDist == -1 || shortestDist > tmp.length()) {
+                    shortestDist = tmp.length();
+                    shortest = *p[i];
+                }
+            }
+            if (shortestDist != -1) {
+                pixels.push_back(shortest.getColor());
+                shortestDist = -1;
+            } else {
+                pixels.push_back(PPM::RGB(0, 0, 0));
+            }
+            //if (_elements[0]->hits(r))
+            //    pixels.push_back(PPM::RGB(255, 0, 0));
+            //else if (_elements[1]->hits(r))
+            //    pixels.push_back(PPM::RGB(0, 0, 255));
+            //else
+            //    pixels.push_back(PPM::RGB(0, 0, 0));
         }
     }
-    PPM::PPM img = PPM::PPM(1000, 1000);
     img.bufferToImage(pixels);
     img.save("screenshots/test.ppm");
     std::cout << "Done" << std::endl;
@@ -110,9 +141,12 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
             Math::Vector3D direction = {0, 0, 0};
             Math::Vector3D rotation = {0, 0, 0};
             double d = 0;
+            PPM::RGB color = {0, 0, 0};
             std::string name;
             if (strcmp(elements.getName(), "spheres") == 0)
                 type = Raytracer::SPHERE;
+            if (strcmp(elements.getName(), "lights") == 0)
+                type = Raytracer::LIGHT;
             if (elements[i].exists("center")) {
                 const libconfig::Setting &center_elem = elements[i].lookup("center");
                 center = {center_elem[0], center_elem[1], center_elem[2]};
@@ -132,7 +166,17 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
             if (elements[i].exists("name")) {
                 elements[i].lookupValue("name", name);
             }
-            Raytracer::Data data(type, name, center, direction, rotation, d);
+            if (elements[i].exists("color")) {
+                //Set the color in color variable in RGB format
+                unsigned int r = elements[i].lookup("color.r");
+                unsigned int g = elements[i].lookup("color.g");
+                unsigned int b = elements[i].lookup("color.b");
+                if (r > 255 || g > 255 || b > 255)
+                    throw std::runtime_error("Color value must be between 0 and 255");
+                color = {(unsigned char)r, (unsigned char)g, (unsigned char)b};
+                std::cout << "Color: " << (int)color.r << " " << (int)color.g << " " << (int)color.b << std::endl;
+            }
+            Raytracer::Data data(type, name, center, direction, rotation, d, color);
             Raytracer::IElement *element = factory->createObject(data);
             _elements.push_back(element);
         }

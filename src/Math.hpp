@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include "Generation.hpp"
+
 #include <cmath>
 #include <iostream>
 #include <memory>
@@ -38,13 +40,16 @@ namespace Math {
             double getX() const;
             double getY() const;
             double getZ() const;
+            PPM::RGB getColor() const;
             void setX(double x);
             void setY(double y);
             void setZ(double z);
+            void setColor(PPM::RGB);
         private:
             double _x;
             double _y;
             double _z;
+            PPM::RGB _rgb;
         protected:
     };
 
