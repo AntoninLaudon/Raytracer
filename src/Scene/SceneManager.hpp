@@ -27,6 +27,7 @@ namespace Raytracer {
         void ParseScene();
         void Render();
         void CreateCamera(const libconfig::Setting *elem);
+        void CreateElement(const libconfig::Setting *elem, std::shared_ptr<Factory> factory);
         ~SceneManager();
     protected:
     private:
