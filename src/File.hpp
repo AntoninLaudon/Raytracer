@@ -26,5 +26,5 @@ public:
 private:
     std::string filePath;
     std::filesystem::file_time_type lastModifiedTime;
-    std::vector<Observer*> observers_;
+    std::vector<Observer*> _observers;
 };

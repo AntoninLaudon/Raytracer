@@ -34,13 +34,13 @@ std::string File::getfilePath()
 
 void File::attach(Observer* observer)
 {
-    observers_.push_back(observer);
+    _observers.push_back(observer);
 }
 void File::detach(Observer* observer) {
-    observers_.erase(std::remove(observers_.begin(), observers_.end(), observer), observers_.end());
+    _observers.erase(std::remove(_observers.begin(), _observers.end(), observer), _observers.end());
 }
 void File::notify() {
-    for (auto& observer : observers_) {
+    for (auto& observer : _observers) {
         observer->update(this);
     }
 }
