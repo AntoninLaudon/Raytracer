@@ -12,6 +12,8 @@
 #include "Camera.hpp"
 #include "Core.hpp"
 #include "Generation.hpp"
+#include "File.hpp"
+#include "Observer.hpp"
 
 
 int main (int argc, char **argv)
