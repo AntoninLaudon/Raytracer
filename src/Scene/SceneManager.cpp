@@ -174,7 +174,6 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
                 if (r > 255 || g > 255 || b > 255)
                     throw std::runtime_error("Color value must be between 0 and 255");
                 color = {(unsigned char)r, (unsigned char)g, (unsigned char)b};
-                std::cout << "Color: " << (int)color.r << " " << (int)color.g << " " << (int)color.b << std::endl;
             }
             Raytracer::Data data(type, name, center, direction, rotation, d, color);
             Raytracer::IElement *element = factory->createObject(data);

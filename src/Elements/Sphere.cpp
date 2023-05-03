@@ -67,7 +67,6 @@ std::shared_ptr<Math::Point3D> Raytracer::Sphere::hits(const Math::Ray &ray)
     Math::Point3D p2 = origin + direction * t2;
 
     if (t1 == t1 && t2 == t2) {
-        std::cout << "color: " << _rgb.b << " " << _rgb.g << " " << _rgb.r << std::endl;
         p1.setColor(_rgb);
         p2.setColor(_rgb);
         double d1 = Math::Vector3D(origin - p1).length();
