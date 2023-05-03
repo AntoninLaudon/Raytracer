@@ -35,7 +35,6 @@ int main (int argc, char **argv)
 {
     Raytracer::Core core;
     try {
-        std::cout << argc << std::endl;
         if (argc == 1)
             core.CreateScene("scenes/test.cfg");
         if (argc == 2)

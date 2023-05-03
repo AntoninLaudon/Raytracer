@@ -7,7 +7,7 @@
 
 #include "Sphere.hpp"
 
-Raytracer::Sphere::Sphere(const std::string &name, Math::Point3D center, Math::Vector3D rotation, Math::Vector3D direction, double radius)
+Raytracer::Sphere::Sphere(const std::string name, Math::Point3D center, Math::Vector3D rotation, Math::Vector3D direction, double radius)
 {
     _name = name;
     _center = center;
@@ -77,9 +77,9 @@ std::shared_ptr<Math::Point3D> Raytracer::Sphere::hits(const Math::Ray &ray)
     return nullptr;
 }
 
-extern "C" std::shared_ptr<Raytracer::IElement> createObject(Raytracer::Data data) {
-    std::cout << "Creating sphere" << std::endl;
-    return std::make_shared<Raytracer::Sphere>(data.getName(), data.getCenter(), data.getRotation(), data.getDirection(), data.getDouble());
+extern "C" Raytracer::IElement *createObject(Raytracer::Data data) {
+    std::cout << "Creating sphere : " << data.getName() << std::endl;
+    return new Raytracer::Sphere(data.getName(), data.getCenter(), data.getRotation(), data.getDirection(), data.getDouble());
 }
 
 extern "C" Raytracer::ElemType getType() {

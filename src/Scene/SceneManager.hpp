@@ -33,7 +33,7 @@ namespace Raytracer {
     private:
         std::string _path;
         std::shared_ptr<Raytracer::Camera> _camera;
-        std::vector<std::shared_ptr<Raytracer::IElement>> _elements;
-        std::vector<LibLoader> _loader;
+        std::vector<Raytracer::IElement*> _elements;
+        std::vector<std::shared_ptr<LibLoader>> _loader;
     };
 };

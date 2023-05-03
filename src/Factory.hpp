@@ -15,11 +15,11 @@
 #include "Data.hpp"
 
 class Factory {
-    typedef std::shared_ptr<Raytracer::IElement> (*CreateFunction)(Raytracer::Data);
+    typedef Raytracer::IElement *(*CreateFunction)(Raytracer::Data);
     public:
         Factory();
         ~Factory();
-        std::shared_ptr<Raytracer::IElement> createObject(Raytracer::Data data);
+        Raytracer::IElement *createObject(Raytracer::Data data);
         void registerObject(Raytracer::ElemType, CreateFunction cf);
         void unregisterObject(Raytracer::ElemType);
     protected:
