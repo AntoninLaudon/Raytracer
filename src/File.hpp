@@ -20,6 +20,7 @@ public:
     ~File();
     bool hasChanged();
     std::string getfilePath();
+    bool truePath();
     void attach(Observer* observer);
     void detach(Observer* observer);
     void notify();

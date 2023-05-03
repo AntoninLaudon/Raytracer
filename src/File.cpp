@@ -9,7 +9,10 @@
 
 File::File(std::string path) : filePath(path)
 {
-    lastModifiedTime = std::filesystem::last_write_time(filePath);
+    if (std::filesystem::exists(filePath))
+        lastModifiedTime = std::filesystem::last_write_time(filePath);
+    else
+        lastModifiedTime = std::filesystem::file_time_type::min();
 }
 
 File::~File()
@@ -30,6 +33,11 @@ bool File::hasChanged()
 std::string File::getfilePath()
 {
     return filePath;
+}
+
+bool File::truePath()
+{
+    return std::filesystem::exists(filePath);
 }
 
 void File::attach(Observer* observer)
