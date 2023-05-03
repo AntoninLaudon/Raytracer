@@ -22,9 +22,9 @@ void Raytracer::Core::Run()
     Render();
 }
 
-void Raytracer::Core::CreateScene(std::string path)
+void Raytracer::Core::CreateScene(File file)
 {
-    _scene = std::make_shared<Raytracer::SceneManager>(path.c_str());
+    _scene = std::make_shared<Raytracer::SceneManager>(file.getfilePath().c_str());
     _scene->ParseScene();
 }
 
