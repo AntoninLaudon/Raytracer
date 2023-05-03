@@ -31,11 +31,15 @@ PPM::RGB colorFromPoint(Math::Point3D land, Raytracer::Sphere sphere, PPM::RGB c
 
 }
 
-int main ()
+int main (int argc, char **argv)
 {
     Raytracer::Core core;
     try {
-        core.CreateScene("scenes/test.cfg");
+        std::cout << argc << std::endl;
+        if (argc == 1)
+            core.CreateScene("scenes/test.cfg");
+        if (argc == 2)
+            core.CreateScene(argv[1]);
         core.Render();
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;

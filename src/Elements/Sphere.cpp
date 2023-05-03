@@ -78,6 +78,7 @@ std::shared_ptr<Math::Point3D> Raytracer::Sphere::hits(const Math::Ray &ray)
 }
 
 extern "C" std::shared_ptr<Raytracer::IElement> createObject(Raytracer::Data data) {
+    std::cout << "Creating sphere" << std::endl;
     return std::make_shared<Raytracer::Sphere>(data.getName(), data.getCenter(), data.getRotation(), data.getDirection(), data.getDouble());
 }
 

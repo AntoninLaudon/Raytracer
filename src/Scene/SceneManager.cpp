@@ -45,16 +45,16 @@ void Raytracer::SceneManager::ParseScene()
                 }
             }
         }
-
-        //Add all elements of the scene in the vector
         for (auto &elem : cfg.getRoot()) {
             if (strcmp(elem.getName(), "camera") == 0) {
                 std::cout << "Loading camera..." << std::endl;
                 CreateCamera(&elem);
             } else {
                 CreateElement(&elem, factory);
-                //TODO Chris : créer le data pour tous les autres éléments puis appelle factory.createobject(data)
             }
+        }
+        for (size_t i = 0; i < _elements.size(); i++) {
+            std::cout << _elements[i]->getName() << std::endl;
         }
         
     } catch (const libconfig::ParseException &error) {
@@ -104,38 +104,43 @@ void Raytracer::SceneManager::Render()
 void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std::shared_ptr<Factory> factory)
 {
     Raytracer::ElemType type = Raytracer::NONE;
-    if (strcmp(elem->c_str(), "primitives") == 0)
-        type = Raytracer::PRIMITIVE;
-    if (strcmp(elem->c_str(), "lights") == 0)
-        type = Raytracer::LIGHT;
-    if (strcmp(elem->c_str(), "skybox") == 0)
-        type = Raytracer::SKYBOX;
     for (auto &elements : *elem) {
+        std::cout << elements.getName() << std::endl;
+        if (strcmp(elements.getName(), "spheres") == 0) {
+            std::cout << "oui" << std::endl;
+            type = Raytracer::SPHERE;
+        }
         Math::Point3D center = {0, 0, 0};
         Math::Vector3D direction = {0, 0, 0};
         Math::Vector3D rotation = {0, 0, 0};
         double d = 0;
         std::string name = "";
-        if (elements.exists("center")) {
-            const libconfig::Setting &center_elem = elements.lookup("center");
+        if (elements[0].exists("center")) {
+            const libconfig::Setting &center_elem = elements[0].lookup("center");
             center = {center_elem[0], center_elem[1], center_elem[2]};
         }
-        if (elements.exists("direction")) {
-            const libconfig::Setting &direction_elem = elements.lookup("direction");
+        if (elements[0].exists("direction")) {
+            const libconfig::Setting &direction_elem = elements[0].lookup("direction");
             direction = {direction_elem[0], direction_elem[1], direction_elem[2]};
         }
-        if (elements.exists("rotation")) {
-            const libconfig::Setting &rotation_elem = elements.lookup("rotation");
+        if (elements[0].exists("rotation")) {
+            const libconfig::Setting &rotation_elem = elements[0].lookup("rotation");
             rotation = {rotation_elem[0], rotation_elem[1], rotation_elem[2]};
         }
-        if (elements.exists("double")) {
-            const libconfig::Setting &double_elem = elements.lookup("double");
+        if (elements[0].exists("double")) {
+            const libconfig::Setting &double_elem = elements[0].lookup("double");
             d = double_elem;
         }
-        if (elements.exists("name")) {
-            name = elements.lookup("name").c_str();
+        if (elements[0].exists("name")) {
+            name = elements[0].lookup("name").getName();
         }
         Raytracer::Data data(type, name, center, direction, rotation, d);
-        _elements.push_back(factory->createObject(data));
+        std::cout << "data: \n\ttype:" << data.getType() << "\n\tname:" << data.getName() << "\n\tcenter:" << data.getCenter() << "\n\tdirection:" << data.getDirection() << "\n\trotation:" << data.getRotation() << "\n\tdouble:" << data.getDouble() << std::endl;
+        std::shared_ptr<Raytracer::IElement> element = factory->createObject(data);
+        if (!element)
+            std::cout << "Element not created" << std::endl;
+        if (!element->getName().empty())
+            std::cout << "Element name: " << element->getName() << std::endl;
+        _elements.push_back(element);
     }
 }
