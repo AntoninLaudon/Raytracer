@@ -32,6 +32,8 @@ namespace Raytracer {
         void CreateCamera(const libconfig::Setting *elem);
         void CreateElement(const libconfig::Setting *elem, std::shared_ptr<Factory> factory);
         std::string getPath();
+        void setPath(std::string path);
+        std::vector<Raytracer::IElement*> getElements();
     protected:
     private:
         std::string _path;

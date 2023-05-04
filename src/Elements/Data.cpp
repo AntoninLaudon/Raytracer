@@ -7,12 +7,13 @@
 
 #include "Data.hpp"
 
-Raytracer::Data::Data(ElemType type, std::string name, Math::Point3D center, Math::Vector3D direction, Math::Vector3D rotation, double d, PPM::RGB rgb)
+Raytracer::Data::Data(ElemType type, std::string name, Math::Point3D center, Math::Vector3D direction1, Math::Vector3D direction2, Math::Vector3D rotation, double d, PPM::RGB rgb)
 {
     _type = type;
     _name = name;
     _center = center;
-    _direction = direction;
+    _direction1 = direction1;
+    _direction2 = direction2;
     _rotation = rotation;
     _double = d;
     _rgb = rgb;
@@ -37,9 +38,14 @@ Math::Point3D Raytracer::Data::getCenter()
     return _center;
 }
 
-Math::Vector3D Raytracer::Data::getDirection()
+Math::Vector3D Raytracer::Data::getDirection1()
 {
-    return _direction;
+    return _direction1;
+}
+
+Math::Vector3D Raytracer::Data::getDirection2()
+{
+    return _direction2;
 }
 
 Math::Vector3D Raytracer::Data::getRotation()

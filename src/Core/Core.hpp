@@ -21,6 +21,7 @@ namespace Raytracer {
             void Render();
             void setFile(File *file);
             File *getFile() const;
+            int ExecuteCommand(std::string command);
         protected:
         private:
             std::shared_ptr<Raytracer::SceneManager> _scene;
