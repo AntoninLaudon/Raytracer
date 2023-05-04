@@ -20,7 +20,7 @@ add_executable(raytracer
     src/PPM_generator/Generation.cpp
     src/Scene/SceneManager.cpp)
     
-target_link_libraries(raytracer PUBLIC dl config++)
+target_link_libraries(raytracer PUBLIC dl config++ sfml-graphics sfml-window sfml-system sfml-audio)
     
 target_include_directories(raytracer PUBLIC
     src/

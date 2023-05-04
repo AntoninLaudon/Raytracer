@@ -26,11 +26,12 @@ namespace Raytracer {
     class SceneManager {
     public:
         SceneManager(const char *path);
+        ~SceneManager();
         void ParseScene();
         void Render();
         void CreateCamera(const libconfig::Setting *elem);
         void CreateElement(const libconfig::Setting *elem, std::shared_ptr<Factory> factory);
-        ~SceneManager();
+        std::string getPath();
     protected:
     private:
         std::string _path;

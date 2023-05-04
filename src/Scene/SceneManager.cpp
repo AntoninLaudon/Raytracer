@@ -129,6 +129,7 @@ void Raytracer::SceneManager::Render()
     std::time_t t = std::time(nullptr);
     std::tm tm = *std::localtime(&t);
     name += std::to_string(tm.tm_year + 1900) + "_" + std::to_string(tm.tm_mon + 1) + "_" + std::to_string(tm.tm_mday) + "_" + std::to_string(tm.tm_hour) + "_" + std::to_string(tm.tm_min) + "_" + std::to_string(tm.tm_sec) + ".ppm";
+    _path = name;
     img.save(name.c_str());
     std::cout << "Done" << std::endl;
 }
@@ -186,4 +187,9 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
             _elements.push_back(element);
         }
     }
+}
+
+std::string Raytracer::SceneManager::getPath()
+{
+    return _path;
 }
