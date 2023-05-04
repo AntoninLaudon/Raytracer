@@ -19,7 +19,8 @@ namespace Raytracer {
         PRIMITIVE,
         LIGHT,
         SKYBOX,
-        SPHERE
+        SPHERE,
+        PLAN
     };
 
     class IElement {
