@@ -16,7 +16,7 @@ Raytracer::Plan::Plan(const std::string &name, Math::Point3D center, Math::Vecto
     _dir2 = dir2;
     _normal = _dir1.cross(_dir2);
     _rgb = rgb;
-    _type = PLANE;
+    _type = PRIMITIVE;
 }
 
 Raytracer::Plan::~Plan()
@@ -60,6 +60,9 @@ std::shared_ptr<Math::Point3D> Raytracer::Plan::hits(const Math::Ray &ray)
     if (t == t && t > 0) {
         Math::Point3D pt(a + u * t, b + v * t, c + w * t);
         pt.setColor(_rgb);
+        // if (Math::Vector3D(pt.getX() - origin.getX(), pt.getY() - origin.getY(), pt.getZ() - origin.getZ()).length() > 500)
+        //     return nullptr;
+        // std::cout << "pt: " << pt << std::endl;
         return std::make_shared<Math::Point3D> (pt);
     }
     return nullptr;
@@ -67,9 +70,43 @@ std::shared_ptr<Math::Point3D> Raytracer::Plan::hits(const Math::Ray &ray)
 
 double Raytracer::Plan::getLuminosity(std::vector<Raytracer::IElement *> &elements, const Math::Point3D &land) const
 {
-    (void)elements;
-    (void)land;
-    return 0.8;
+    double luminosity = 0.1;
+    int nbrLights = 0;
+    double dot = 0;
+
+    for (auto &element : elements) {
+        if (element->getType() == Raytracer::LIGHT) {
+            nbrLights++;
+
+
+            // centerToLand.normalize();
+            // centerToLight.normalize();
+
+            Math::Vector3D landToLight(land.getX() - element->getCenter().getX(), land.getX() - element->getCenter().getX(), land.getX() - element->getCenter().getX());
+            dot = landToLight.dot(_normal);
+
+            for (auto &primitive : elements) {
+                if (primitive->getType() == Raytracer::PRIMITIVE && primitive->getName() != _name) {
+                    std::shared_ptr<Math::Point3D> hit = primitive->hits(Math::Ray(land, element->getCenter() - land));
+                    if (hit != nullptr) {
+                        dot = 0;
+                        break;
+                    }
+                }
+            }
+
+            luminosity += dot;
+        }
+    }
+    if (nbrLights == 0)
+        return luminosity;
+    luminosity /= nbrLights;
+
+    luminosity = luminosity < 0.1 ? 0.1 : luminosity;
+    if (luminosity == luminosity)
+        return luminosity;
+    return 0.1;
+
 }
 
 extern "C" Raytracer::Plan *createObject(Raytracer::Data data)
