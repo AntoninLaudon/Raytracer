@@ -13,7 +13,7 @@ Raytracer::Sphere::Sphere(const std::string name, Math::Point3D center, Math::Ve
     _center = center;
     _rotation = rotation;
     _radius = radius;
-    _type = PRIMITIVE;
+    _type = SPHERE;
     _rgb = rgb;
 }
 
