@@ -19,6 +19,8 @@
 #include <stdexcept>
 #include <memory>
 #include <string.h>
+#include <iostream>
+#include <utility>
 
 namespace Raytracer {
     class SceneManager {
@@ -35,5 +37,6 @@ namespace Raytracer {
         std::shared_ptr<Raytracer::Camera> _camera;
         std::vector<Raytracer::IElement*> _elements;
         std::vector<std::shared_ptr<LibLoader>> _loader;
+        std::pair<int, int> _size;
     };
 };

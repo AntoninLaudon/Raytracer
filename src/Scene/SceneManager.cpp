@@ -10,6 +10,8 @@
 Raytracer::SceneManager::SceneManager(const char *path)
 {
     _path = path;
+    _size.first = 1000;
+    _size.second = 1000;
 }
 
 Raytracer::SceneManager::~SceneManager()
@@ -88,16 +90,16 @@ void Raytracer::SceneManager::CreateCamera(const libconfig::Setting *elem)
 void Raytracer::SceneManager::Render()
 {
     std::cout << "Rendering..." << std::endl;
-    PPM::PPM img = PPM::PPM(1000, 1000);
+    PPM::PPM img = PPM::PPM(_size.first, _size.second);
     std::vector<PPM::RGB> pixels;
     std::vector<std::shared_ptr<Math::Point3D>> p;
     Math::Point3D shortest(0, 0, 0);
     size_t size = _elements.size();
     double shortestDist = -1;
-    for (double y = 1000; y > 0; y--) {
-        for (double x = 0; x < 1000; x++) {
-            double u = x/1000;
-            double v = y/1000;
+    for (double y = _size.second; y > 0; y--) {
+        for (double x = 0; x < _size.first; x++) {
+            double u = x/_size.first;
+            double v = y/_size.second;
             Math::Ray r = _camera->ray(u, v);
             p.clear();
             for (size_t i = 0; i < size; i++) {
@@ -147,6 +149,11 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
                 type = Raytracer::SPHERE;
             if (strcmp(elements.getName(), "lights") == 0)
                 type = Raytracer::LIGHT;
+            if (strcmp(elements.getName(), "resolution") == 0) {
+                _size.first = elements.lookup("x");
+                _size.second = elements.lookup("y");
+                return;
+            }
             if (elements[i].exists("center")) {
                 const libconfig::Setting &center_elem = elements[i].lookup("center");
                 center = {center_elem[0], center_elem[1], center_elem[2]};
