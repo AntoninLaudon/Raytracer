@@ -47,8 +47,14 @@ void Raytracer::Core::Render()
     } else
         throw std::runtime_error("Error while opening file");
     sf::RenderWindow window(sf::VideoMode(width, height), "Raytracer");
-    sf::TextField textField(20);
-    textField.setPosition(200, 200);
+    sf::String playerInput;
+    sf::Text playerText;
+    playerText.setPosition(20,20);
+    sf::Font font;
+    font.loadFromFile("res/Arial.ttf");
+    playerText.setFont(font);
+    playerText.setCharacterSize(24);
+    playerText.setFillColor(sf::Color::White);
     sf::Uint8 *pix = new sf::Uint8[width*height*4];
     sf::Texture texture;
     texture.create(width, height); 
@@ -81,13 +87,10 @@ void Raytracer::Core::Render()
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 window.close();
-            } else if (event.type == sf::Event::MouseButtonReleased) {
-                auto pos = sf::Mouse::getPosition(window);
-                textField.setFocus(false);
-                if (textField.contains(sf::Vector2f(pos)))
-                    textField.setFocus(true);
-            } else
-                textField.handleInput(event);
+            } else if (event.type == sf::Event::TextEntered) {
+                playerInput += event.text.unicode;
+                playerText.setString(playerInput);
+            }
         }
         if (_file->hasChanged()) {
             window.close();
@@ -95,7 +98,7 @@ void Raytracer::Core::Render()
         }
         window.clear();
         window.draw(sprite);
-        window.draw(textField);
+        window.draw(playerText);
         window.display();
     }
 }

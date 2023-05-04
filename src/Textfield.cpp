@@ -15,7 +15,7 @@ sf::TextField::TextField(unsigned int maxChars)
     _rect.setOutlineThickness(2);
     _rect.setFillColor(sf::Color::White);
     _rect.setOutlineColor(sf::Color(0,0,0));
-    _rect.setPosition(this->getPosition());
+    _rect.setPosition(30, 30);
 }
 
 sf::TextField::~TextField()
