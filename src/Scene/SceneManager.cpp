@@ -101,8 +101,6 @@ void Raytracer::SceneManager::Render()
         for (double x = 0; x < _size.first; x++) {
             double u = x/_size.first;
             double v = y/_size.second;
-            if (!_camera)
-                std::cout << "t null chris" << std::endl;
             Math::Ray r = _camera->ray(u, v);
             p.clear();
             for (size_t i = 0; i < size; i++) {
@@ -150,6 +148,7 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
         for (int i = 0; i < elements.getLength(); i++) {
             Math::Point3D center = {0, 0, 0};
             Math::Vector3D direction = {0, 0, 0};
+            Math::Vector3D direction2 = {0, 0, 0};
             Math::Vector3D rotation = {0, 0, 0};
             double d = 0;
             PPM::RGB color = {0, 0, 0};
@@ -158,6 +157,8 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
                 type = Raytracer::SPHERE;
             if (strcmp(elements.getName(), "lights") == 0)
                 type = Raytracer::LIGHT;
+            if (strcmp(elements.getName(), "planes") == 0)
+                type = Raytracer::PLANE;
             if (strcmp(elements.getName(), "resolution") == 0) {
                 _size.first = elements.lookup("x");
                 _size.second = elements.lookup("y");
@@ -170,6 +171,10 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
             if (elements[i].exists("direction")) {
                 const libconfig::Setting &direction_elem = elements[i].lookup("direction");
                 direction = {direction_elem[0], direction_elem[1], direction_elem[2]};
+            }
+            if (elements[i].exists("direction2")) {
+                const libconfig::Setting &direction2_elem = elements[i].lookup("direction2");
+                direction2 = {direction2_elem[0], direction2_elem[1], direction2_elem[2]};
             }
             if (elements[i].exists("rotation")) {
                 const libconfig::Setting &rotation_elem = elements[i].lookup("rotation");
@@ -191,7 +196,7 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
                     throw std::runtime_error("Color value must be between 0 and 255");
                 color = {(unsigned char)r, (unsigned char)g, (unsigned char)b};
             }
-            Raytracer::Data data(type, name, center, direction, rotation, d, color);
+            Raytracer::Data data(type, name, center, direction, direction2, rotation, d, color);
             Raytracer::IElement *element = factory->createObject(data);
             _elements.push_back(element);
         }

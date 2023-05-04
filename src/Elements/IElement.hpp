@@ -20,7 +20,7 @@ namespace Raytracer {
         LIGHT,
         SKYBOX,
         SPHERE,
-        PLAN
+        PLANE
     };
 
     class IElement {
@@ -34,7 +34,6 @@ namespace Raytracer {
             virtual void rotate(double x, double y, double z) = 0;
             virtual std::shared_ptr<Math::Point3D> hits(const Math::Ray &ray) = 0;
             virtual double getLuminosity(std::vector<Raytracer::IElement *> &elements, const Math::Point3D &land) const = 0;
-
             virtual PPM::RGB getColor() const = 0;
     };
 }

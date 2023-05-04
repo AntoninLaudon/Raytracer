@@ -7,7 +7,7 @@
 
 #include "Plan.hpp"
 
-Raytracer::Plan::Plan(const std::string &name, Math::Point3D center, Math::Vector3D rotation, Math::Vector3D dir1, Math::Vector3D dir2)
+Raytracer::Plan::Plan(const std::string &name, Math::Point3D center, Math::Vector3D rotation, Math::Vector3D dir1, Math::Vector3D dir2, PPM::RGB rgb)
 {
     _name = name;
     _center = center;
@@ -15,6 +15,7 @@ Raytracer::Plan::Plan(const std::string &name, Math::Point3D center, Math::Vecto
     _dir1 = dir1;
     _dir2 = dir2;
     _normal = _dir1.cross(_dir2);
+    _rgb = rgb;
 }
 
 Raytracer::Plan::~Plan()
@@ -55,17 +56,26 @@ std::shared_ptr<Math::Point3D> Raytracer::Plan::hits(const Math::Ray &ray)
     double d = -(_normal.getX() * _center.getX() + _normal.getY() * _center.getY() + _normal.getZ() * _center.getZ());
     double t = (-a * x - b * y - c * z - d) / (u * x + v * y + w * z);
 
-    if (t == t)
+    if (t == t) {
         return std::make_shared<Math::Point3D>(a + u * t, b + v * t, c + w * t);
+    }
     return nullptr;
 }
 
-extern "C" Raytracer::Plan *createPlan(const std::string &name, Math::Point3D center, Math::Vector3D rotation, Math::Vector3D dir1, Math::Vector3D dir2)
+double Raytracer::Plan::getLuminosity(std::vector<Raytracer::IElement *> &elements, const Math::Point3D &land) const
 {
-    return new Raytracer::Plan(name, center, rotation, dir1, dir2);
+    (void)elements;
+    (void)land;
+    return 0.8;
+}
+
+extern "C" Raytracer::Plan *createObject(Raytracer::Data data)
+{
+    std::cout << "Creating plan : " << data.getName() << std::endl;
+    return new Raytracer::Plan(data.getName(), data.getCenter(), data.getRotation(), data.getDirection1(), data.getDirection2(), data.getRGB());
 }
 
 extern "C" Raytracer::ElemType getType()
 {
-    return Raytracer::PLAN;
+    return Raytracer::PLANE;
 }

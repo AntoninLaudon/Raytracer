@@ -35,11 +35,8 @@ target_include_directories(raytracer PUBLIC
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/plugins/sphere)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/plugins/light)
 
-<<<<<<< HEAD
 add_dependencies(raytracer sphere light)
 
-=======
->>>>>>> 9721f20 (ADD: start of plan)
 add_dependencies(raytracer sphere)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/plugins/plan)
