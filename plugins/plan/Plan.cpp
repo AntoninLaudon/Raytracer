@@ -16,6 +16,7 @@ Raytracer::Plan::Plan(const std::string &name, Math::Point3D center, Math::Vecto
     _dir2 = dir2;
     _normal = _dir1.cross(_dir2);
     _rgb = rgb;
+    _type = PLANE;
 }
 
 Raytracer::Plan::~Plan()
@@ -56,8 +57,10 @@ std::shared_ptr<Math::Point3D> Raytracer::Plan::hits(const Math::Ray &ray)
     double d = -(_normal.getX() * _center.getX() + _normal.getY() * _center.getY() + _normal.getZ() * _center.getZ());
     double t = (-a * x - b * y - c * z - d) / (u * x + v * y + w * z);
 
-    if (t == t) {
-        return std::make_shared<Math::Point3D>(a + u * t, b + v * t, c + w * t);
+    if (t == t && t > 0) {
+        Math::Point3D pt(a + u * t, b + v * t, c + w * t);
+        pt.setColor(_rgb);
+        return std::make_shared<Math::Point3D> (pt);
     }
     return nullptr;
 }
