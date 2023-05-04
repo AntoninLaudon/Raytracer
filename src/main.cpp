@@ -10,26 +10,9 @@
 #include "Math.hpp"
 #include "Factory.hpp"
 #include "Camera.hpp"
-#include "Sphere.hpp"
 #include "Core.hpp"
 #include "Generation.hpp"
 
-PPM::RGB colorFromPoint(Math::Point3D land, Raytracer::Sphere sphere, PPM::RGB color, Math::Point3D origin)
-{
-    double closest = Math::Vector3D(sphere.getCenter() - origin).length() - sphere.getRadius();
-    double farthest = Math::Vector3D(sphere.getCenter() - origin).length();
-
-    double distance = Math::Vector3D(land - origin).length();
-
-    // std::cout << "closest: " << closest << std::endl;
-    // std::cout << "farthest: " << farthest << std::endl;
-    // std::cout << "distance: " << distance << std::endl;
-
-    double percent = ((distance - closest)) / (farthest - closest);
-
-    return PPM::RGB(color.r * (1 - percent), color.g * (1 - percent), color.b * (1 - percent));
-
-}
 
 int main (int argc, char **argv)
 {
