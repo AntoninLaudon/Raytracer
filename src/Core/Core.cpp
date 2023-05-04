@@ -7,8 +7,10 @@
 
 #include "Core.hpp"
 #include "File.hpp"
+#include "Textfield.hpp"
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
@@ -45,6 +47,8 @@ void Raytracer::Core::Render()
     } else
         throw std::runtime_error("Error while opening file");
     sf::RenderWindow window(sf::VideoMode(width, height), "Raytracer");
+    sf::TextField textField(20);
+    textField.setPosition(200, 200);
     sf::Uint8 *pix = new sf::Uint8[width*height*4];
     sf::Texture texture;
     texture.create(width, height); 
@@ -75,13 +79,24 @@ void Raytracer::Core::Render()
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+            if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 window.close();
+            } else if (event.type == sf::Event::MouseButtonReleased) {
+                auto pos = sf::Mouse::getPosition(window);
+                textField.setFocus(false);
+                if (textField.contains(sf::Vector2f(pos)))
+                    textField.setFocus(true);
+            } else
+                textField.handleInput(event);
         }
         if (_file->hasChanged()) {
             window.close();
             _file->notify(*this);
         }
+        window.clear();
+        window.draw(sprite);
+        window.draw(textField);
+        window.display();
     }
 }
 

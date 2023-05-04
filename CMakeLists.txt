@@ -20,7 +20,8 @@ add_executable(raytracer
     src/Elements/Data.cpp
     src/Elements/Camera.cpp
     src/PPM_generator/Generation.cpp
-    src/Scene/SceneManager.cpp)
+    src/Scene/SceneManager.cpp
+    src/Textfield.cpp)
     
 target_link_libraries(raytracer PUBLIC dl config++ sfml-graphics sfml-window sfml-system sfml-audio)
     
