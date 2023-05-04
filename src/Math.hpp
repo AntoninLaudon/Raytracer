@@ -18,6 +18,7 @@ namespace Math {
             ~Vector3D();
             double length() const;
             double dot(const Vector3D &v) const;
+            Vector3D cross(const Vector3D &v) const;
             double getX() const;
             double getY() const;
             double getZ() const;

@@ -27,6 +27,11 @@ double Math::Vector3D::dot(const Math::Vector3D &v) const
     return _x * v.getX() + _y * v.getY() + _z * v.getZ();
 }
 
+Math::Vector3D Math::Vector3D::cross(const Math::Vector3D &v) const
+{
+    return Math::Vector3D(_y * v.getZ() - _z * v.getY(), _z * v.getX() - _x * v.getZ(), _x * v.getY() - _y * v.getX());
+}
+
 double Math::Vector3D::getX() const
 {
     return _x;
