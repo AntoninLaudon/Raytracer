@@ -17,6 +17,8 @@ add_executable(raytracer
     src/Core/Core.cpp
     src/Elements/Data.cpp
     src/Elements/Camera.cpp
+    src/Elements/Sphere.cpp
+    src/Elements/Plan.cpp
     src/PPM_generator/Generation.cpp
     src/Scene/SceneManager.cpp)
     
@@ -33,3 +35,7 @@ target_include_directories(raytracer PUBLIC
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/plugins/sphere)
 
 add_dependencies(raytracer sphere)
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/plugins/plan)
+
+add_dependencies(raytracer plan)
