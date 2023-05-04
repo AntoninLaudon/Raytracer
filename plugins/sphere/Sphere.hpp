@@ -15,11 +15,12 @@
 namespace Raytracer {
     class Sphere : public AElement{
         public:
-            Sphere(const std::string name, Math::Point3D center, Math::Vector3D rotation, Math::Vector3D direction, PPM::RGB rgb, double radius = 1);
+            Sphere(const std::string name, Math::Point3D center, Math::Vector3D rotation, PPM::RGB rgb, double radius = 1);
             ~Sphere();
             void translate(double x, double y, double z);
             void rotate(double x, double y, double z);
             std::shared_ptr<Math::Point3D> hits(const Math::Ray &ray);
+            double getLuminosity(std::vector<Raytracer::IElement *> &elements, const Math::Point3D &land) const;
             double getRadius() const {return _radius;}
         private:
             double _radius;
