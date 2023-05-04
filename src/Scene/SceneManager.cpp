@@ -121,8 +121,7 @@ void Raytracer::SceneManager::Render()
                 }
             }
             if (shortestDist != -1) {
-                // std::cout << shortest.getColor() << " * " << shortest.getLuminosity() << std::endl;
-
+                // std::cout << shortest.getColor() << " * " << shortest.getLuminosity() << " | " << shortest << " | " << shortest.getColor() * shortest.getLuminosity() << std::endl;
                 pixels.push_back(shortest.getColor() * shortest.getLuminosity());
                 shortestDist = -1;
             } else {

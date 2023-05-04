@@ -59,11 +59,10 @@ std::shared_ptr<Math::Point3D> Raytracer::Plan::hits(const Math::Ray &ray)
 
     if (t == t && t > 0) {
         Math::Point3D pt(a + u * t, b + v * t, c + w * t);
-        pt.setColor(_rgb);
-        // if (Math::Vector3D(pt.getX() - origin.getX(), pt.getY() - origin.getY(), pt.getZ() - origin.getZ()).length() > 500)
-        //     return nullptr;
-        // std::cout << "pt: " << pt << std::endl;
-        return std::make_shared<Math::Point3D> (pt);
+        if (pt == pt) {
+            pt.setColor(_rgb);
+            return std::make_shared<Math::Point3D> (pt);
+        }
     }
     return nullptr;
 }
@@ -77,14 +76,8 @@ double Raytracer::Plan::getLuminosity(std::vector<Raytracer::IElement *> &elemen
     for (auto &element : elements) {
         if (element->getType() == Raytracer::LIGHT) {
             nbrLights++;
-
-
-            // centerToLand.normalize();
-            // centerToLight.normalize();
-
             Math::Vector3D landToLight(land.getX() - element->getCenter().getX(), land.getX() - element->getCenter().getX(), land.getX() - element->getCenter().getX());
             dot = landToLight.dot(_normal);
-
             for (auto &primitive : elements) {
                 if (primitive->getType() == Raytracer::PRIMITIVE && primitive->getName() != _name) {
                     std::shared_ptr<Math::Point3D> hit = primitive->hits(Math::Ray(land, element->getCenter() - land));
@@ -101,7 +94,6 @@ double Raytracer::Plan::getLuminosity(std::vector<Raytracer::IElement *> &elemen
     if (nbrLights == 0)
         return luminosity;
     luminosity /= nbrLights;
-
     luminosity = luminosity < 0.1 ? 0.1 : luminosity;
     if (luminosity == luminosity)
         return luminosity;
