@@ -57,6 +57,15 @@ void Math::Vector3D::setZ(double z)
     _z = z;
 }
 
+void Math::Vector3D::normalize()
+{
+    double length = this->length();
+
+    _x /= length;
+    _y /= length;
+    _z /= length;
+}
+
 Math::Vector3D operator+(const Math::Vector3D &v1, const Math::Vector3D &v2)
 {
     return Math::Vector3D(v1.getX() + v2.getX(), v1.getY() + v2.getY(), v1.getZ() + v2.getZ());
@@ -239,6 +248,16 @@ PPM::RGB Math::Point3D::getColor() const
 void Math::Point3D::setColor(PPM::RGB rgb)
 {
     _rgb = rgb;
+}
+
+void Math::Point3D::setLuminosity(double luminosity)
+{
+    _luminosity = luminosity;
+}
+
+double Math::Point3D::getLuminosity() const
+{
+    return _luminosity;
 }
 
 Math::Point3D operator+(const Math::Point3D &v1, const Math::Point3D &p1)

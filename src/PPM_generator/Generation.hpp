@@ -11,6 +11,7 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <algorithm>
 
 namespace PPM {
     struct RGB {
@@ -18,6 +19,12 @@ namespace PPM {
         unsigned char g;
         unsigned char b;
     };
+
+    RGB operator*(const RGB &color, const double &coef);
+    RGB operator*(const double &coef, const RGB &color);
+
+    std::ostream &operator<<(std::ostream &os, const RGB &color);
+
     class PPM {
         public:
             /**
