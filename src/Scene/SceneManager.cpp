@@ -121,16 +121,15 @@ void Raytracer::SceneManager::Render()
             } else {
                 pixels.push_back(PPM::RGB(0, 0, 0));
             }
-            //if (_elements[0]->hits(r))
-            //    pixels.push_back(PPM::RGB(255, 0, 0));
-            //else if (_elements[1]->hits(r))
-            //    pixels.push_back(PPM::RGB(0, 0, 255));
-            //else
-            //    pixels.push_back(PPM::RGB(0, 0, 0));
         }
     }
     img.bufferToImage(pixels);
-    img.save("screenshots/test.ppm");
+    //Create a string with the name : screenshots/screen_[year]_[month]_[day]_[hour]_[minute]_[second].ppm
+    std::string name = "screenshots/screen_";
+    std::time_t t = std::time(nullptr);
+    std::tm tm = *std::localtime(&t);
+    name += std::to_string(tm.tm_year + 1900) + "_" + std::to_string(tm.tm_mon + 1) + "_" + std::to_string(tm.tm_mday) + "_" + std::to_string(tm.tm_hour) + "_" + std::to_string(tm.tm_min) + "_" + std::to_string(tm.tm_sec) + ".ppm";
+    img.save(name.c_str());
     std::cout << "Done" << std::endl;
 }
 
