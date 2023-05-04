@@ -12,13 +12,19 @@
 #include "Camera.hpp"
 #include "Core.hpp"
 #include "Generation.hpp"
+#include "File.hpp"
+#include "Observer.hpp"
 
 int main (int argc, char **argv)
 {
     Raytracer::Core core;
+    Observer Observer;
     try {
-        if (argc == 1)
-            core.CreateScene("scenes/test.cfg");
+        if (argc == 1) {
+            File file ("scenes/test.cfg");
+            file.attach(&Observer);
+            core.CreateScene(file);
+        }
         if (argc == 2) {
             if (strcmp(argv[1], "--help") == 0 || strcmp(argv[1], "-h") == 0) {
                 std::cout << "USAGE" << std::endl;
@@ -27,7 +33,11 @@ int main (int argc, char **argv)
                 std::cout << "\tscene\t\tscene file in .cfg format" << std::endl;
                 return 0;
             }
-            core.CreateScene(argv[1]);
+            File file (argv[1]);
+            file.attach(&Observer);
+            file.setfilePath(argv[1]);
+            core.setFile(&file);
+            core.CreateScene(file);
             core.Render();
         }
     } catch (std::exception &e) {

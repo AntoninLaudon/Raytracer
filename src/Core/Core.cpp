@@ -6,6 +6,7 @@
 */
 
 #include "Core.hpp"
+#include "File.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -13,22 +14,16 @@
 
 Raytracer::Core::Core()
 {
+
 }
 
 Raytracer::Core::~Core()
 {
 }
 
-void Raytracer::Core::Run()
+void Raytracer::Core::CreateScene(File file)
 {
-    std::string path = "scenes/scene1.json";
-    CreateScene(path);
-    Render();
-}
-
-void Raytracer::Core::CreateScene(std::string path)
-{
-    _scene = std::make_shared<Raytracer::SceneManager>(path.c_str());
+    _scene = std::make_shared<Raytracer::SceneManager>(file.getfilePath().c_str());
     _scene->ParseScene();
 }
 
@@ -80,54 +75,22 @@ void Raytracer::Core::Render()
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                window.close();
+        }
+        if (_file->hasChanged()) {
             window.close();
-            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
-                window.clear();
-                window.display();
-                std::cout << "Enter pressed" << std::endl;
-                _scene->Render();
-                sf::Uint8 *new_pix = new sf::Uint8[width*height*4];
-                sf::Texture new_texture;
-                new_texture.create(width, height);
-                sprite.setTexture(new_texture);
-                std::fstream file(_scene->getPath(), std::ios::in);
-                std::string line;
-                std::string w;
-                std::string h;
-                int width;
-                int height;
-                if (file.is_open()) {
-                    std::getline(file, line);
-                    std::getline(file, w);
-                    std::getline(file, h);
-                    width = std::stoi(w);
-                    height = std::stoi(h);
-                } else
-                    throw std::runtime_error("Error while opening file");
-                for(int i = 0, j = 0; i < width*height*4; i += 4, j++) {
-                    std::getline(file, line);
-                    std::string r;
-                    std::string g;
-                    std::string b;
-                    r = line.substr(0, line.find(" "));
-                    line.erase(0, line.find(" ") + 1);
-                    g = line.substr(0, line.find(" "));
-                    line.erase(0, line.find(" ") + 1);
-                    b = line.substr(0, line.find(" "));
-                    new_pix[i] = std::stoi(r);
-                    new_pix[i+1] = std::stoi(g);
-                    new_pix[i+2] = std::stoi(b);
-                    new_pix[i+3] = 255;
-                    if (j % width == 0) {
-                        new_texture.update(new_pix);
-                        window.clear();
-                        window.draw(sprite);
-                        window.display();
-                    }
-                }
-                new_texture.update(new_pix);
-            }
+            _file->notify(*this);
         }
     }
+}
+
+void Raytracer::Core::setFile(File *file)
+{
+    _file = file;
+}
+
+File *Raytracer::Core::getFile() const
+{
+    return _file;
 }
