@@ -14,6 +14,8 @@ add_executable(raytracer
     src/main.cpp
     src/Factory.cpp
     src/Math.cpp
+    src/Observer.cpp
+    src/File.cpp
     src/Core/Core.cpp
     src/Elements/Data.cpp
     src/Elements/Camera.cpp
