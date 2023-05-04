@@ -7,13 +7,15 @@
 
 #pragma once
 
+#include "Core.hpp"
+
 class File;
 
 class Observer {
     public:
         Observer();
         ~Observer();
-        void update(File *file);
+        void update(File *file, Raytracer::Core &core);
     protected:
     private:
 };

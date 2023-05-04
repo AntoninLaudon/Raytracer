@@ -30,6 +30,15 @@ bool File::hasChanged()
     }
 }
 
+void File::setfilePath(std::string path)
+{
+    filePath = path;
+    if (std::filesystem::exists(filePath))
+        lastModifiedTime = std::filesystem::last_write_time(filePath);
+    else
+        lastModifiedTime = std::filesystem::file_time_type::min();
+}
+
 std::string File::getfilePath()
 {
     return filePath;
@@ -47,8 +56,8 @@ void File::attach(Observer* observer)
 void File::detach(Observer* observer) {
     _observers.erase(std::remove(_observers.begin(), _observers.end(), observer), _observers.end());
 }
-void File::notify() {
+void File::notify(Raytracer::Core &core) {
     for (auto& observer : _observers) {
-        observer->update(this);
+        observer->update(this, core);
     }
 }

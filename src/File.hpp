@@ -13,17 +13,19 @@
 #include <string>
 #include <vector>
 #include "Observer.hpp"
+#include "Core.hpp"
 
 class File {
 public:
     File(std::string path);
     ~File();
-    bool hasChanged();
+    void setfilePath(std::string path);
     std::string getfilePath();
+    bool hasChanged();
     bool truePath();
     void attach(Observer* observer);
     void detach(Observer* observer);
-    void notify();
+    void notify(Raytracer::Core &core);
 private:
     std::string filePath;
     std::filesystem::file_time_type lastModifiedTime;

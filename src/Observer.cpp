@@ -16,7 +16,13 @@ Observer::~Observer()
 {
 }
 
-void Observer::update(File *file)
+void Observer::update(File *file, Raytracer::Core &core)
 {
     std::cout << "File " << file->getfilePath() << " has changed" << std::endl;
+    try {
+        core.CreateScene(*file);
+        core.Render();
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+    }
 }
