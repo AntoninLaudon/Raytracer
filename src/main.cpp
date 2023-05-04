@@ -10,11 +10,6 @@
 #include "Math.hpp"
 #include "Factory.hpp"
 #include "Camera.hpp"
-<<<<<<< HEAD
-=======
-#include "Sphere.hpp"
-#include "Plan.hpp"
->>>>>>> 9721f20 (ADD: start of plan)
 #include "Core.hpp"
 #include "Generation.hpp"
 #include "File.hpp"
