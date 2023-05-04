@@ -3,7 +3,11 @@ cmake_minimum_required(VERSION 3.0.0)
 set(CMAKE_CXX_STANDARD 20)
 
 add_library(plan SHARED
+<<<<<<< HEAD
     Plan.cpp
+=======
+    ../../src/Elements/Plan.cpp
+>>>>>>> 9721f20 (ADD: start of plan)
     )
 
 add_compile_options(-Wall -Wextra -Wpedantic -Werror -fno-gnu-unique)
