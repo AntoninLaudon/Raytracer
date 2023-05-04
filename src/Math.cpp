@@ -231,6 +231,16 @@ void Math::Point3D::setZ(double z)
     _z = z;
 }
 
+PPM::RGB Math::Point3D::getColor() const
+{
+    return _rgb;
+}
+
+void Math::Point3D::setColor(PPM::RGB rgb)
+{
+    _rgb = rgb;
+}
+
 Math::Point3D operator+(const Math::Point3D &v1, const Math::Point3D &p1)
 {
     return Math::Point3D(p1.getX() + v1.getX(), p1.getY() + v1.getY(), p1.getZ() + v1.getZ());

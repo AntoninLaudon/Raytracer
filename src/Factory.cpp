@@ -21,7 +21,6 @@ Factory::~Factory()
 }
 
 void Factory::registerObject(Raytracer::ElemType type, CreateFunction cf) {
-    std::cout << "Registering " << type << std::endl;
     _map[type] = cf;
 }
 
@@ -32,7 +31,7 @@ void Factory::unregisterObject(Raytracer::ElemType type) {
     }
 }
 
-std::shared_ptr<Raytracer::IElement> Factory::createObject(Raytracer::Data data) {
+Raytracer::IElement *Factory::createObject(Raytracer::Data data) {
     auto it = _map.find(data.getType());
     if (it != _map.end()) {
         return it->second(data);

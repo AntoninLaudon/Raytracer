@@ -15,7 +15,7 @@
 namespace Raytracer {
     class Data {
         public:
-            Data(ElemType type, std::string name, Math::Point3D center, Math::Vector3D direction, Math::Vector3D rotation, double d);
+            Data(ElemType type, std::string name, Math::Point3D center, Math::Vector3D direction, Math::Vector3D rotation, double d, PPM::RGB rgb);
             ~Data();
             ElemType getType();
             std::string getName();
@@ -24,6 +24,7 @@ namespace Raytracer {
             Math::Vector3D getRotation();
             Raytracer::Rectangle3D getScreen();
             double getDouble();
+            PPM::RGB getRGB();
         private:
             ElemType _type;
             std::string _name;
@@ -32,5 +33,6 @@ namespace Raytracer {
             Math::Vector3D _rotation;
             Raytracer::Rectangle3D _screen;
             double _double;
+            PPM::RGB _rgb;
     };
 }
