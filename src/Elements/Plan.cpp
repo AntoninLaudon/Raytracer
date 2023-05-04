@@ -14,6 +14,7 @@ Raytracer::Plan::Plan(const std::string &name, Math::Point3D center, Math::Vecto
     _rotation = rotation;
     _dir1 = dir1;
     _dir2 = dir2;
+    _normal = _dir1.cross(_dir2);
 }
 
 Raytracer::Plan::~Plan()
@@ -35,15 +36,28 @@ void Raytracer::Plan::rotate(double x, double y, double z)
 }
 
 std::shared_ptr<Math::Point3D> Raytracer::Plan::hits(const Math::Ray &ray)
-{(void)ray;
-    /**
-     * TODO
-     * 1. Get the normal of the plan (cross product of dir1 and dir2)
-     * 2. Récupérer l'équation du plan (ax + by + cz + d = 0) : https://www.youtube.com/watch?v=s4xqI6IPQBY
-     * 3. Récupérer l'équation de la droite (x = x0 + at, y = y0 + bt, z = z0 + ct)
-     * 4. Résoudre l'équation du plan avec l'équation de la droite (https://www.youtube.com/watch?v=QJYmyhnaaek)
-    */
-   return nullptr;
+{
+    Math::Point3D origin = ray.getOrigin();
+    Math::Vector3D direction = ray.getDirection();
+
+    double a = origin.getX();
+    double b = origin.getY();
+    double c = origin.getZ();
+
+    double u = direction.getX();
+    double v = direction.getY();
+    double w = direction.getZ();
+
+    double x = _normal.getX();
+    double y = _normal.getY();
+    double z = _normal.getZ();
+
+    double d = -(_normal.getX() * _center.getX() + _normal.getY() * _center.getY() + _normal.getZ() * _center.getZ());
+    double t = (-a * x - b * y - c * z - d) / (u * x + v * y + w * z);
+
+    if (t == t)
+        return std::make_shared<Math::Point3D>(a + u * t, b + v * t, c + w * t);
+    return nullptr;
 }
 
 extern "C" Raytracer::Plan *createPlan(const std::string &name, Math::Point3D center, Math::Vector3D rotation, Math::Vector3D dir1, Math::Vector3D dir2)
@@ -51,7 +65,7 @@ extern "C" Raytracer::Plan *createPlan(const std::string &name, Math::Point3D ce
     return new Raytracer::Plan(name, center, rotation, dir1, dir2);
 }
 
-extern "C" Raytracer::ElemType getTypePlan()//TODO: change getTypePlan to getType
+extern "C" Raytracer::ElemType getType()
 {
     return Raytracer::PLAN;
 }
