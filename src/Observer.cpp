@@ -5,6 +5,9 @@
 ** Observer
 */
 
+#include <chrono>
+#include <thread>
+
 #include "File.hpp"
 #include "Observer.hpp"
 
@@ -19,6 +22,7 @@ Observer::~Observer()
 void Observer::update(File *file, Raytracer::Core &core)
 {
     std::cout << "File " << file->getfilePath() << " has changed" << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
     try {
         core.CreateScene(*file);
         core.Render();

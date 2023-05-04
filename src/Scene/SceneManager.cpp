@@ -94,7 +94,6 @@ void Raytracer::SceneManager::Render()
     std::vector<PPM::RGB> pixels;
     std::vector<std::shared_ptr<Math::Point3D>> p;
     Math::Point3D shortest(0, 0, 0);
-    std::cout << "segfault incoming" << std::endl;
     size_t size = _elements.size();
     double shortestDist = -1;
     for (double y = _size.second; y > 0; y--) {
@@ -104,7 +103,6 @@ void Raytracer::SceneManager::Render()
             if (!_camera)
                 std::cout << "t null chris" << std::endl;
             Math::Ray r = _camera->ray(u, v);
-            std::cout << "segfault passed" << std::endl;
             p.clear();
             for (size_t i = 0; i < size; i++) {
                 std::shared_ptr<Math::Point3D> tmp = _elements[i]->hits(r);
