@@ -26,6 +26,7 @@ namespace Math {
             void setX(double x);
             void setY(double y);
             void setZ(double z);
+            void normalize();
         private:
             double _x;
             double _y;
@@ -45,11 +46,14 @@ namespace Math {
             void setY(double y);
             void setZ(double z);
             void setColor(PPM::RGB);
+            void setLuminosity(double);
+            double getLuminosity() const;
         private:
             double _x;
             double _y;
             double _z;
             PPM::RGB _rgb;
+            double _luminosity;
         protected:
     };
 

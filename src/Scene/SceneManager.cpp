@@ -94,6 +94,7 @@ void Raytracer::SceneManager::Render()
     std::vector<PPM::RGB> pixels;
     std::vector<std::shared_ptr<Math::Point3D>> p;
     Math::Point3D shortest(0, 0, 0);
+    Math::Vector3D tmp(0, 0, 0);
     size_t size = _elements.size();
     double shortestDist = -1;
     for (double y = _size.second; y > 0; y--) {
@@ -105,20 +106,26 @@ void Raytracer::SceneManager::Render()
             Math::Ray r = _camera->ray(u, v);
             p.clear();
             for (size_t i = 0; i < size; i++) {
+                if (_elements[i]->getType() == Raytracer::ElemType::LIGHT) {
+                    continue;
+                }
                 std::shared_ptr<Math::Point3D> tmp = _elements[i]->hits(r);
                 if (tmp) {
+                    tmp.get()->setLuminosity(_elements[i]->getLuminosity(_elements, *tmp.get()));
                     p.push_back(tmp);
                 }
             }
             for (size_t i = 0; i < p.size(); i++) {
-                Math::Vector3D tmp = _camera->getOrigin() - *p[i].get();
+                tmp = _camera->getOrigin() - *p[i].get();
                 if (shortestDist == -1 || shortestDist > tmp.length()) {
                     shortestDist = tmp.length();
                     shortest = *p[i];
                 }
             }
             if (shortestDist != -1) {
-                pixels.push_back(shortest.getColor());
+                // std::cout << shortest.getColor() << " * " << shortest.getLuminosity() << std::endl;
+
+                pixels.push_back(shortest.getColor() * shortest.getLuminosity());
                 shortestDist = -1;
             } else {
                 pixels.push_back(PPM::RGB(0, 0, 0));
