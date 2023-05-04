@@ -10,13 +10,13 @@
 #include <string>
 #include "SceneManager.hpp"
 
+class File;
 namespace Raytracer {
     class Core {
         public:
             Core();
             ~Core();
-            void Run();
-            void CreateScene(std::string path);
+            void CreateScene(File file);
             std::shared_ptr<Raytracer::SceneManager> GetScene() const { return _scene; };
             void Render();
         protected:

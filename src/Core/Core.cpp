@@ -6,6 +6,7 @@
 */
 
 #include "Core.hpp"
+#include "File.hpp"
 
 Raytracer::Core::Core()
 {
@@ -15,16 +16,9 @@ Raytracer::Core::~Core()
 {
 }
 
-void Raytracer::Core::Run()
+void Raytracer::Core::CreateScene(File file)
 {
-    std::string path = "scenes/scene1.json";
-    CreateScene(path);
-    Render();
-}
-
-void Raytracer::Core::CreateScene(std::string path)
-{
-    _scene = std::make_shared<Raytracer::SceneManager>(path.c_str());
+    _scene = std::make_shared<Raytracer::SceneManager>(file.getfilePath().c_str());
     _scene->ParseScene();
 }
 

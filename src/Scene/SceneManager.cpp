@@ -10,8 +10,8 @@
 Raytracer::SceneManager::SceneManager(const char *path)
 {
     _path = path;
-    _size.first = 1000;
-    _size.second = 1000;
+    _size.first = 100;
+    _size.second = 100;
 }
 
 Raytracer::SceneManager::~SceneManager()
@@ -100,6 +100,8 @@ void Raytracer::SceneManager::Render()
         for (double x = 0; x < _size.first; x++) {
             double u = x/_size.first;
             double v = y/_size.second;
+            if (!_camera)
+                std::cout << "t null chris" << std::endl;
             Math::Ray r = _camera->ray(u, v);
             p.clear();
             for (size_t i = 0; i < size; i++) {
