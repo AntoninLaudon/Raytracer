@@ -21,11 +21,10 @@ namespace Raytracer
             void translate(double x, double y, double z);
             void rotate(double x, double y, double z);
             std::shared_ptr<Math::Point3D> hits(const Math::Ray &ray);
-
-        protected:
         private:
             Math::Vector3D _dir1;
             Math::Vector3D _dir2;
+            Math::Vector3D _normal;
     };
 } // namespace raytracer
 
