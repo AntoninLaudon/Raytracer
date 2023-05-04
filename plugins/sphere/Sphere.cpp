@@ -39,20 +39,27 @@ double Raytracer::Sphere::getLuminosity(std::vector<Raytracer::IElement *> &elem
 {
     double luminosity = 0.1;
     int nbrLights = 0;
+    double dot = 0;
 
     for (auto &element : elements) {
         if (element->getType() == Raytracer::LIGHT) {
             nbrLights++;
             Math::Vector3D centerToLight((_center.getX() - element->getCenter().getX()), (_center.getY() - element->getCenter().getY()), (_center.getZ() - element->getCenter().getZ()));
             Math::Vector3D centerToLand((_center.getX() - land.getX()), (_center.getY() - land.getY()), (_center.getZ() - land.getZ()));
-
             centerToLand.normalize();
             centerToLight.normalize();
+            dot = centerToLand.dot(centerToLight);
 
-            double angle = centerToLand.dot(centerToLight);
-
-
-            luminosity += angle;
+            for (auto &primitive : elements) {
+                if (primitive->getType() == Raytracer::PRIMITIVE && primitive->getName() != _name) {
+                    std::shared_ptr<Math::Point3D> hit = primitive->hits(Math::Ray(land, element->getCenter() - land));
+                    if (hit != nullptr) {
+                        dot = 0;
+                        break;
+                    }
+                }
+            }
+            luminosity += dot;
         }
     }
     if (nbrLights == 0)
@@ -92,18 +99,20 @@ std::shared_ptr<Math::Point3D> Raytracer::Sphere::hits(const Math::Ray &ray)
         p2.setColor(_rgb);
         double d1 = Math::Vector3D(origin - p1).length();
         double d2 = Math::Vector3D(origin - p2).length();
-        if (d1 < d2) {
+        if (d1 < d2 && t1 > 0) {
             return std::make_shared<Math::Point3D>(p1);
-        } else {
+        } else if (t2 > 0) {
             return std::make_shared<Math::Point3D>(p2);
+        } else {
+            return nullptr;
         }
     }
 
-    if (t1 == t1) {
+    if (t1 == t1 && t1 > 0) {
         p1.setColor(_rgb);
         return std::make_shared<Math::Point3D>(p1);
     }
-    if (t2 == t2) {
+    if (t2 == t2 && t2 > 0) {
         p2.setColor(_rgb);
         return std::make_shared<Math::Point3D>(p2);
     }
