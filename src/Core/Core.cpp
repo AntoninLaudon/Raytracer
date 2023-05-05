@@ -7,7 +7,6 @@
 
 #include "Core.hpp"
 #include "File.hpp"
-#include "Textfield.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -40,6 +39,7 @@ void Raytracer::Core::Render()
     std::string h;
     int width;
     int height;
+    std::shared_ptr<libconfig::Config> config = std::make_shared<libconfig::Config>();
     if (file.is_open()) {
         std::getline(file, line);
         std::getline(file, w);
@@ -97,14 +97,12 @@ void Raytracer::Core::Render()
             if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 window.close();
             } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-                code = ExecuteCommand(playerInput);
+                code = ExecuteCommand(playerInput, config);
                 if (code == 1) {
-                    window.close();
                     std::cout << "Saving..." << std::endl;
                     _scene->setPath(_file->getfilePath());
-                    std::cout << _scene->getPath() << std::endl;
-                    _scene->ParseScene();
-                    return Render();
+                    config->writeFile(_file->getfilePath().c_str());
+                    window.close();
                 } else if (code == 2) {
                     std::cout << "Exiting..." << std::endl;
                     window.close();
@@ -132,12 +130,14 @@ void Raytracer::Core::Render()
         if (_file->hasChanged()) {
             window.close();
             _file->notify(*this);
-        }
+            return;
+        } 
         window.clear();
         window.draw(sprite);
         window.draw(playerText);
         window.display();
     }
+    delete[] pix;
 }
 
 void Raytracer::Core::setFile(File *file)
@@ -150,8 +150,9 @@ File *Raytracer::Core::getFile() const
     return _file;
 }
 
-int Raytracer::Core::ExecuteCommand(std::string command)
+int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconfig::Config> config)
 {
+    config->readFile(_file->getfilePath().c_str());
     command = command.substr(2);
     if (command == "save") {
         return 1;
@@ -163,13 +164,62 @@ int Raytracer::Core::ExecuteCommand(std::string command)
         std::cout << "\texit\t\tExit the program" << std::endl;
         std::cout << "\ttranslate {name} {x} {y} {z}\tTranslate an element" << std::endl;
         std::cout << "\thelp\t\tDisplay this help" << std::endl;
+        std::cout << "\tlist\t\tList all elements" << std::endl;
     } else if (strncmp(command.c_str(), "translate", 9) == 0) {
         //Go to the configuration file and change the position of the element with the given name where command is : translate name x y z
         std::string name = command.substr(10, command.find(" ", 10) - 10);
         std::string x = command.substr(10 + name.size() + 1, command.find(" ", 10 + name.size() + 1) - (10 + name.size() + 1));
         std::string y = command.substr(10 + name.size() + 1 + x.size() + 1, command.find(" ", 10 + name.size() + 1 + x.size() + 1) - (10 + name.size() + 1 + x.size() + 1));
         std::string z = command.substr(10 + name.size() + 1 + x.size() + 1 + y.size() + 1, command.find(" ", 10 + name.size() + 1 + x.size() + 1 + y.size() + 1) - (10 + name.size() + 1 + x.size() + 1 + y.size() + 1));
-        std::cout << "Translating " << name << " by x : " << x << " y : " << y << " z : " << z << std::endl;
+        std::cout << "Translating " << name << " by x:" << x << " y:" << y << " z:" << z << std::endl;
+        for (auto &elem : _scene->getElements()) {
+            if (elem->getName() == name) {
+                if (elem->getType() == Raytracer::SPHERE) {
+                    elem->translate(std::stof(x), std::stof(y), std::stof(z));
+                    libconfig::Setting& spheres = config->lookup("primitives.spheres");
+                    for (auto &sphere : spheres) {
+                        if (strcmp(sphere.lookup("name"), name.c_str()) == 0) {
+                            sphere["center"]["x"] = elem->getCenter().getX();
+                            sphere["center"]["y"] = elem->getCenter().getY();
+                            sphere["center"]["z"] = elem->getCenter().getZ();
+                        }
+                    }
+                } else if (elem->getType() == Raytracer::PLANE) {
+                    elem->translate(std::stof(x), std::stof(y), std::stof(z));
+                    libconfig::Setting& planes = config->lookup("primitives.planes");
+                    for (auto &plane : planes) {
+                        if (strcmp(plane.lookup("name"), name.c_str()) == 0) {
+                            plane.lookup("center.x") = elem->getCenter().getX();
+                            plane.lookup("center.y") = elem->getCenter().getY();
+                            plane.lookup("center.z") = elem->getCenter().getZ();
+                        }
+                    }
+                } else if (elem->getType() == Raytracer::LIGHT) {
+                    elem->translate(std::stof(x), std::stof(y), std::stof(z));
+                    libconfig::Setting& lights = config->lookup("lights");
+                    for (auto &light : lights) {
+                        if (strcmp(light.lookup("name"), name.c_str()) == 0) {
+                            light.lookup("center.x") = elem->getCenter().getX();
+                            light.lookup("center.y") = elem->getCenter().getY();
+                            light.lookup("center.z") = elem->getCenter().getZ();
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    } else if (strncmp(command.c_str(), "resolution", 10) == 0) {
+        std::string w = command.substr(11, command.find(" ", 11) - 11);
+        std::string h = command.substr(11 + w.size() + 1, command.find(" ", 11 + w.size() + 1) - (11 + w.size() + 1));
+        std::cout << "Changing resolution to " << w << "x" << h << std::endl;
+        config->lookup("options.resolution.x") = std::stoi(w);
+        config->lookup("options.resolution.y") = std::stoi(h);
+        return 0;
+    } else if (command == "list") {
+        std::cout << "Elements:" << std::endl;
+        for (auto &elem : _scene->getElements()) {
+            std::cout << "\t" << elem->getName() << std::endl;
+        }
         return 0;
     } else {
         std::cout << "Unknown command" << std::endl;

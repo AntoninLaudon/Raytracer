@@ -16,7 +16,7 @@ Raytracer::Plan::Plan(const std::string &name, Math::Point3D center, Math::Vecto
     _dir2 = dir2;
     _normal = _dir1.cross(_dir2);
     _rgb = rgb;
-    _type = PRIMITIVE;
+    _type = PLANE;
 }
 
 Raytracer::Plan::~Plan()
@@ -86,7 +86,7 @@ double Raytracer::Plan::getLuminosity(std::vector<Raytracer::IElement *> &elemen
             dot = landToLight.dot(_normal);
 
             for (auto &primitive : elements) {
-                if (primitive->getType() == Raytracer::PRIMITIVE && primitive->getName() != _name) {
+                if (primitive->getType() >= Raytracer::PRIMITIVE && primitive->getName() != _name) {
                     std::shared_ptr<Math::Point3D> hit = primitive->hits(Math::Ray(land, element->getCenter() - land));
                     if (hit != nullptr) {
                         dot = 0;
