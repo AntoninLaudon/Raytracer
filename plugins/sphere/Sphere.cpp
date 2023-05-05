@@ -53,7 +53,10 @@ double Raytracer::Sphere::getLuminosity(std::vector<Raytracer::IElement *> &elem
             for (auto &primitive : elements) {
                 if (primitive->getType() == Raytracer::PRIMITIVE && primitive->getName() != _name) {
                     std::shared_ptr<Math::Point3D> hit = primitive->hits(Math::Ray(land, element->getCenter() - land));
+                    // std::shared_ptr<Math::Point3D> hit = primitive->hits(Math::Ray(element->getCenter(), land - element->getCenter()));
                     if (hit != nullptr) {
+                        if (Math::Vector3D(land.getX() - hit->getX(), land.getY() - hit->getY(), land.getZ() - hit->getZ()).length() > Math::Vector3D(land.getX() - element->getCenter().getX(), land.getY() - element->getCenter().getY(), land.getZ() - element->getCenter().getZ()).length())
+                            continue;
                         dot = 0;
                         break;
                     }
