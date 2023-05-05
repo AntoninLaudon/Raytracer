@@ -98,6 +98,8 @@ void Raytracer::SceneManager::Render()
     size_t size = _elements.size();
     double shortestDist = -1;
     for (double y = _size.second; y > 0; y--) {
+        // double percent = 100 - (y * 100 / _size.second);
+        // std::cout << "PROGRESS [" << std::string(std::round(percent * 50.0 / 100.0), '#') << std::string(50 - std::round(percent * 50.0 / 100.0), ' ') << "] " << std::setprecision(2) << std::fixed << percent << "%   \r";
         for (double x = 0; x < _size.first; x++) {
             double u = x/_size.first;
             double v = y/_size.second;
@@ -137,7 +139,7 @@ void Raytracer::SceneManager::Render()
     name += std::to_string(tm.tm_year + 1900) + "_" + std::to_string(tm.tm_mon + 1) + "_" + std::to_string(tm.tm_mday) + "_" + std::to_string(tm.tm_hour) + "_" + std::to_string(tm.tm_min) + "_" + std::to_string(tm.tm_sec) + ".ppm";
     _path = name;
     img.save(name.c_str());
-    std::cout << "Done" << std::endl;
+    std::cout << "\nDone" << std::endl;
 }
 
 void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std::shared_ptr<Factory> factory)
