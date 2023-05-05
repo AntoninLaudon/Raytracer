@@ -22,11 +22,13 @@ double Math::Vector3D::length() const
     return sqrt(pow(_x, 2) + pow(_y, 2) + pow(_z, 2));
 }
 
+//Produit scalaire entre 2 vecteurs, retourne un double
 double Math::Vector3D::dot(const Math::Vector3D &v) const
 {
     return _x * v.getX() + _y * v.getY() + _z * v.getZ();
 }
 
+//Produit vectoriel entre 2 vecteurs, retourne un nouveau vecteur
 Math::Vector3D Math::Vector3D::cross(const Math::Vector3D &v) const
 {
     return Math::Vector3D(_y * v.getZ() - _z * v.getY(), _z * v.getX() - _x * v.getZ(), _x * v.getY() - _y * v.getX());
@@ -62,6 +64,7 @@ void Math::Vector3D::setZ(double z)
     _z = z;
 }
 
+//Normalise le vecteur
 void Math::Vector3D::normalize()
 {
     double length = this->length();
