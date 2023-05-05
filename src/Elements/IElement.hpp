@@ -22,7 +22,11 @@ namespace Raytracer {
         SPHERE,
         PLANE,
         CYLINDER,
+<<<<<<< HEAD
         TRIANGLE
+=======
+        CONE
+>>>>>>> dca2262 (ADD: cone but don't work)
     };
 
     class IElement {
