@@ -20,6 +20,7 @@ namespace Raytracer {
             void translate(double x, double y, double z);
             void rotate(double x, double y, double z);
             std::shared_ptr<Math::Point3D> hits(const Math::Ray &ray);
+            double getLuminosity(std::vector<Raytracer::IElement *> &elements, const Math::Point3D &land) const;
             double getRadius() const {return _radius;}
         private:
             double _radius;

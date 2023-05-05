@@ -21,7 +21,8 @@ namespace Raytracer {
         SKYBOX,
         SPHERE,
         PLANE,
-        CYLINDER
+        CYLINDER,
+        CONE
     };
 
     class IElement {
