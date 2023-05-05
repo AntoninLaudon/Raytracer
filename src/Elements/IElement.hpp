@@ -20,7 +20,8 @@ namespace Raytracer {
         LIGHT,
         SKYBOX,
         SPHERE,
-        PLANE
+        PLANE,
+        CYLINDER
     };
 
     class IElement {
