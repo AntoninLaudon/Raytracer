@@ -5,6 +5,7 @@
 ** SceneManager
 */
 
+#include <chrono>
 #include "SceneManager.hpp"
 
 Raytracer::SceneManager::SceneManager(const char *path)
@@ -89,6 +90,7 @@ void Raytracer::SceneManager::CreateCamera(const libconfig::Setting *elem)
 
 void Raytracer::SceneManager::Render()
 {
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
     std::cout << "Rendering..." << std::endl;
     PPM::PPM img = PPM::PPM(_size.first, _size.second);
     std::vector<PPM::RGB> pixels;
@@ -98,17 +100,14 @@ void Raytracer::SceneManager::Render()
     size_t size = _elements.size();
     double shortestDist = -1;
     for (double y = _size.second; y > 0; y--) {
-        // double percent = 100 - (y * 100 / _size.second);
-        // std::cout << "PROGRESS [" << std::string(std::round(percent * 50.0 / 100.0), '#') << std::string(50 - std::round(percent * 50.0 / 100.0), ' ') << "] " << std::setprecision(2) << std::fixed << percent << "%   \r";
         for (double x = 0; x < _size.first; x++) {
+            // double percent = 100 - ((y * _size.second + x) / (_size.first * _size.second) * 100);
+            // std::cout << "PROGRESS [" << std::string(std::round(percent * 50.0 / 100.0), '#') << std::string(50 - std::round(percent * 50.0 / 100.0), ' ') << "] " << std::setprecision(2) << std::fixed << percent << "%   \r";
             double u = x/_size.first;
             double v = y/_size.second;
             Math::Ray r = _camera->ray(u, v);
             p.clear();
             for (size_t i = 0; i < size; i++) {
-                if (_elements[i]->getType() == Raytracer::ElemType::LIGHT) {
-                    continue;
-                }
                 std::shared_ptr<Math::Point3D> tmp = _elements[i]->hits(r);
                 if (tmp) {
                     tmp.get()->setLuminosity(_elements[i]->getLuminosity(_elements, *tmp.get()));
@@ -139,7 +138,8 @@ void Raytracer::SceneManager::Render()
     name += std::to_string(tm.tm_year + 1900) + "_" + std::to_string(tm.tm_mon + 1) + "_" + std::to_string(tm.tm_mday) + "_" + std::to_string(tm.tm_hour) + "_" + std::to_string(tm.tm_min) + "_" + std::to_string(tm.tm_sec) + ".ppm";
     _path = name;
     img.save(name.c_str());
-    std::cout << "\nDone" << std::endl;
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+    std::cout << "Done, took: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "ms" << std::endl;
 }
 
 void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std::shared_ptr<Factory> factory)
