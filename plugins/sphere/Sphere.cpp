@@ -91,13 +91,24 @@ std::shared_ptr<Math::Point3D> Raytracer::Sphere::hits(const Math::Ray &ray)
     double i = _center.getY();
     double j = _center.getZ();
     double r = _radius;
-    double t1 = ((-a * u - b * v - c * w + h * u + i * v + j * w) / (pow(u, 2) + pow(v, 2) + pow(w, 2))) - sqrt((-pow(a, 2) * pow(v, 2) - pow(a, 2) * pow(w, 2) + 2 * a * b * u * v + 2 * a * c * u * w + 2 * a * h * pow(v, 2) + 2 * a * h * pow(w, 2) - 2 * a * i * u * v - 2 * a * j * u * w - pow(b, 2) * pow(u, 2) - pow(b, 2) * pow(w, 2) + 2 * b * c * v * w - 2 * b * h * u * v + 2 * b * i * pow(u, 2) + 2 * b * i * pow(w, 2) - 2 * b * j * v * w - pow(c, 2) * pow(u, 2) - pow(c, 2) * pow(v, 2) - 2 * c * h * u * w - 2 * c * i * v * w + 2 * c * j * pow(u, 2) + 2 * c * j * pow(v, 2) - pow(h, 2) * pow(v, 2) - pow(h, 2) * pow(w, 2) + 2 * h * i * u * v + 2 * h * j * u * w - pow(i, 2) * pow(u, 2) - pow(i, 2) * pow(w, 2) + (2 * i * j * v * w) - pow(j, 2) * pow(u, 2) - pow(j, 2) * pow(v, 2) + pow(r, 2) * pow(u, 2) + pow(r, 2) * pow(v, 2) + pow(r, 2) * pow(w, 2)) / pow((pow(u, 2) + pow(v, 2) + pow(w, 2)), 2));
-    double t2 = ((-a * u - b * v - c * w + h * u + i * v + j * w) / (pow(u, 2) + pow(v, 2) + pow(w, 2))) + sqrt((-pow(a, 2) * pow(v, 2) - pow(a, 2) * pow(w, 2) + 2 * a * b * u * v + 2 * a * c * u * w + 2 * a * h * pow(v, 2) + 2 * a * h * pow(w, 2) - 2 * a * i * u * v - 2 * a * j * u * w - pow(b, 2) * pow(u, 2) - pow(b, 2) * pow(w, 2) + 2 * b * c * v * w - 2 * b * h * u * v + 2 * b * i * pow(u, 2) + 2 * b * i * pow(w, 2) - 2 * b * j * v * w - pow(c, 2) * pow(u, 2) - pow(c, 2) * pow(v, 2) - 2 * c * h * u * w - 2 * c * i * v * w + 2 * c * j * pow(u, 2) + 2 * c * j * pow(v, 2) - pow(h, 2) * pow(v, 2) - pow(h, 2) * pow(w, 2) + 2 * h * i * u * v + 2 * h * j * u * w - pow(i, 2) * pow(u, 2) - pow(i, 2) * pow(w, 2) + (2 * i * j * v * w) - pow(j, 2) * pow(u, 2) - pow(j, 2) * pow(v, 2) + pow(r, 2) * pow(u, 2) + pow(r, 2) * pow(v, 2) + pow(r, 2) * pow(w, 2)) / pow((pow(u, 2) + pow(v, 2) + pow(w, 2)), 2));
 
-    Math::Point3D p1 = origin + direction * t1;
-    Math::Point3D p2 = origin + direction * t2;
+    double apow = pow(a, 2);
+    double bpow = pow(b, 2);
+    double cpow = pow(c, 2);
+    double upow = pow(u, 2);
+    double vpow = pow(v, 2);
+    double wpow = pow(w, 2);
+    double hpow = pow(h, 2);
+    double ipow = pow(i, 2);
+    double jpow = pow(j, 2);
+    double rpow = pow(r, 2);
+
+    double t1 = ((-a * u - b * v - c * w + h * u + i * v + j * w) / (upow + vpow + wpow)) - sqrt((-apow * vpow - apow * wpow + 2 * a * b * u * v + 2 * a * c * u * w + 2 * a * h * vpow + 2 * a * h * wpow - 2 * a * i * u * v - 2 * a * j * u * w - bpow * upow - bpow * wpow + 2 * b * c * v * w - 2 * b * h * u * v + 2 * b * i * upow + 2 * b * i * wpow - 2 * b * j * v * w - cpow * upow - cpow * vpow - 2 * c * h * u * w - 2 * c * i * v * w + 2 * c * j * upow + 2 * c * j * vpow - hpow * vpow - hpow * wpow + 2 * h * i * u * v + 2 * h * j * u * w - ipow * upow - ipow * wpow + (2 * i * j * v * w) - jpow * upow - jpow * vpow + rpow * upow + rpow * vpow + rpow * wpow) / pow((upow + vpow + wpow), 2));
+    double t2 = ((-a * u - b * v - c * w + h * u + i * v + j * w) / (upow + vpow + wpow)) + sqrt((-apow * vpow - apow * wpow + 2 * a * b * u * v + 2 * a * c * u * w + 2 * a * h * vpow + 2 * a * h * wpow - 2 * a * i * u * v - 2 * a * j * u * w - bpow * upow - bpow * wpow + 2 * b * c * v * w - 2 * b * h * u * v + 2 * b * i * upow + 2 * b * i * wpow - 2 * b * j * v * w - cpow * upow - cpow * vpow - 2 * c * h * u * w - 2 * c * i * v * w + 2 * c * j * upow + 2 * c * j * vpow - hpow * vpow - hpow * wpow + 2 * h * i * u * v + 2 * h * j * u * w - ipow * upow - ipow * wpow + (2 * i * j * v * w) - jpow * upow - jpow * vpow + rpow * upow + rpow * vpow + rpow * wpow) / pow((upow + vpow + wpow), 2));
 
     if (t1 == t1 && t2 == t2) {
+        Math::Point3D p1 = origin + direction * t1;
+        Math::Point3D p2 = origin + direction * t2;
         p1.setColor(_rgb);
         p2.setColor(_rgb);
         double d1 = Math::Vector3D(origin - p1).length();
@@ -112,10 +123,12 @@ std::shared_ptr<Math::Point3D> Raytracer::Sphere::hits(const Math::Ray &ray)
     }
 
     if (t1 == t1 && t1 > 0) {
+        Math::Point3D p1 = origin + direction * t1;
         p1.setColor(_rgb);
         return std::make_shared<Math::Point3D>(p1);
     }
     if (t2 == t2 && t2 > 0) {
+        Math::Point3D p2 = origin + direction * t2;
         p2.setColor(_rgb);
         return std::make_shared<Math::Point3D>(p2);
     }
