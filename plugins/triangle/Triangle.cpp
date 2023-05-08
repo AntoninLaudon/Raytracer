@@ -73,8 +73,9 @@ double Raytracer::Triangle::getLuminosity(std::vector<Raytracer::IElement *> &el
     if (luminosity < 0.1)
         luminosity = 0.1;
     
-    if (luminosity == luminosity)
+    if (luminosity == luminosity) {
         return luminosity;
+    }
     return 0.1;
 }
 
@@ -103,6 +104,7 @@ std::shared_ptr<Math::Point3D> Raytracer::Triangle::hits(const Math::Ray &ray)
     double t = _vector2.dot(qvec) * inv_det;
     if (t > 0.000001) {
         Math::Point3D point = origin + direction * t;
+        point.setColor(_rgb);
         return std::make_shared<Math::Point3D>(point);
     }
     return nullptr;
