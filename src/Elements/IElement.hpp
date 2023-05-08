@@ -21,7 +21,8 @@ namespace Raytracer {
         PRIMITIVE,
         SPHERE,
         PLANE,
-        CYLINDER
+        CYLINDER,
+        TRIANGLE
     };
 
     class IElement {

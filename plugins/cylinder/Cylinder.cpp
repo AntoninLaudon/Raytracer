@@ -14,7 +14,7 @@ Raytracer::Cylinder::Cylinder(const std::string name, Math::Point3D center, Math
     _direction = direction;
     _rotation = rotation;
     _radius = radius;
-    _type = PRIMITIVE;
+    _type = CYLINDER;
     _rgb = rgb;
 }
 
