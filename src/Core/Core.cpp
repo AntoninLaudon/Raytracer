@@ -171,9 +171,9 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
         std::string x = command.substr(10 + name.size() + 1, command.find(" ", 10 + name.size() + 1) - (10 + name.size() + 1));
         std::string y = command.substr(10 + name.size() + 1 + x.size() + 1, command.find(" ", 10 + name.size() + 1 + x.size() + 1) - (10 + name.size() + 1 + x.size() + 1));
         std::string z = command.substr(10 + name.size() + 1 + x.size() + 1 + y.size() + 1, command.find(" ", 10 + name.size() + 1 + x.size() + 1 + y.size() + 1) - (10 + name.size() + 1 + x.size() + 1 + y.size() + 1));
-        std::cout << "Translating " << name << " by x:" << x << " y:" << y << " z:" << z << std::endl;
         for (auto &elem : _scene->getElements()) {
             if (elem->getName() == name) {
+                std::cout << "Translating " << name << " by x:" << x << " y:" << y << " z:" << z << std::endl;
                 if (elem->getType() == Raytracer::SPHERE) {
                     elem->translate(std::stof(x), std::stof(y), std::stof(z));
                     libconfig::Setting& spheres = config->lookup("primitives.spheres");
