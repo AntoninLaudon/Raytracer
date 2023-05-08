@@ -14,13 +14,15 @@ add_executable(raytracer
     src/main.cpp
     src/Factory.cpp
     src/Math.cpp
+    src/Observer.cpp
+    src/File.cpp
     src/Core/Core.cpp
     src/Elements/Data.cpp
     src/Elements/Camera.cpp
     src/PPM_generator/Generation.cpp
     src/Scene/SceneManager.cpp)
     
-target_link_libraries(raytracer PUBLIC dl config++)
+target_link_libraries(raytracer PUBLIC dl config++ sfml-graphics sfml-window sfml-system sfml-audio)
     
 target_include_directories(raytracer PUBLIC
     src/
@@ -31,5 +33,9 @@ target_include_directories(raytracer PUBLIC
 )
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/plugins/sphere)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/plugins/light)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/plugins/plan)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/plugins/cylinder)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/plugins/triangle)
 
-add_dependencies(raytracer sphere)
+add_dependencies(raytracer sphere light plan cylinder triangle)

@@ -75,3 +75,34 @@ void PPM::PPM::fill(RGB color)
     for (int i = 0; i < _width * _height; i++)
         _pixels.push_back(color);
 }
+
+PPM::RGB PPM::operator*(const RGB &color, const double &coef)
+{
+    double r = color.r;
+    double g = color.g;
+    double b = color.b;
+    double max_coef = coef;
+    double max_coefr = 255.0 / color.r;
+    double max_coefg = 255.0 / color.g;
+    double max_coefb = 255.0 / color.b;
+
+    if (max_coefr < max_coef)
+        max_coef = max_coefr;
+    if (max_coefg < max_coef)
+        max_coef = max_coefg;
+    if (max_coefb < max_coef)
+        max_coef = max_coefb;
+    RGB newcolor = {(unsigned char)(std::min(r * max_coef, 255.0)), (unsigned char)(std::min(g * max_coef, 255.0)), (unsigned char)(std::min(b * max_coef, 255.0))};
+    return newcolor;
+}
+
+PPM::RGB PPM::operator*(const double &coef, const RGB &color)
+{
+    return color * coef;
+}
+
+std::ostream &PPM::operator<<(std::ostream &os, const RGB &color)
+{
+    os << "(" << (int)color.r << ", " << (int)color.g << ", " << (int)color.b << ")";
+    return os;
+}

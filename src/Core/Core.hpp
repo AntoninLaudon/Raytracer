@@ -8,19 +8,26 @@
 #pragma once
 
 #include <string>
+#include <chrono>
+#include <thread>
+
 #include "SceneManager.hpp"
 
+class File;
 namespace Raytracer {
     class Core {
         public:
             Core();
             ~Core();
-            void Run();
-            void CreateScene(std::string path);
+            void CreateScene(File file);
             std::shared_ptr<Raytracer::SceneManager> GetScene() const { return _scene; };
             void Render();
+            void setFile(File *file);
+            File *getFile() const;
+            int ExecuteCommand(std::string command, std::shared_ptr<libconfig::Config> config);
         protected:
         private:
             std::shared_ptr<Raytracer::SceneManager> _scene;
+            File *_file;
     };
 }

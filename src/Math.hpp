@@ -20,12 +20,14 @@ namespace Math {
             ~Vector3D();
             double length() const;
             double dot(const Vector3D &v) const;
+            Vector3D cross(const Vector3D &v) const;
             double getX() const;
             double getY() const;
             double getZ() const;
             void setX(double x);
             void setY(double y);
             void setZ(double z);
+            void normalize();
         private:
             double _x;
             double _y;
@@ -45,11 +47,14 @@ namespace Math {
             void setY(double y);
             void setZ(double z);
             void setColor(PPM::RGB);
+            void setLuminosity(double);
+            double getLuminosity() const;
         private:
             double _x;
             double _y;
             double _z;
             PPM::RGB _rgb;
+            double _luminosity;
         protected:
     };
 

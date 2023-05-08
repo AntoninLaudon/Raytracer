@@ -5,13 +5,14 @@
 ** SceneManager
 */
 
+#include <chrono>
 #include "SceneManager.hpp"
 
 Raytracer::SceneManager::SceneManager(const char *path)
 {
     _path = path;
-    _size.first = 1000;
-    _size.second = 1000;
+    _size.first = 100;
+    _size.second = 100;
 }
 
 Raytracer::SceneManager::~SceneManager()
@@ -89,15 +90,19 @@ void Raytracer::SceneManager::CreateCamera(const libconfig::Setting *elem)
 
 void Raytracer::SceneManager::Render()
 {
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
     std::cout << "Rendering..." << std::endl;
     PPM::PPM img = PPM::PPM(_size.first, _size.second);
     std::vector<PPM::RGB> pixels;
     std::vector<std::shared_ptr<Math::Point3D>> p;
     Math::Point3D shortest(0, 0, 0);
+    Math::Vector3D tmp(0, 0, 0);
     size_t size = _elements.size();
     double shortestDist = -1;
     for (double y = _size.second; y > 0; y--) {
         for (double x = 0; x < _size.first; x++) {
+            // double percent = 100 - ((y * _size.second + x) / (_size.first * _size.second) * 100);
+            // std::cout << "PROGRESS [" << std::string(std::round(percent * 50.0 / 100.0), '#') << std::string(50 - std::round(percent * 50.0 / 100.0), ' ') << "] " << std::setprecision(2) << std::fixed << percent << "%   \r";
             double u = x/_size.first;
             double v = y/_size.second;
             Math::Ray r = _camera->ray(u, v);
@@ -105,33 +110,36 @@ void Raytracer::SceneManager::Render()
             for (size_t i = 0; i < size; i++) {
                 std::shared_ptr<Math::Point3D> tmp = _elements[i]->hits(r);
                 if (tmp) {
+                    tmp.get()->setLuminosity(_elements[i]->getLuminosity(_elements, *tmp.get()));
                     p.push_back(tmp);
                 }
             }
             for (size_t i = 0; i < p.size(); i++) {
-                Math::Vector3D tmp = _camera->getOrigin() - *p[i].get();
+                tmp = _camera->getOrigin() - *p[i].get();
                 if (shortestDist == -1 || shortestDist > tmp.length()) {
                     shortestDist = tmp.length();
                     shortest = *p[i];
                 }
             }
             if (shortestDist != -1) {
-                pixels.push_back(shortest.getColor());
+                // std::cout << shortest.getColor() << " * " << shortest.getLuminosity() << " | " << shortest << " | " << shortest.getColor() * shortest.getLuminosity() << std::endl;
+                pixels.push_back(shortest.getColor() * shortest.getLuminosity());
                 shortestDist = -1;
             } else {
                 pixels.push_back(PPM::RGB(0, 0, 0));
             }
-            //if (_elements[0]->hits(r))
-            //    pixels.push_back(PPM::RGB(255, 0, 0));
-            //else if (_elements[1]->hits(r))
-            //    pixels.push_back(PPM::RGB(0, 0, 255));
-            //else
-            //    pixels.push_back(PPM::RGB(0, 0, 0));
         }
     }
     img.bufferToImage(pixels);
-    img.save("screenshots/test.ppm");
-    std::cout << "Done" << std::endl;
+    //Create a string with the name : screenshots/screen_[year]_[month]_[day]_[hour]_[minute]_[second].ppm
+    std::string name = "screenshots/screen_";
+    std::time_t t = std::time(nullptr);
+    std::tm tm = *std::localtime(&t);
+    name += std::to_string(tm.tm_year + 1900) + "_" + std::to_string(tm.tm_mon + 1) + "_" + std::to_string(tm.tm_mday) + "_" + std::to_string(tm.tm_hour) + "_" + std::to_string(tm.tm_min) + "_" + std::to_string(tm.tm_sec) + ".ppm";
+    _path = name;
+    img.save(name.c_str());
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+    std::cout << "Done, took: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "ms" << std::endl;
 }
 
 void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std::shared_ptr<Factory> factory)
@@ -141,6 +149,7 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
         for (int i = 0; i < elements.getLength(); i++) {
             Math::Point3D center = {0, 0, 0};
             Math::Vector3D direction = {0, 0, 0};
+            Math::Vector3D direction2 = {0, 0, 0};
             Math::Vector3D rotation = {0, 0, 0};
             double d = 0;
             PPM::RGB color = {0, 0, 0};
@@ -149,6 +158,12 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
                 type = Raytracer::SPHERE;
             if (strcmp(elements.getName(), "lights") == 0)
                 type = Raytracer::LIGHT;
+            if (strcmp(elements.getName(), "planes") == 0)
+                type = Raytracer::PLANE;
+            if (strcmp(elements.getName(), "cylinders") == 0)
+                type = Raytracer::CYLINDER;
+            if (strcmp(elements.getName(), "triangles") == 0)
+                type = Raytracer::TRIANGLE;
             if (strcmp(elements.getName(), "resolution") == 0) {
                 _size.first = elements.lookup("x");
                 _size.second = elements.lookup("y");
@@ -161,6 +176,10 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
             if (elements[i].exists("direction")) {
                 const libconfig::Setting &direction_elem = elements[i].lookup("direction");
                 direction = {direction_elem[0], direction_elem[1], direction_elem[2]};
+            }
+            if (elements[i].exists("direction2")) {
+                const libconfig::Setting &direction2_elem = elements[i].lookup("direction2");
+                direction2 = {direction2_elem[0], direction2_elem[1], direction2_elem[2]};
             }
             if (elements[i].exists("rotation")) {
                 const libconfig::Setting &rotation_elem = elements[i].lookup("rotation");
@@ -182,9 +201,24 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
                     throw std::runtime_error("Color value must be between 0 and 255");
                 color = {(unsigned char)r, (unsigned char)g, (unsigned char)b};
             }
-            Raytracer::Data data(type, name, center, direction, rotation, d, color);
+            Raytracer::Data data(type, name, center, direction, direction2, rotation, d, color);
             Raytracer::IElement *element = factory->createObject(data);
             _elements.push_back(element);
         }
     }
+}
+
+std::string Raytracer::SceneManager::getPath()
+{
+    return _path;
+}
+
+void Raytracer::SceneManager::setPath(std::string path)
+{
+    _path = path;
+}
+
+std::vector<Raytracer::IElement*> Raytracer::SceneManager::getElements()
+{
+    return _elements;
 }

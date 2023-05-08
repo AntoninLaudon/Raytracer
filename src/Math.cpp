@@ -22,9 +22,16 @@ double Math::Vector3D::length() const
     return sqrt(pow(_x, 2) + pow(_y, 2) + pow(_z, 2));
 }
 
+//Produit scalaire entre 2 vecteurs, retourne un double
 double Math::Vector3D::dot(const Math::Vector3D &v) const
 {
     return _x * v.getX() + _y * v.getY() + _z * v.getZ();
+}
+
+//Produit vectoriel entre 2 vecteurs, retourne un nouveau vecteur
+Math::Vector3D Math::Vector3D::cross(const Math::Vector3D &v) const
+{
+    return Math::Vector3D(_y * v.getZ() - _z * v.getY(), _z * v.getX() - _x * v.getZ(), _x * v.getY() - _y * v.getX());
 }
 
 double Math::Vector3D::getX() const
@@ -55,6 +62,16 @@ void Math::Vector3D::setY(double y)
 void Math::Vector3D::setZ(double z)
 {
     _z = z;
+}
+
+//Normalise le vecteur
+void Math::Vector3D::normalize()
+{
+    double length = this->length();
+
+    _x /= length;
+    _y /= length;
+    _z /= length;
 }
 
 Math::Vector3D operator+(const Math::Vector3D &v1, const Math::Vector3D &v2)
@@ -239,6 +256,16 @@ PPM::RGB Math::Point3D::getColor() const
 void Math::Point3D::setColor(PPM::RGB rgb)
 {
     _rgb = rgb;
+}
+
+void Math::Point3D::setLuminosity(double luminosity)
+{
+    _luminosity = luminosity;
+}
+
+double Math::Point3D::getLuminosity() const
+{
+    return _luminosity;
 }
 
 Math::Point3D operator+(const Math::Point3D &v1, const Math::Point3D &p1)
