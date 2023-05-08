@@ -210,3 +210,13 @@ std::string Raytracer::SceneManager::getPath()
 {
     return _path;
 }
+
+void Raytracer::SceneManager::setPath(std::string path)
+{
+    _path = path;
+}
+
+std::vector<Raytracer::IElement*> Raytracer::SceneManager::getElements()
+{
+    return _elements;
+}

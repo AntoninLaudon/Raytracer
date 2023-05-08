@@ -13,7 +13,7 @@ Raytracer::Sphere::Sphere(const std::string name, Math::Point3D center, Math::Ve
     _center = center;
     _rotation = rotation;
     _radius = radius;
-    _type = PRIMITIVE;
+    _type = SPHERE;
     _rgb = rgb;
 }
 
@@ -51,7 +51,7 @@ double Raytracer::Sphere::getLuminosity(std::vector<Raytracer::IElement *> &elem
             dot = centerToLand.dot(centerToLight);
 
             for (auto &primitive : elements) {
-                if (primitive->getType() == Raytracer::PRIMITIVE && primitive->getName() != _name) {
+                if (primitive->getType() >= Raytracer::PRIMITIVE && primitive->getName() != _name) {
                     std::shared_ptr<Math::Point3D> hit = primitive->hits(Math::Ray(land, element->getCenter() - land));
                     // std::shared_ptr<Math::Point3D> hit = primitive->hits(Math::Ray(element->getCenter(), land - element->getCenter()));
                     if (hit != nullptr) {
