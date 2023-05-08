@@ -21,9 +21,9 @@ int main (int argc, char **argv)
     Observer Observer;
     try {
         if (argc == 1) {
-            File file ("scenes/test.cfg");
+            File file ("scenes/example.cfg");
             file.attach(&Observer);
-            file.setfilePath("scenes/test.cfg");
+            file.setfilePath("scenes/example.cfg");
             core.setFile(&file);
             core.CreateScene(file);
             core.Render();
