@@ -21,9 +21,15 @@ add_executable(raytracer
     src/Elements/Camera.cpp
     src/PPM_generator/Generation.cpp
     src/Scene/SceneManager.cpp)
-    
-target_link_libraries(raytracer PUBLIC dl config++ sfml-graphics sfml-window sfml-system sfml-audio)
-    
+
+find_library(LIBCONFIG config++)
+find_library(LIBDL dl)
+find_library(LIBSFML_GRAPHICS sfml-graphics)
+find_library(LIBSFML_WINDOW sfml-window)
+find_library(LIBSFML_SYSTEM sfml-system)
+
+target_link_libraries(raytracer PUBLIC ${LIBCONFIG} ${LIBDL} ${LIBSFML_GRAPHICS} ${LIBSFML_WINDOW} ${LIBSFML_SYSTEM})
+
 target_include_directories(raytracer PUBLIC
     src/
     src/Core/
