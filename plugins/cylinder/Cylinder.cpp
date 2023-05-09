@@ -97,13 +97,19 @@ std::shared_ptr<Math::Point3D> Raytracer::Cylinder::hits(const Math::Ray &ray)
     double t2 = (-b + sqrt(delta)) / (2 * a);
     if (t1 < 0 && t2 < 0)
         return nullptr;
+    std::cout << "a = " << a << " b = " << b << " c = " << c << " delta = " << delta << " t1 = " << t1 << " t2 = " << t2 << std::endl;
+    Math::Point3D p1 = p + t1 * v;
+    Math::Point3D p2 = p + t2 * v;
+    std::cout << "p1 = " << p1 << " p2 = " << p2 << std::endl;
+    p1.setColor(_rgb);
+    p2.setColor(_rgb);
     if (t1 < 0)
-        return std::make_shared<Math::Point3D>(p + t2 * v);
+        return std::make_shared<Math::Point3D>(p2);
     if (t2 < 0)
-        return std::make_shared<Math::Point3D>(p + t1 * v);
+        return std::make_shared<Math::Point3D>(p1);
     if (t1 < t2)
-        return std::make_shared<Math::Point3D>(p + t1 * v);
-    return std::make_shared<Math::Point3D>(p + t2 * v);
+        return std::make_shared<Math::Point3D>(p1);
+    return std::make_shared<Math::Point3D>(p2);
 }
 
 extern "C" Raytracer::IElement *createObject(Raytracer::Data data) {
