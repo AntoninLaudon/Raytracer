@@ -38,9 +38,42 @@ void Raytracer::Cone::rotate(double x, double y, double z)
 
 double Raytracer::Cone::getLuminosity(std::vector<Raytracer::IElement *> &elements, const Math::Point3D &land) const
 {
-    elements = elements;
-    (void)land;
-    return 1;
+    double luminosity = 0.1;
+    int nbrLights = 0;
+    double dot = 0;
+
+    for (auto &element : elements) {
+        if (element->getType() == Raytracer::LIGHT) {
+            nbrLights++;
+            Math::Vector3D centerToLight((_center.getX() - element->getCenter().getX()), (_center.getY() - element->getCenter().getY()), (_center.getZ() - element->getCenter().getZ()));
+            Math::Vector3D centerToLand((_center.getX() - land.getX()), (_center.getY() - land.getY()), (_center.getZ() - land.getZ()));
+            centerToLand.normalize();
+            centerToLight.normalize();
+            dot = std::abs(centerToLand.dot(centerToLight));
+            std::cout << dot << std::endl;
+
+            for (auto &primitive : elements) {
+                if (primitive->getType() == Raytracer::PRIMITIVE && primitive->getName() != _name) {
+                    std::shared_ptr<Math::Point3D> hit = primitive->hits(Math::Ray(land, element->getCenter() - land));
+                    // std::shared_ptr<Math::Point3D> hit = primitive->hits(Math::Ray(element->getCenter(), land - element->getCenter()));
+                    if (hit != nullptr) {
+                        if (Math::Vector3D(land.getX() - hit->getX(), land.getY() - hit->getY(), land.getZ() - hit->getZ()).length() > Math::Vector3D(land.getX() - element->getCenter().getX(), land.getY() - element->getCenter().getY(), land.getZ() - element->getCenter().getZ()).length())
+                            continue;
+                        dot = 0;
+                        break;
+                    }
+                }
+            }
+            luminosity += dot;
+        }
+    }
+    if (nbrLights == 0)
+        return luminosity;
+    luminosity /= nbrLights;
+    luminosity = luminosity < 0.1 ? 0.1 : luminosity;
+    if (luminosity == luminosity)
+        return luminosity;
+    return 0.1;
 }
 
 std::shared_ptr<Math::Point3D> Raytracer::Cone::hits(const Math::Ray &ray)
