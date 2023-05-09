@@ -49,7 +49,7 @@ void Raytracer::Core::Render()
     } else
         throw std::runtime_error("Error while opening file");
     sf::RenderWindow window(sf::VideoMode(width, height), "Raytracer");
-    sf::String playerInput;
+    std::string playerInput;
     sf::Text playerText;
     sf::Clock clock;
     sf::Time time;
@@ -98,20 +98,15 @@ void Raytracer::Core::Render()
                 window.close();
             } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
                 code = ExecuteCommand(playerInput, config);
-                if (code == 1) {
-                    std::cout << "Saving..." << std::endl;
-                    _scene->setPath(_file->getfilePath());
-                    config->writeFile(_file->getfilePath().c_str());
-                    window.close();
-                } else if (code == 2) {
+                if (code == 2) {
                     std::cout << "Exiting..." << std::endl;
                     window.close();
                     return;
                 }
                 playerInput = "> ";
                 playerText.setString(playerInput);
-            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace) && playerInput.getSize() > 2) {
-                playerInput.erase(playerInput.getSize() - 1, 1);
+            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace) && playerInput.length() > 2) {
+                playerInput.erase(playerInput.length() - 1, 1);
                 playerText.setString(playerInput);
                 clock.restart();
             } else if (event.type == sf::Event::TextEntered && !sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace)) {
@@ -119,7 +114,7 @@ void Raytracer::Core::Render()
                 playerText.setString(playerInput);
             }
         }
-        if (time.asMilliseconds() > 700 && playerInput.getSize() == 2) {
+        if (time.asMilliseconds() > 700 && playerInput.length() == 2) {
             clock.restart();
             if (text_color)
                 playerText.setFillColor(sf::Color::Transparent);
@@ -154,13 +149,10 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
 {
     config->readFile(_file->getfilePath().c_str());
     command = command.substr(2);
-    if (command == "save") {
-        return 1;
-    } else if (command == "exit") {
+    if (command == "exit") {
         return 2;
     } else if (command == "help") {
         std::cout << "Available commands:" << std::endl;
-        std::cout << "\tsave\t\tSave the current scene" << std::endl;
         std::cout << "\texit\t\tExit the program" << std::endl;
         std::cout << "\ttranslate {name} {x} {y} {z}\tTranslate an element" << std::endl;
         std::cout << "\thelp\t\tDisplay this help" << std::endl;
@@ -179,9 +171,9 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                     libconfig::Setting& spheres = config->lookup("primitives.spheres");
                     for (auto &sphere : spheres) {
                         if (strcmp(sphere.lookup("name"), name.c_str()) == 0) {
-                            sphere["center"]["x"] = elem->getCenter().getX();
-                            sphere["center"]["y"] = elem->getCenter().getY();
-                            sphere["center"]["z"] = elem->getCenter().getZ();
+                            sphere.lookup("center.x") = elem->getCenter().getX();
+                            sphere.lookup("center.y") = elem->getCenter().getY();
+                            sphere.lookup("center.z") = elem->getCenter().getZ();
                         }
                     }
                 } else if (elem->getType() == Raytracer::PLANE) {
@@ -194,9 +186,29 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                             plane.lookup("center.z") = elem->getCenter().getZ();
                         }
                     }
+                } else if (elem->getType() == Raytracer::CYLINDER) {
+                    elem->translate(std::stof(x), std::stof(y), std::stof(z));
+                    libconfig::Setting& cylinders = config->lookup("primitives.cylinders");
+                    for (auto &cylinder : cylinders) {
+                        if (strcmp(cylinder.lookup("name"), name.c_str()) == 0) {
+                            cylinder.lookup("center.x") = elem->getCenter().getX();
+                            cylinder.lookup("center.y") = elem->getCenter().getY();
+                            cylinder.lookup("center.z") = elem->getCenter().getZ();
+                        }
+                    }
+                } else if (elem->getType() == Raytracer::TRIANGLE) {
+                    elem->translate(std::stof(x), std::stof(y), std::stof(z));
+                    libconfig::Setting& triangles = config->lookup("primitives.triangles");
+                    for (auto &triangle : triangles) {
+                        if (strcmp(triangle.lookup("name"), name.c_str()) == 0) {
+                            triangle.lookup("center.x") = elem->getCenter().getX();
+                            triangle.lookup("center.y") = elem->getCenter().getY();
+                            triangle.lookup("center.z") = elem->getCenter().getZ();
+                        }
+                    }
                 } else if (elem->getType() == Raytracer::LIGHT) {
                     elem->translate(std::stof(x), std::stof(y), std::stof(z));
-                    libconfig::Setting& lights = config->lookup("lights");
+                    libconfig::Setting& lights = config->lookup("lights.lights");
                     for (auto &light : lights) {
                         if (strcmp(light.lookup("name"), name.c_str()) == 0) {
                             light.lookup("center.x") = elem->getCenter().getX();
@@ -207,6 +219,72 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                 }
             }
         }
+        config->writeFile(_file->getfilePath().c_str());
+        return 0;
+    } else if (strncmp(command.c_str(), "rotate", 6) == 0) {
+        std::cout << "Rotating" << std::endl;
+        //Go to the configuration file and change the rotate of the element with the given name where command is : rotate name x y z
+        std::string name = command.substr(7, command.find(" ", 7) - 7);
+        std::string x = command.substr(7 + name.size() + 1, command.find(" ", 7 + name.size() + 1) - (7 + name.size() + 1));
+        std::string y = command.substr(7 + name.size() + 1 + x.size() + 1, command.find(" ", 7 + name.size() + 1 + x.size() + 1) - (7 + name.size() + 1 + x.size() + 1));
+        std::string z = command.substr(7 + name.size() + 1 + x.size() + 1 + y.size() + 1, command.find(" ", 7 + name.size() + 1 + x.size() + 1 + y.size() + 1) - (7 + name.size() + 1 + x.size() + 1 + y.size() + 1));
+        for (auto &elem : _scene->getElements()) {
+            if (elem->getName() == name) {
+                std::cout << "Rotating " << name << " by x:" << x << " y:" << y << " z:" << z << std::endl;
+                if (elem->getType() == Raytracer::SPHERE) {
+                    elem->rotate(std::stof(x), std::stof(y), std::stof(z));
+                    libconfig::Setting& spheres = config->lookup("primitives.spheres");
+                    for (auto &sphere : spheres) {
+                        if (strcmp(sphere.lookup("name"), name.c_str()) == 0) {
+                            sphere.lookup("rotation.x") = elem->getCenter().getX();
+                            sphere.lookup("rotation.y") = elem->getCenter().getY();
+                            sphere.lookup("rotation.z") = elem->getCenter().getZ();
+                        }
+                    }
+                } else if (elem->getType() == Raytracer::PLANE) {
+                    elem->rotate(std::stof(x), std::stof(y), std::stof(z));
+                    libconfig::Setting& planes = config->lookup("primitives.planes");
+                    for (auto &plane : planes) {
+                        if (strcmp(plane.lookup("name"), name.c_str()) == 0) {
+                            plane.lookup("rotation.x") = elem->getCenter().getX();
+                            plane.lookup("rotation.y") = elem->getCenter().getY();
+                            plane.lookup("rotation.z") = elem->getCenter().getZ();
+                        }
+                    }
+                } else if (elem->getType() == Raytracer::CYLINDER) {
+                    elem->rotate(std::stof(x), std::stof(y), std::stof(z));
+                    libconfig::Setting& cylinders = config->lookup("primitives.cylinders");
+                    for (auto &cylinder : cylinders) {
+                        if (strcmp(cylinder.lookup("name"), name.c_str()) == 0) {
+                            cylinder.lookup("rotation.x") = elem->getCenter().getX();
+                            cylinder.lookup("rotation.y") = elem->getCenter().getY();
+                            cylinder.lookup("rotation.z") = elem->getCenter().getZ();
+                        }
+                    }
+                } else if (elem->getType() == Raytracer::TRIANGLE) {
+                    elem->rotate(std::stof(x), std::stof(y), std::stof(z));
+                    libconfig::Setting& triangles = config->lookup("primitives.triangles");
+                    for (auto &triangle : triangles) {
+                        if (strcmp(triangle.lookup("name"), name.c_str()) == 0) {
+                            triangle.lookup("rotation.x") = elem->getCenter().getX();
+                            triangle.lookup("rotation.y") = elem->getCenter().getY();
+                            triangle.lookup("rotation.z") = elem->getCenter().getZ();
+                        }
+                    }
+                } else if (elem->getType() == Raytracer::LIGHT) {
+                    elem->rotate(std::stof(x), std::stof(y), std::stof(z));
+                    libconfig::Setting& lights = config->lookup("lights.lights");
+                    for (auto &light : lights) {
+                        if (strcmp(light.lookup("name"), name.c_str()) == 0) {
+                            light.lookup("rotation.x") = elem->getCenter().getX();
+                            light.lookup("rotation.y") = elem->getCenter().getY();
+                            light.lookup("rotation.z") = elem->getCenter().getZ();
+                        }
+                    }
+                }
+            }
+        }
+        config->writeFile(_file->getfilePath().c_str());
         return 0;
     } else if (strncmp(command.c_str(), "resolution", 10) == 0) {
         std::string w = command.substr(11, command.find(" ", 11) - 11);
@@ -214,11 +292,12 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
         std::cout << "Changing resolution to " << w << "x" << h << std::endl;
         config->lookup("options.resolution.x") = std::stoi(w);
         config->lookup("options.resolution.y") = std::stoi(h);
+        config->writeFile(_file->getfilePath().c_str());
         return 0;
     } else if (command == "list") {
         std::cout << "Elements:" << std::endl;
         for (auto &elem : _scene->getElements()) {
-            std::cout << "\t" << elem->getName() << std::endl;
+            std::cout << "\t" << elem->getName() << ", position : { x:" << elem->getCenter().getX() << ", y:" << elem->getCenter().getY() << ", z:" << elem->getCenter().getZ() << "}, rotation : { x:" << elem->getRotation().getX() << ", y:" << elem->getRotation().getY() << ", z:" << elem->getRotation().getZ() << "}" << std::endl;
         }
         return 0;
     } else {
