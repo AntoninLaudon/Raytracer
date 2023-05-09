@@ -25,7 +25,7 @@ namespace Raytracer {
     };
     class Camera {
         public:
-            Camera(Math::Point3D origin, Rectangle3D screen);
+            Camera(Math::Point3D origin, double fov);
             ~Camera();
             Math::Point3D getOrigin();
             Rectangle3D getScreen();
@@ -34,5 +34,6 @@ namespace Raytracer {
         private:
             Math::Point3D _origin;
             Rectangle3D _screen;
+            double _fov;
     };
 }

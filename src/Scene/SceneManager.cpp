@@ -69,22 +69,12 @@ void Raytracer::SceneManager::ParseScene()
 void Raytracer::SceneManager::CreateCamera(const libconfig::Setting *elem)
 {
     const libconfig::Setting &camera_pos = elem->lookup("camera_position");
-    const libconfig::Setting &screen_pos = elem->lookup("screen_position");
-    const libconfig::Setting &screen_bottom = elem->lookup("screen_bottom");
-    const libconfig::Setting &screen_left = elem->lookup("screen_left");
+    const libconfig::Setting &camera_fov = elem->lookup("fov");
     double x = camera_pos[0];
     double y = camera_pos[1];
     double z = camera_pos[2];
-    double sx = screen_pos[0];
-    double sy = screen_pos[1];
-    double sz = screen_pos[2];
-    double sbx = screen_bottom[0];
-    double sby = screen_bottom[1];
-    double sbz = screen_bottom[2];
-    double slx = screen_left[0];
-    double sly = screen_left[1];
-    double slz = screen_left[2];
-    _camera = std::make_shared<Raytracer::Camera>(Math::Point3D(x, y, z), Raytracer::Rectangle3D(Math::Point3D(sx, sy, sz), Math::Vector3D(sbx, sby, sbz), Math::Vector3D(slx, sly, slz)));
+    double fov = camera_fov[0];
+    _camera = std::make_shared<Raytracer::Camera>(Math::Point3D(x, y, z), fov);
     std::cout << "Camera loaded" << std::endl;
 }
 
