@@ -208,7 +208,7 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                     }
                 } else if (elem->getType() == Raytracer::LIGHT) {
                     elem->translate(std::stof(x), std::stof(y), std::stof(z));
-                    libconfig::Setting& lights = config->lookup("lights");
+                    libconfig::Setting& lights = config->lookup("lights.lights");
                     for (auto &light : lights) {
                         if (strcmp(light.lookup("name"), name.c_str()) == 0) {
                             light.lookup("center.x") = elem->getCenter().getX();
@@ -273,7 +273,7 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                     }
                 } else if (elem->getType() == Raytracer::LIGHT) {
                     elem->rotate(std::stof(x), std::stof(y), std::stof(z));
-                    libconfig::Setting& lights = config->lookup("lights");
+                    libconfig::Setting& lights = config->lookup("lights.lights");
                     for (auto &light : lights) {
                         if (strcmp(light.lookup("name"), name.c_str()) == 0) {
                             light.lookup("rotation.x") = elem->getCenter().getX();
