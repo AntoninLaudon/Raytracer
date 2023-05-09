@@ -152,6 +152,7 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
             Math::Vector3D direction2 = {0, 0, 0};
             Math::Vector3D rotation = {0, 0, 0};
             double d = 0;
+            double d2 = 0;
             PPM::RGB color = {0, 0, 0};
             std::string name;
             if (strcmp(elements.getName(), "spheres") == 0)
@@ -189,6 +190,10 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
                 const libconfig::Setting &double_elem = elements[i].lookup("double");
                 d = double_elem;
             }
+            if (elements[i].exists("double2")) {
+                const libconfig::Setting &double2_elem = elements[i].lookup("double2");
+                d2 = double2_elem;
+            }
             if (elements[i].exists("name")) {
                 elements[i].lookupValue("name", name);
             }
@@ -201,7 +206,7 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
                     throw std::runtime_error("Color value must be between 0 and 255");
                 color = {(unsigned char)r, (unsigned char)g, (unsigned char)b};
             }
-            Raytracer::Data data(type, name, center, direction, direction2, rotation, d, color);
+            Raytracer::Data data(type, name, center, direction, direction2, rotation, d, d2, color);
             Raytracer::IElement *element = factory->createObject(data);
             _elements.push_back(element);
         }

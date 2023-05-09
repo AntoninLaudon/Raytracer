@@ -23,6 +23,12 @@ namespace Raytracer {
             virtual Math::Point3D getCenter() const {
                 return _center;
             }
+            virtual double getDouble() const {
+                return _double;
+            }
+            virtual double getDouble2() const {
+                return _double2;
+            }
             virtual void setName(std::string name) {
                 _name = name;
             }
@@ -42,5 +48,7 @@ namespace Raytracer {
             Math::Vector3D _direction;
             Math::Vector3D _rotation;
             PPM::RGB _rgb;
+            double _double;
+            double _double2;
     };
 }

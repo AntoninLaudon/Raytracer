@@ -76,7 +76,14 @@ double Raytracer::Plan::getLuminosity(std::vector<Raytracer::IElement *> &elemen
     for (auto &element : elements) {
         if (element->getType() == Raytracer::LIGHT) {
             nbrLights++;
-            Math::Vector3D landToLight(land.getX() - element->getCenter().getX(), land.getX() - element->getCenter().getX(), land.getX() - element->getCenter().getX());
+            
+            Math::Vector3D landToLight((element->getCenter().getX() - land.getX()), (element->getCenter().getY() - land.getY()), (element->getCenter().getZ() - land.getZ()));
+            landToLight.normalize();
+            dot = landToLight.dot(element->getRotation());
+            if (-dot < 1 / (180 / (180 - element->getDouble2())) && element->getRotation() != Math::Vector3D(0, 0, 0))
+                continue;
+
+            landToLight = {land.getX() - element->getCenter().getX(), land.getX() - element->getCenter().getX(), land.getX() - element->getCenter().getX()};
             dot = landToLight.dot(_normal);
             for (auto &primitive : elements) {
                 if (primitive->getType() >= Raytracer::PRIMITIVE && primitive->getName() != _name) {
