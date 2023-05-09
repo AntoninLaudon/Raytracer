@@ -79,7 +79,6 @@ double Raytracer::Sphere::getLuminosity(std::vector<Raytracer::IElement *> &elem
     if (luminosity == luminosity)
         return luminosity;
     return 0.1;
-
 }
 
 std::shared_ptr<Math::Point3D> Raytracer::Sphere::hits(const Math::Ray &ray)
