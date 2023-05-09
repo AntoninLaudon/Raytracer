@@ -37,5 +37,8 @@ namespace Raytracer {
             virtual std::shared_ptr<Math::Point3D> hits(const Math::Ray &ray) = 0;
             virtual double getLuminosity(std::vector<Raytracer::IElement *> &elements, const Math::Point3D &land) const = 0;
             virtual PPM::RGB getColor() const = 0;
+            virtual Math::Vector3D getRotation() = 0;
+            virtual double getDouble() const = 0;
+            virtual double getDouble2() const = 0;
     };
 }

@@ -15,18 +15,20 @@ Raytracer::Light::Light()
     _type = LIGHT;
     _intensity = 1;
     _rgb = PPM::RGB(0, 0, 0);
-    _radius = 1;
+    _double = 1;
+    _double2 = 1;
 }
 
-Raytracer::Light::Light(const std::string name, Math::Point3D center, Math::Vector3D rotation, double intensity)
+Raytracer::Light::Light(const std::string name, Math::Point3D center, Math::Vector3D rotation, double radius, double radius2)
 {
     _name = name;
     _center = center;
     _rotation = rotation;
     _type = LIGHT;
-    _intensity = intensity;
+    _intensity = 1;
     _rgb = PPM::RGB(255,255,255);
-    _radius = 0.1;
+    _double = radius;
+    _double2 = radius2;
 }
 
 Raytracer::Light::~Light()
@@ -70,7 +72,7 @@ std::shared_ptr<Math::Point3D> Raytracer::Light::hits(const Math::Ray &ray)
     double h = _center.getX();
     double i = _center.getY();
     double j = _center.getZ();
-    double r = _radius;
+    double r = _double;
     
     // double t1 = ((-a * u - b * v - c * w + h * u + i * v + j * w) / (pow(u, 2) + pow(v, 2) + pow(w, 2))) - sqrt((-pow(a, 2) * pow(v, 2) - pow(a, 2) * pow(w, 2) + 2 * a * b * u * v + 2 * a * c * u * w + 2 * a * h * pow(v, 2) + 2 * a * h * pow(w, 2) - 2 * a * i * u * v - 2 * a * j * u * w - pow(b, 2) * pow(u, 2) - pow(b, 2) * pow(w, 2) + 2 * b * c * v * w - 2 * b * h * u * v + 2 * b * i * pow(u, 2) + 2 * b * i * pow(w, 2) - 2 * b * j * v * w - pow(c, 2) * pow(u, 2) - pow(c, 2) * pow(v, 2) - 2 * c * h * u * w - 2 * c * i * v * w + 2 * c * j * pow(u, 2) + 2 * c * j * pow(v, 2) - pow(h, 2) * pow(v, 2) - pow(h, 2) * pow(w, 2) + 2 * h * i * u * v + 2 * h * j * u * w - pow(i, 2) * pow(u, 2) - pow(i, 2) * pow(w, 2) + (2 * i * j * v * w) - pow(j, 2) * pow(u, 2) - pow(j, 2) * pow(v, 2) + pow(r, 2) * pow(u, 2) + pow(r, 2) * pow(v, 2) + pow(r, 2) * pow(w, 2)) / pow((pow(u, 2) + pow(v, 2) + pow(w, 2)), 2));
     // double t2 = ((-a * u - b * v - c * w + h * u + i * v + j * w) / (pow(u, 2) + pow(v, 2) + pow(w, 2))) + sqrt((-pow(a, 2) * pow(v, 2) - pow(a, 2) * pow(w, 2) + 2 * a * b * u * v + 2 * a * c * u * w + 2 * a * h * pow(v, 2) + 2 * a * h * pow(w, 2) - 2 * a * i * u * v - 2 * a * j * u * w - pow(b, 2) * pow(u, 2) - pow(b, 2) * pow(w, 2) + 2 * b * c * v * w - 2 * b * h * u * v + 2 * b * i * pow(u, 2) + 2 * b * i * pow(w, 2) - 2 * b * j * v * w - pow(c, 2) * pow(u, 2) - pow(c, 2) * pow(v, 2) - 2 * c * h * u * w - 2 * c * i * v * w + 2 * c * j * pow(u, 2) + 2 * c * j * pow(v, 2) - pow(h, 2) * pow(v, 2) - pow(h, 2) * pow(w, 2) + 2 * h * i * u * v + 2 * h * j * u * w - pow(i, 2) * pow(u, 2) - pow(i, 2) * pow(w, 2) + (2 * i * j * v * w) - pow(j, 2) * pow(u, 2) - pow(j, 2) * pow(v, 2) + pow(r, 2) * pow(u, 2) + pow(r, 2) * pow(v, 2) + pow(r, 2) * pow(w, 2)) / pow((pow(u, 2) + pow(v, 2) + pow(w, 2)), 2));
@@ -120,7 +122,7 @@ std::shared_ptr<Math::Point3D> Raytracer::Light::hits(const Math::Ray &ray)
 
 extern "C" Raytracer::IElement *createObject(Raytracer::Data data) {
     std::cout << "Creating Light : " << data.getName() << std::endl;
-    return new Raytracer::Light(data.getName(), data.getCenter(), data.getRotation(), data.getDouble());
+    return new Raytracer::Light(data.getName(), data.getCenter(), data.getRotation(), data.getDouble(), data.getDouble2());
 }
 
 extern "C" Raytracer::ElemType getType() {

@@ -38,10 +38,35 @@ Math::Point3D Raytracer::Rectangle3D::pointAt(double u, double v)
     return _origin + _bottom_side * u + _left_side * v;
 }
 
-Raytracer::Camera::Camera(Math::Point3D origin, Raytracer::Rectangle3D screen)
+Raytracer::Camera::Camera(Math::Point3D origin, double fov)
 {
-    _origin = origin;
-    _screen = screen;
+    _screen = Rectangle3D(origin, Math::Vector3D(2, 0, 0), Math::Vector3D(0, 9.0/16.0*2.0, 0));
+    if (fov < 0 || fov > 180)
+        throw std::invalid_argument("fov must be between 0 and 180");
+    _fov = fov;
+
+    double minDist = -1.75;
+    double maxDist = -0.75;
+
+    double distRange = maxDist - minDist;
+    double distRatio = (_fov / 180.0);
+
+    double dist = minDist + (distRange * distRatio);
+
+    if (dist > maxDist) {
+        dist = maxDist;
+    } else if (dist < minDist) {
+        dist = minDist;
+    }
+
+    Math::Point3D position = _screen.getorigin();
+    position.setX((position.getX() + 1));
+    position.setY((position.getY() + 9.0/16.0));
+    position.setZ(position.getZ() + dist);
+
+    std::cout << "distance :" << position.getZ() << std::endl;
+
+    _origin = position;
 }
 
 Raytracer::Camera::~Camera()

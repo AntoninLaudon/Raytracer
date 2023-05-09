@@ -44,12 +44,18 @@ double Raytracer::Sphere::getLuminosity(std::vector<Raytracer::IElement *> &elem
     for (auto &element : elements) {
         if (element->getType() == Raytracer::LIGHT) {
             nbrLights++;
+
+            Math::Vector3D landToLight((element->getCenter().getX() - land.getX()), (element->getCenter().getY() - land.getY()), (element->getCenter().getZ() - land.getZ()));
+            landToLight.normalize();
+            dot = landToLight.dot(element->getRotation());
+            if (-dot < 1 / (180 / (180 - element->getDouble2())) && element->getRotation() != Math::Vector3D(0, 0, 0))
+                continue;
+
             Math::Vector3D centerToLight((_center.getX() - element->getCenter().getX()), (_center.getY() - element->getCenter().getY()), (_center.getZ() - element->getCenter().getZ()));
             Math::Vector3D centerToLand((_center.getX() - land.getX()), (_center.getY() - land.getY()), (_center.getZ() - land.getZ()));
             centerToLand.normalize();
             centerToLight.normalize();
             dot = centerToLand.dot(centerToLight);
-
             for (auto &primitive : elements) {
                 if (primitive->getType() >= Raytracer::PRIMITIVE && primitive->getName() != _name) {
                     std::shared_ptr<Math::Point3D> hit = primitive->hits(Math::Ray(land, element->getCenter() - land));
@@ -73,7 +79,6 @@ double Raytracer::Sphere::getLuminosity(std::vector<Raytracer::IElement *> &elem
     if (luminosity == luminosity)
         return luminosity;
     return 0.1;
-
 }
 
 std::shared_ptr<Math::Point3D> Raytracer::Sphere::hits(const Math::Ray &ray)

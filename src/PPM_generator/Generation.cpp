@@ -27,19 +27,18 @@ void PPM::PPM::setPixel(int x, int y, RGB color)
 {
     if (x < 0 || x >= _width || y < 0 || y >= _height)
         return;
-    _pixels[y * _width + x] = color;
+    _pixels->at(y * _width + x) = color;
 }
 
-void PPM::PPM::bufferToImage(std::vector<RGB> pixels)
+void PPM::PPM::bufferToImage(std::shared_ptr<std::vector<RGB>> pixels)
 {
-    for (auto pixel : pixels) {
-        _pixels.push_back(pixel);
-    }
+    _pixels = pixels;
 }
 
 void PPM::PPM::save(const char *filename)
 {
     std::ofstream output(filename, std::ios::binary);
+    std::vector<RGB> pixels = *_pixels;
 
     if (output.is_open()) {
         output << _version << std::endl;
@@ -50,15 +49,15 @@ void PPM::PPM::save(const char *filename)
         if (_version == "P3") {
             for (int i = 0; i < _height; i++) {
                 for (int j = 0; j < _width; j++) {
-                    output << (int)_pixels[i * _width + j].r << " ";
-                    output << (int)_pixels[i * _width + j].g << " ";
-                    output << (int)_pixels[i * _width + j].b << "\n";
+                    output << (int)pixels[i * _width + j].r << " ";
+                    output << (int)pixels[i * _width + j].g << " ";
+                    output << (int)pixels[i * _width + j].b << "\n";
                 }
             }
         } else {
             for (int i = 0; i < _height; i++) {
                 for (int j = 0; j < _width; j++)
-                    output.write((char *)&_pixels[i * _width + j], sizeof(RGB));
+                    output.write((char *)&pixels[i * _width + j], sizeof(RGB));
             }
         }
     }
@@ -73,7 +72,7 @@ void PPM::PPM::clear()
 void PPM::PPM::fill(RGB color)
 {
     for (int i = 0; i < _width * _height; i++)
-        _pixels.push_back(color);
+        _pixels->push_back(color);
 }
 
 PPM::RGB PPM::operator*(const RGB &color, const double &coef)

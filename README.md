@@ -23,3 +23,5 @@ Build with CMake. ( You must have SFML library. )
 ## Some examples
 
 ![Sphere_example](/screenshots/example1.png?raw=true "Spheres")
+
+![SolarSystem_example](/screenshots/solarsystem.png?raw=true "SolarSystem")
