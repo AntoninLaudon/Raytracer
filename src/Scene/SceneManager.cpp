@@ -93,7 +93,7 @@ void Raytracer::SceneManager::Render()
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
     std::cout << "Rendering..." << std::endl;
     PPM::PPM img = PPM::PPM(_size.first, _size.second);
-    std::vector<PPM::RGB> pixels;
+    std::shared_ptr<std::vector<PPM::RGB>> pixels;
     std::vector<std::shared_ptr<Math::Point3D>> p;
     Math::Point3D shortest(0, 0, 0);
     Math::Vector3D tmp(0, 0, 0);
@@ -123,10 +123,10 @@ void Raytracer::SceneManager::Render()
             }
             if (shortestDist != -1) {
                 // std::cout << shortest.getColor() << " * " << shortest.getLuminosity() << " | " << shortest << " | " << shortest.getColor() * shortest.getLuminosity() << std::endl;
-                pixels.push_back(shortest.getColor() * shortest.getLuminosity());
+                pixels->push_back(shortest.getColor() * shortest.getLuminosity());
                 shortestDist = -1;
             } else {
-                pixels.push_back(PPM::RGB(0, 0, 0));
+                pixels->push_back(PPM::RGB(0, 0, 0));
             }
         }
     }
