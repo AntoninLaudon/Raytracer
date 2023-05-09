@@ -50,7 +50,6 @@ Raytracer::Camera::Camera(Math::Point3D origin, double fov)
     position.setZ(1 / (position.getZ() - (_fov * 2.5 / 180.0)));
     std::cout << position.getZ() << std::endl;
     _origin = position;
-
 }
 
 Raytracer::Camera::~Camera()

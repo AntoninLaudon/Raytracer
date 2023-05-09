@@ -80,6 +80,8 @@ void Raytracer::Core::Render()
     }
     file.close();
     texture.update(pix);
+    delete[] pix;
+
     while (window.isOpen()) {
         time = clock.getElapsedTime();
         sf::Event event;
@@ -124,7 +126,6 @@ void Raytracer::Core::Render()
         window.draw(playerText);
         window.display();
     }
-    delete[] pix;
 }
 
 void Raytracer::Core::setFile(File *file)
