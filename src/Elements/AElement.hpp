@@ -29,6 +29,9 @@ namespace Raytracer {
             virtual PPM::RGB getColor() const {
                 return _rgb;
             }
+            virtual Math::Vector3D getRotation() {
+                return _rotation;
+            }
             virtual void translate(double x, double y, double z) = 0;
             virtual void rotate(double x, double y, double z) = 0;
             virtual std::shared_ptr<Math::Point3D> hits(const Math::Ray &ray) = 0;
