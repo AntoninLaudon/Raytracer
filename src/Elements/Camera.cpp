@@ -44,11 +44,28 @@ Raytracer::Camera::Camera(Math::Point3D origin, double fov)
     if (fov < 0 || fov > 180)
         throw std::invalid_argument("fov must be between 0 and 180");
     _fov = fov;
+
+    double minDist = -1.75;
+    double maxDist = -0.75;
+
+    double distRange = maxDist - minDist;
+    double distRatio = (_fov / 180.0);
+
+    double dist = minDist + (distRange * distRatio);
+
+    if (dist > maxDist) {
+        dist = maxDist;
+    } else if (dist < minDist) {
+        dist = minDist;
+    }
+
     Math::Point3D position = _screen.getorigin();
     position.setX((position.getX() + 1));
     position.setY((position.getY() + 9.0/16.0));
-    position.setZ(1 / (position.getZ() - (_fov * 2.5 / 180.0)));
-    std::cout << position.getZ() << std::endl;
+    position.setZ(position.getZ() + dist);
+
+    std::cout << "distance :" << position.getZ() << std::endl;
+
     _origin = position;
 }
 
