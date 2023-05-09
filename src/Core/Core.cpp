@@ -49,7 +49,7 @@ void Raytracer::Core::Render()
     } else
         throw std::runtime_error("Error while opening file");
     sf::RenderWindow window(sf::VideoMode(width, height), "Raytracer");
-    sf::String playerInput;
+    std::string playerInput;
     sf::Text playerText;
     sf::Clock clock;
     sf::Time time;
@@ -105,8 +105,8 @@ void Raytracer::Core::Render()
                 }
                 playerInput = "> ";
                 playerText.setString(playerInput);
-            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace) && playerInput.getSize() > 2) {
-                playerInput.erase(playerInput.getSize() - 1, 1);
+            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace) && playerInput.length() > 2) {
+                playerInput.erase(playerInput.length() - 1, 1);
                 playerText.setString(playerInput);
                 clock.restart();
             } else if (event.type == sf::Event::TextEntered && !sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace)) {
@@ -114,7 +114,7 @@ void Raytracer::Core::Render()
                 playerText.setString(playerInput);
             }
         }
-        if (time.asMilliseconds() > 700 && playerInput.getSize() == 2) {
+        if (time.asMilliseconds() > 700 && playerInput.length() == 2) {
             clock.restart();
             if (text_color)
                 playerText.setFillColor(sf::Color::Transparent);
