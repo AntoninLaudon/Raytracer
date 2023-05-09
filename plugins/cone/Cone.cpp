@@ -64,15 +64,19 @@ std::shared_ptr<Math::Point3D> Raytracer::Cone::hits(const Math::Ray &ray)
         return nullptr;
     double k1 = (-B - sqrt(delta)) / (2 * A);
     double k2 = (-B + sqrt(delta)) / (2 * A);
+    Math::Point3D p1 = p + v * k1;
+    Math::Point3D p2 = p + v * k2;
+    p1.setColor(_rgb);
+    p2.setColor(_rgb);
     if (k1 < 0 && k2 < 0)
         return nullptr;
     if (k1 < 0)
-        return std::make_shared<Math::Point3D>(p + v * k2);
+        return std::make_shared<Math::Point3D>(p2);
     if (k2 < 0)
-        return std::make_shared<Math::Point3D>(p + v * k1);
+        return std::make_shared<Math::Point3D>(p1);
     if (k1 < k2)
-        return std::make_shared<Math::Point3D>(p + v * k1);
-    return std::make_shared<Math::Point3D>(p + v * k2);
+        return std::make_shared<Math::Point3D>(p1);
+    return std::make_shared<Math::Point3D>(p2);
 }
 
 extern "C" Raytracer::IElement *createObject(Raytracer::Data data) {
