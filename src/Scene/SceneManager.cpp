@@ -78,12 +78,12 @@ void Raytracer::SceneManager::CreateCamera(const libconfig::Setting *elem)
     std::cout << "Camera loaded" << std::endl;
 }
 
-void Raytracer::SceneManager::Render()
+std::shared_ptr<std::vector<PPM::RGB>> Raytracer::SceneManager::Render()
 {
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
     std::cout << "Rendering..." << std::endl;
     PPM::PPM img = PPM::PPM(_size.first, _size.second);
-    std::shared_ptr<std::vector<PPM::RGB>> pixels;
+    std::shared_ptr<std::vector<PPM::RGB>> pixels = std::make_shared<std::vector<PPM::RGB>>();
     std::vector<std::shared_ptr<Math::Point3D>> p;
     Math::Point3D shortest(0, 0, 0);
     Math::Vector3D tmp(0, 0, 0);
@@ -130,6 +130,7 @@ void Raytracer::SceneManager::Render()
     img.save(name.c_str());
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
     std::cout << "Done, took: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "ms" << std::endl;
+    return pixels;
 }
 
 void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std::shared_ptr<Factory> factory)

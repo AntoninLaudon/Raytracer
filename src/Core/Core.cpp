@@ -30,7 +30,7 @@ void Raytracer::Core::CreateScene(File file)
 
 void Raytracer::Core::Render()
 {
-    _scene->Render();
+    std::shared_ptr<std::vector<PPM::RGB>> pixels = _scene->Render();
     int text_color = true;
     int code = 0;
     std::fstream file(_scene->getPath(), std::ios::in);
@@ -46,6 +46,7 @@ void Raytracer::Core::Render()
         std::getline(file, h);
         width = std::stoi(w);
         height = std::stoi(h);
+        file.close();
     } else
         throw std::runtime_error("Error while opening file");
     sf::RenderWindow window(sf::VideoMode(width, height), "Raytracer");
@@ -66,18 +67,9 @@ void Raytracer::Core::Render()
     texture.create(width, height); 
     sf::Sprite sprite(texture);
     for(int i = 0, j = 0; i < width*height*4; i += 4, j++) {
-        std::getline(file, line);
-        std::string r;
-        std::string g;
-        std::string b;
-        r = line.substr(0, line.find(" "));
-        line.erase(0, line.find(" ") + 1);
-        g = line.substr(0, line.find(" "));
-        line.erase(0, line.find(" ") + 1);
-        b = line.substr(0, line.find(" "));
-        pix[i] = std::stoi(r);
-        pix[i+1] = std::stoi(g);
-        pix[i+2] = std::stoi(b);
+        pix[i] = pixels->at(j).r;
+        pix[i+1] = pixels->at(j).g;
+        pix[i+2] = pixels->at(j).b;
         pix[i+3] = 255;
         if (j % width == 0) {
             texture.update(pix);
