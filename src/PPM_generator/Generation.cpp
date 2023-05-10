@@ -38,6 +38,7 @@ void PPM::PPM::bufferToImage(std::shared_ptr<std::vector<RGB>> pixels)
 void PPM::PPM::save(const char *filename)
 {
     std::ofstream output(filename, std::ios::binary);
+    std::vector<RGB> pixels = *_pixels;
 
     if (output.is_open()) {
         output << _version << std::endl;
@@ -48,19 +49,15 @@ void PPM::PPM::save(const char *filename)
         if (_version == "P3") {
             for (int i = 0; i < _height; i++) {
                 for (int j = 0; j < _width; j++) {
-                    // output << (int)_pixels[i * _width + j].r << " ";
-                    // output << (int)_pixels[i * _width + j].g << " ";
-                    // output << (int)_pixels[i * _width + j].b << "\n";
-                    output << _pixels->at(i * _width + j).r << " ";
-                    output << _pixels->at(i * _width + j).g << " ";
-                    output << _pixels->at(i * _width + j).b << "\n";
+                    output << (int)pixels[i * _width + j].r << " ";
+                    output << (int)pixels[i * _width + j].g << " ";
+                    output << (int)pixels[i * _width + j].b << "\n";
                 }
             }
         } else {
             for (int i = 0; i < _height; i++) {
                 for (int j = 0; j < _width; j++)
-                    // output.write((char *)&_pixels[i * _width + j], sizeof(RGB));
-                    output << _pixels->at(i * _width + j).r << _pixels->at(i * _width + j).g << _pixels->at(i * _width + j).b;
+                    output.write((char *)&pixels[i * _width + j], sizeof(RGB));
             }
         }
     }
