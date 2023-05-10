@@ -45,17 +45,27 @@ double Raytracer::Cone::getLuminosity(std::vector<Raytracer::IElement *> &elemen
     for (auto &element : elements) {
         if (element->getType() == Raytracer::LIGHT) {
             nbrLights++;
+            Math::Vector3D centerland = _center - land;
+            double x = centerland.length() * cos(_radius);
+            Math::Point3D Z1 = _center + (x * _rotation);
+            Math::Point3D Z2 = _center + (x * _rotation * -1);
+            
             Math::Vector3D centerToLight((_center.getX() - element->getCenter().getX()), (_center.getY() - element->getCenter().getY()), (_center.getZ() - element->getCenter().getZ()));
-            Math::Vector3D centerToLand((_center.getX() - land.getX()), (_center.getY() - land.getY()), (_center.getZ() - land.getZ()));
-            centerToLand.normalize();
-            centerToLight.normalize();
-            dot = std::abs(centerToLand.dot(centerToLight));
-            std::cout << dot << std::endl;
+            Math::Vector3D centerToLand1((Z1.getX() - land.getX()), (Z1.getY() - land.getY()), (Z1.getZ() - land.getZ()));
+            Math::Vector3D centerToLand2((Z2.getX() - land.getX()), (Z2.getY() - land.getY()), (Z2.getZ() - land.getZ()));
+            if (centerToLand1.length() < centerToLand2.length()) {
+                centerToLand1.normalize();
+                centerToLight.normalize();
+                dot = centerToLand1.dot(centerToLight);
+            } else {
+                centerToLand2.normalize();
+                centerToLight.normalize();
+                dot = centerToLand2.dot(centerToLight);
+            }
 
             for (auto &primitive : elements) {
                 if (primitive->getType() == Raytracer::PRIMITIVE && primitive->getName() != _name) {
                     std::shared_ptr<Math::Point3D> hit = primitive->hits(Math::Ray(land, element->getCenter() - land));
-                    // std::shared_ptr<Math::Point3D> hit = primitive->hits(Math::Ray(element->getCenter(), land - element->getCenter()));
                     if (hit != nullptr) {
                         if (Math::Vector3D(land.getX() - hit->getX(), land.getY() - hit->getY(), land.getZ() - hit->getZ()).length() > Math::Vector3D(land.getX() - element->getCenter().getX(), land.getY() - element->getCenter().getY(), land.getZ() - element->getCenter().getZ()).length())
                             continue;
