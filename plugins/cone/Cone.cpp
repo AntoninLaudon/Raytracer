@@ -91,6 +91,7 @@ std::shared_ptr<Math::Point3D> Raytracer::Cone::hits(const Math::Ray &ray)
     Math::Point3D p = ray.getOrigin();
     Math::Point3D pa = _center;
     Math::Vector3D va = _rotation;
+    va.normalize();
     Math::Vector3D v = ray.getDirection();
     double a = _radius;
 
