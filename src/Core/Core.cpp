@@ -199,6 +199,16 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                             triangle.lookup("center.z") = elem->getCenter().getZ();
                         }
                     }
+                } else if (elem->getType() == Raytracer::CONE) {
+                    elem->translate(std::stof(x), std::stof(y), std::stof(z));
+                    libconfig::Setting& cones = config->lookup("primitives.cones");
+                    for (auto &cone : cones) {
+                        if (strcmp(cone.lookup("name"), name.c_str()) == 0) {
+                            cone.lookup("center.x") = elem->getCenter().getX();
+                            cone.lookup("center.y") = elem->getCenter().getY();
+                            cone.lookup("center.z") = elem->getCenter().getZ();
+                        }
+                    }
                 } else if (elem->getType() == Raytracer::LIGHT) {
                     elem->translate(std::stof(x), std::stof(y), std::stof(z));
                     libconfig::Setting& lights = config->lookup("lights.lights");
@@ -262,6 +272,16 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                             triangle.lookup("rotation.x") = elem->getCenter().getX();
                             triangle.lookup("rotation.y") = elem->getCenter().getY();
                             triangle.lookup("rotation.z") = elem->getCenter().getZ();
+                        }
+                    }
+                } else if (elem->getType() == Raytracer::CONE) {
+                    elem->rotate(std::stof(x), std::stof(y), std::stof(z));
+                    libconfig::Setting& cones = config->lookup("primitives.cones");
+                    for (auto &cone : cones) {
+                        if (strcmp(cone.lookup("name"), name.c_str()) == 0) {
+                            cone.lookup("rotation.x") = elem->getCenter().getX();
+                            cone.lookup("rotation.y") = elem->getCenter().getY();
+                            cone.lookup("rotation.z") = elem->getCenter().getZ();
                         }
                     }
                 } else if (elem->getType() == Raytracer::LIGHT) {

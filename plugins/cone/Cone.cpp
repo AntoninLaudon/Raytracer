@@ -14,7 +14,7 @@ Raytracer::Cone::Cone(const std::string name, Math::Point3D center, Math::Vector
     _direction = direction;
     _rotation = rotation;
     _radius = radius;
-    _type = PRIMITIVE;
+    _type = CONE;
     _rgb = rgb;
 }
 

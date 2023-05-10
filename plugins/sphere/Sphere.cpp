@@ -51,7 +51,6 @@ double Raytracer::Sphere::getLuminosity(std::vector<Raytracer::IElement *> &elem
             if (-dot < 1 / (180 / (180 - element->getDouble2())) && element->getRotation() != Math::Vector3D(0, 0, 0))
                 continue;
 
-            Math::Vector3D landToLight((land.getX() - element->getCenter().getX()), (land.getY() - element->getCenter().getY()), (land.getZ() - element->getCenter().getZ()));
             Math::Vector3D centerToLand((_center.getX() - land.getX()), (_center.getY() - land.getY()), (_center.getZ() - land.getZ()));
             centerToLand.normalize();
             landToLight.normalize();
