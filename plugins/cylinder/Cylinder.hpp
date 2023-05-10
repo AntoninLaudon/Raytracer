@@ -15,7 +15,7 @@
 namespace Raytracer {
     class Cylinder : public AElement{
         public:
-            Cylinder(const std::string name, Math::Point3D center, Math::Vector3D direction, Math::Vector3D rotation, PPM::RGB rgb, double radius = 1);
+            Cylinder(const std::string name, Math::Point3D center, Math::Vector3D rotation, PPM::RGB rgb, double radius = 1);
             ~Cylinder();
             void translate(double x, double y, double z);
             void rotate(double x, double y, double z);
