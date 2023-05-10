@@ -220,3 +220,7 @@ std::vector<Raytracer::IElement*> Raytracer::SceneManager::getElements()
 {
     return _elements;
 }
+
+std::pair<int, int> Raytracer::SceneManager::getSize() {
+   return _size;
+}

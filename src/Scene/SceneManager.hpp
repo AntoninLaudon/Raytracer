@@ -34,6 +34,7 @@ namespace Raytracer {
         std::string getPath();
         void setPath(std::string path);
         std::vector<Raytracer::IElement*> getElements();
+        std::pair<int, int> getSize();
     protected:
     private:
         std::string _path;
