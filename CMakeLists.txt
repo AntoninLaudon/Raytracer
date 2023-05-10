@@ -42,12 +42,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/plugins/sphere)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/plugins/light)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/plugins/plan)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/plugins/cylinder)
-<<<<<<< HEAD
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/plugins/triangle)
-
-add_dependencies(raytracer sphere light plan cylinder triangle)
-=======
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/plugins/cone)
 
-add_dependencies(raytracer sphere light plan cylinder cone)
->>>>>>> dca2262 (ADD: cone but don't work)
+add_dependencies(raytracer sphere light plan cylinder cone triangle)
