@@ -156,6 +156,8 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
                 type = Raytracer::CYLINDER;
             if (strcmp(elements.getName(), "triangles") == 0)
                 type = Raytracer::TRIANGLE;
+            if (strcmp(elements.getName(), "cones") == 0)
+                type = Raytracer::CONE;
             if (strcmp(elements.getName(), "resolution") == 0) {
                 _size.first = elements.lookup("x");
                 _size.second = elements.lookup("y");
