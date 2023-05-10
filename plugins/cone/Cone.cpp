@@ -50,17 +50,17 @@ double Raytracer::Cone::getLuminosity(std::vector<Raytracer::IElement *> &elemen
             Math::Point3D Z1 = _center + (x * _rotation);
             Math::Point3D Z2 = _center + (x * _rotation * -1);
             
-            Math::Vector3D centerToLight((_center.getX() - element->getCenter().getX()), (_center.getY() - element->getCenter().getY()), (_center.getZ() - element->getCenter().getZ()));
             Math::Vector3D centerToLand1((Z1.getX() - land.getX()), (Z1.getY() - land.getY()), (Z1.getZ() - land.getZ()));
             Math::Vector3D centerToLand2((Z2.getX() - land.getX()), (Z2.getY() - land.getY()), (Z2.getZ() - land.getZ()));
+            Math::Vector3D landToLight((land.getX() - element->getCenter().getX()), (land.getY() - element->getCenter().getY()), (land.getZ() - element->getCenter().getZ()));
             if (centerToLand1.length() < centerToLand2.length()) {
                 centerToLand1.normalize();
-                centerToLight.normalize();
-                dot = centerToLand1.dot(centerToLight);
+                landToLight.normalize();
+                dot = centerToLand1.dot(landToLight);
             } else {
                 centerToLand2.normalize();
-                centerToLight.normalize();
-                dot = centerToLand2.dot(centerToLight);
+                landToLight.normalize();
+                dot = centerToLand2.dot(landToLight);
             }
 
             for (auto &primitive : elements) {
