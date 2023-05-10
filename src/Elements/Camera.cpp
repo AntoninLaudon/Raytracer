@@ -64,8 +64,6 @@ Raytracer::Camera::Camera(Math::Point3D origin, double fov)
     position.setY((position.getY() + 9.0/16.0));
     position.setZ(position.getZ() + dist);
 
-    std::cout << "distance :" << position.getZ() << std::endl;
-
     _origin = position;
 }
 

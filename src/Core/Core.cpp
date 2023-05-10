@@ -239,9 +239,9 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                     libconfig::Setting& spheres = config->lookup("primitives.spheres");
                     for (auto &sphere : spheres) {
                         if (strcmp(sphere.lookup("name"), name.c_str()) == 0) {
-                            sphere.lookup("rotation.x") = elem->getCenter().getX();
-                            sphere.lookup("rotation.y") = elem->getCenter().getY();
-                            sphere.lookup("rotation.z") = elem->getCenter().getZ();
+                            sphere.lookup("rotation.x") = elem->getRotation().getX();
+                            sphere.lookup("rotation.y") = elem->getRotation().getY();
+                            sphere.lookup("rotation.z") = elem->getRotation().getZ();
                         }
                     }
                 } else if (elem->getType() == Raytracer::PLANE) {
@@ -249,9 +249,9 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                     libconfig::Setting& planes = config->lookup("primitives.planes");
                     for (auto &plane : planes) {
                         if (strcmp(plane.lookup("name"), name.c_str()) == 0) {
-                            plane.lookup("rotation.x") = elem->getCenter().getX();
-                            plane.lookup("rotation.y") = elem->getCenter().getY();
-                            plane.lookup("rotation.z") = elem->getCenter().getZ();
+                            plane.lookup("rotation.x") = elem->getRotation().getX();
+                            plane.lookup("rotation.y") = elem->getRotation().getY();
+                            plane.lookup("rotation.z") = elem->getRotation().getZ();
                         }
                     }
                 } else if (elem->getType() == Raytracer::CYLINDER) {
@@ -259,9 +259,9 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                     libconfig::Setting& cylinders = config->lookup("primitives.cylinders");
                     for (auto &cylinder : cylinders) {
                         if (strcmp(cylinder.lookup("name"), name.c_str()) == 0) {
-                            cylinder.lookup("rotation.x") = elem->getCenter().getX();
-                            cylinder.lookup("rotation.y") = elem->getCenter().getY();
-                            cylinder.lookup("rotation.z") = elem->getCenter().getZ();
+                            cylinder.lookup("rotation.x") = elem->getRotation().getX();
+                            cylinder.lookup("rotation.y") = elem->getRotation().getY();
+                            cylinder.lookup("rotation.z") = elem->getRotation().getZ();
                         }
                     }
                 } else if (elem->getType() == Raytracer::TRIANGLE) {
@@ -269,9 +269,9 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                     libconfig::Setting& triangles = config->lookup("primitives.triangles");
                     for (auto &triangle : triangles) {
                         if (strcmp(triangle.lookup("name"), name.c_str()) == 0) {
-                            triangle.lookup("rotation.x") = elem->getCenter().getX();
-                            triangle.lookup("rotation.y") = elem->getCenter().getY();
-                            triangle.lookup("rotation.z") = elem->getCenter().getZ();
+                            triangle.lookup("rotation.x") = elem->getRotation().getX();
+                            triangle.lookup("rotation.y") = elem->getRotation().getY();
+                            triangle.lookup("rotation.z") = elem->getRotation().getZ();
                         }
                     }
                 } else if (elem->getType() == Raytracer::CONE) {
@@ -279,9 +279,9 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                     libconfig::Setting& cones = config->lookup("primitives.cones");
                     for (auto &cone : cones) {
                         if (strcmp(cone.lookup("name"), name.c_str()) == 0) {
-                            cone.lookup("rotation.x") = elem->getCenter().getX();
-                            cone.lookup("rotation.y") = elem->getCenter().getY();
-                            cone.lookup("rotation.z") = elem->getCenter().getZ();
+                            cone.lookup("rotation.x") = elem->getRotation().getX();
+                            cone.lookup("rotation.y") = elem->getRotation().getY();
+                            cone.lookup("rotation.z") = elem->getRotation().getZ();
                         }
                     }
                 } else if (elem->getType() == Raytracer::LIGHT) {
@@ -289,9 +289,9 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                     libconfig::Setting& lights = config->lookup("lights.lights");
                     for (auto &light : lights) {
                         if (strcmp(light.lookup("name"), name.c_str()) == 0) {
-                            light.lookup("rotation.x") = elem->getCenter().getX();
-                            light.lookup("rotation.y") = elem->getCenter().getY();
-                            light.lookup("rotation.z") = elem->getCenter().getZ();
+                            light.lookup("rotation.x") = elem->getRotation().getX();
+                            light.lookup("rotation.y") = elem->getRotation().getY();
+                            light.lookup("rotation.z") = elem->getRotation().getZ();
                         }
                     }
                 }
