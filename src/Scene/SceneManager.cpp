@@ -124,7 +124,6 @@ std::shared_ptr<std::vector<PPM::RGB>> Raytracer::SceneManager::Render()
     PPM::PPM img = PPM::PPM(_size.first, _size.second);
     std::vector<PPM::RGB> pixels = std::vector<PPM::RGB>(_size.first * _size.second);
     std::vector<std::thread> threads;
-    std::cout << "Number of threads : " << std::thread::hardware_concurrency() << std::endl;
     int nbry = _size.second / std::thread::hardware_concurrency();
     for (size_t i = 0; i < std::thread::hardware_concurrency(); i++) {
         std::thread t(&SceneManager::RenderLine, this, std::ref(pixels), i * nbry, nbry);

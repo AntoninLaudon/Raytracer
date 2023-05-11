@@ -44,6 +44,8 @@ Build with CMake. ( You must have SFML library. )
 
 ![Cylinders](/screenshots/cylinders.png?raw=true "Cylinders")
 
+![Gravity](/screenshots/gravity.png?raw=true "Gravity")
+
 ## CFG configuration:
 
 ### Camera
