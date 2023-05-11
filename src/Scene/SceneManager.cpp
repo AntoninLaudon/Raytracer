@@ -79,43 +79,41 @@ void Raytracer::SceneManager::CreateCamera(const libconfig::Setting *elem)
     std::cout << "Camera loaded" << std::endl;
 }
 
-void Raytracer::SceneManager::RenderLine(std::vector<PPM::RGB> &pixels, double y)
+void Raytracer::SceneManager::RenderLine(std::vector<PPM::RGB> &pixels, double y, int sizeBatch)
 {
     Math::Vector3D tmp(0, 0, 0);
     std::vector<std::shared_ptr<Math::Point3D>> p;
     size_t size = _elements.size();
     Math::Point3D shortest(0, 0, 0);
     double shortestDist = -1;
-
-    for (double x = 0; x < _size.first; x++) {
-        // double percent = 100 - ((y * _size.second + x) / (_size.first * _size.second) * 100);
-        // std::cout << "PROGRESS [" << std::string(std::round(percent * 50.0 / 100.0), '#') << std::string(50 - std::round(percent * 50.0 / 100.0), ' ') << "] " << std::setprecision(2) << std::fixed << percent << "%   \r";
-        double u = x/_size.first;
-        double v = y/_size.second;
-        Math::Ray r = _camera->ray(u, v);
-        p.clear();
-        for (size_t i = 0; i < size; i++) {
-            std::shared_ptr<Math::Point3D> tmp = _elements[i]->hits(r);
-            if (tmp) {
-                tmp.get()->setLuminosity(_elements[i]->getLuminosity(_elements, *tmp.get()));
-                p.push_back(tmp);
+    int y2 = y;
+    for (int i = 0; i < sizeBatch; i++)
+        for (double x = 0; x < _size.first; x++) {
+            y = y2 + i;
+            double u = x / _size.first;
+            double v = y / _size.second;
+            Math::Ray r = _camera->ray(u, v);
+            p.clear();
+            for (size_t i = 0; i < size; i++) {
+                std::shared_ptr<Math::Point3D> tmp = _elements[i]->hits(r);
+                if (tmp) {
+                    tmp.get()->setLuminosity(_elements[i]->getLuminosity(_elements, *tmp.get()));
+                    p.push_back(tmp);
+                }
             }
-        }
-        for (size_t i = 0; i < p.size(); i++) {
-            tmp = _camera->getOrigin() - *p[i].get();
-            if (shortestDist == -1 || shortestDist > tmp.length()) {
-                shortestDist = tmp.length();
-                shortest = *p[i];
+            for (size_t i = 0; i < p.size(); i++) {
+                tmp = _camera->getOrigin() - *p[i].get();
+                if (shortestDist == -1 || shortestDist > tmp.length()) {
+                    shortestDist = tmp.length();
+                    shortest = *p[i];
+                }
             }
+            if (shortestDist != -1) {
+                pixels[(int)y * _size.first + (int)x] = shortest.getColor() * shortest.getLuminosity();
+                shortestDist = -1;
+            } else {
+                pixels[(int)y * _size.first + (int)x] = PPM::RGB(0, 0, 0);
         }
-        // std::cout << pixels.size() << " | " << (int)x * _size.second + (int)y << " | x:" << x << " | y:" << y << std::endl;
-        if (shortestDist != -1) {
-            pixels[(int)y * _size.first + (int)x] = shortest.getColor() * shortest.getLuminosity();
-            shortestDist = -1;
-        } else {
-            pixels[(int)y * _size.first + (int)x] = PPM::RGB(0, 0, 0);
-        }
-
     }
 }
 
@@ -126,8 +124,10 @@ std::shared_ptr<std::vector<PPM::RGB>> Raytracer::SceneManager::Render()
     PPM::PPM img = PPM::PPM(_size.first, _size.second);
     std::vector<PPM::RGB> pixels = std::vector<PPM::RGB>(_size.first * _size.second);
     std::vector<std::thread> threads;
-    for (double y = 0; y < _size.second; y++) {
-        std::thread t(&SceneManager::RenderLine, this, std::ref(pixels), y);
+    std::cout << "Number of threads : " << std::thread::hardware_concurrency() << std::endl;
+    int nbry = _size.second / std::thread::hardware_concurrency();
+    for (size_t i = 0; i < std::thread::hardware_concurrency(); i++) {
+        std::thread t(&SceneManager::RenderLine, this, std::ref(pixels), i * nbry, nbry);
         threads.push_back(std::move(t));
     }
     for (auto &t : threads)
