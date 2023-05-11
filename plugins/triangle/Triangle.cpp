@@ -55,7 +55,8 @@ double Raytracer::Triangle::getLuminosity(std::vector<Raytracer::IElement *> &el
             landToLight = {land - element->getCenter()};
             landToLight.normalize();
             dot = landToLight.dot(_vector1.cross(_vector2));
-
+            dot /= 16;
+            std::cout << dot << std::endl;
             for (auto &primitive : elements) {
                 if (primitive->getType() >= Raytracer::PRIMITIVE && primitive->getName() != _name) {
                     std::shared_ptr<Math::Point3D> hit = primitive->hits(Math::Ray(land, element->getCenter() - land));
