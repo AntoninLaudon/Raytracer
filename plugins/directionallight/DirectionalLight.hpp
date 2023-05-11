@@ -15,7 +15,7 @@ namespace Raytracer {
     class Light : public AElement{
         public:
             Light();
-            Light(const std::string name, Math::Point3D center, Math::Vector3D rotation, double radius = 1, double radius2 = 1);
+            Light(const std::string name, Math::Vector3D rotation, PPM::RGB rgb);
             ~Light();
             void translate(double x, double y, double z);
             void rotate(double x, double y, double z);

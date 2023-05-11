@@ -2,85 +2,63 @@
 ** EPITECH PROJECT, 2023
 ** B-OOP-400-TLS-4-1-raytracer-tom.laiolo
 ** File description:
-** Sphere
+** Light
 */
 
-#include "Sphere.hpp"
+#include "DirectionalLight.hpp"
 
-Raytracer::Sphere::Sphere(const std::string name, Math::Point3D center, Math::Vector3D rotation, PPM::RGB rgb, double radius)
+Raytracer::Light::Light()
+{
+    _name = "Light";
+    _center = Math::Point3D(0, 0, 0);
+    _rotation = Math::Vector3D(0, 0, 0);
+    _type = LIGHT;
+    _intensity = 1;
+    _rgb = PPM::RGB(255, 255, 255);
+    _double = 1;
+    _double2 = 1;
+}
+
+Raytracer::Light::Light(const std::string name, Math::Vector3D rotation, PPM::RGB rgb)
 {
     _name = name;
-    _center = center;
-    _rotation = rotation;
-    _radius = radius;
-    _type = SPHERE;
+    _rotation = Math::Vector3D(0, 0, 0);
+    _center = Math::Point3D(0, 0, 0) + rotation * 1000000;
+    _type = LIGHT;
+    _intensity = 1;
     _rgb = rgb;
+    _double = 0;
+    _double2 = 360.0;
 }
 
-Raytracer::Sphere::~Sphere()
+Raytracer::Light::~Light()
 {
+
 }
 
-void Raytracer::Sphere::translate(double x, double y, double z)
+void Raytracer::Light::translate(double x, double y, double z)
 {
     _center.setX(_center.getX() + x);
     _center.setY(_center.getY() + y);
     _center.setZ(_center.getZ() + z);
 }
 
-void Raytracer::Sphere::rotate(double x, double y, double z)
+void Raytracer::Light::rotate(double x, double y, double z)
 {
     _rotation.setX(_rotation.getX() + x);
     _rotation.setY(_rotation.getY() + y);
     _rotation.setZ(_rotation.getZ() + z);
 }
 
-double Raytracer::Sphere::getLuminosity(std::vector<Raytracer::IElement *> &elements, const Math::Point3D &land) const
+double Raytracer::Light::getLuminosity(std::vector<Raytracer::IElement *> &elements, const Math::Point3D &land) const
 {
-    double luminosity = 0.1;
-    int nbrLights = 0;
-    double dot = 0;
+    (void)elements;
+    (void)land;
 
-    for (auto &element : elements) {
-        if (element->getType() == Raytracer::LIGHT) {
-            nbrLights++;
-
-            Math::Vector3D landToLight((element->getCenter().getX() - land.getX()), (element->getCenter().getY() - land.getY()), (element->getCenter().getZ() - land.getZ()));
-            landToLight.normalize();
-            dot = landToLight.dot(element->getRotation());
-            if (-dot < 1 / (180 / (180 - element->getDouble2())) && element->getRotation() != Math::Vector3D(0, 0, 0))
-                continue;
-
-            Math::Vector3D centerToLight((_center.getX() - element->getCenter().getX()), (_center.getY() - element->getCenter().getY()), (_center.getZ() - element->getCenter().getZ()));
-            Math::Vector3D centerToLand((_center.getX() - land.getX()), (_center.getY() - land.getY()), (_center.getZ() - land.getZ()));
-            centerToLand.normalize();
-            centerToLight.normalize();
-            dot = centerToLand.dot(centerToLight);
-            for (auto &primitive : elements) {
-                if (primitive->getType() >= Raytracer::PRIMITIVE && primitive->getName() != _name) {
-                    std::shared_ptr<Math::Point3D> hit = primitive->hits(Math::Ray(land, element->getCenter() - land));
-                    if (hit != nullptr) {
-                        if (Math::Vector3D(land.getX() - hit->getX(), land.getY() - hit->getY(), land.getZ() - hit->getZ()).length() > Math::Vector3D(land.getX() - element->getCenter().getX(), land.getY() - element->getCenter().getY(), land.getZ() - element->getCenter().getZ()).length())
-                            continue;
-                        dot = 0;
-                        break;
-                    }
-                }
-            }
-            luminosity += dot;
-        }
-    }
-    if (nbrLights == 0)
-        return luminosity;
-    luminosity /= nbrLights;
-
-    luminosity = luminosity < 0.1 ? 0.1 : luminosity;
-    if (luminosity == luminosity)
-        return luminosity;
-    return 0.1;
+    return 1;
 }
 
-std::shared_ptr<Math::Point3D> Raytracer::Sphere::hits(const Math::Ray &ray)
+std::shared_ptr<Math::Point3D> Raytracer::Light::hits(const Math::Ray &ray)
 {
     Math::Point3D origin = ray.getOrigin();
     Math::Vector3D direction = ray.getDirection();
@@ -94,8 +72,8 @@ std::shared_ptr<Math::Point3D> Raytracer::Sphere::hits(const Math::Ray &ray)
     double h = _center.getX();
     double i = _center.getY();
     double j = _center.getZ();
-    double r = _radius;
-
+    double r = _double;
+    
     double apow = pow(a, 2);
     double bpow = pow(b, 2);
     double cpow = pow(c, 2);
@@ -110,7 +88,7 @@ std::shared_ptr<Math::Point3D> Raytracer::Sphere::hits(const Math::Ray &ray)
     double t1 = ((-a * u - b * v - c * w + h * u + i * v + j * w) / (upow + vpow + wpow)) - sqrt((-apow * vpow - apow * wpow + 2 * a * b * u * v + 2 * a * c * u * w + 2 * a * h * vpow + 2 * a * h * wpow - 2 * a * i * u * v - 2 * a * j * u * w - bpow * upow - bpow * wpow + 2 * b * c * v * w - 2 * b * h * u * v + 2 * b * i * upow + 2 * b * i * wpow - 2 * b * j * v * w - cpow * upow - cpow * vpow - 2 * c * h * u * w - 2 * c * i * v * w + 2 * c * j * upow + 2 * c * j * vpow - hpow * vpow - hpow * wpow + 2 * h * i * u * v + 2 * h * j * u * w - ipow * upow - ipow * wpow + (2 * i * j * v * w) - jpow * upow - jpow * vpow + rpow * upow + rpow * vpow + rpow * wpow) / pow((upow + vpow + wpow), 2));
     double t2 = ((-a * u - b * v - c * w + h * u + i * v + j * w) / (upow + vpow + wpow)) + sqrt((-apow * vpow - apow * wpow + 2 * a * b * u * v + 2 * a * c * u * w + 2 * a * h * vpow + 2 * a * h * wpow - 2 * a * i * u * v - 2 * a * j * u * w - bpow * upow - bpow * wpow + 2 * b * c * v * w - 2 * b * h * u * v + 2 * b * i * upow + 2 * b * i * wpow - 2 * b * j * v * w - cpow * upow - cpow * vpow - 2 * c * h * u * w - 2 * c * i * v * w + 2 * c * j * upow + 2 * c * j * vpow - hpow * vpow - hpow * wpow + 2 * h * i * u * v + 2 * h * j * u * w - ipow * upow - ipow * wpow + (2 * i * j * v * w) - jpow * upow - jpow * vpow + rpow * upow + rpow * vpow + rpow * wpow) / pow((upow + vpow + wpow), 2));
 
-    if (t1 == t1 && t2 == t2) {
+    if (t1 == t1 && t2 == t2) { 
         Math::Point3D p1 = origin + direction * t1;
         Math::Point3D p2 = origin + direction * t2;
         p1.setColor(_rgb);
@@ -140,10 +118,10 @@ std::shared_ptr<Math::Point3D> Raytracer::Sphere::hits(const Math::Ray &ray)
 }
 
 extern "C" Raytracer::IElement *createObject(Raytracer::Data data) {
-    std::cout << "Creating sphere : " << data.getName() << std::endl;
-    return new Raytracer::Sphere(data.getName(), data.getCenter(), data.getRotation(), data.getRGB(), data.getDouble());
+    std::cout << "Creating Directional Light : " << data.getName() << std::endl;
+    return new Raytracer::Light(data.getName(), data.getRotation(), data.getRGB());
 }
 
 extern "C" Raytracer::ElemType getType() {
-    return Raytracer::SPHERE;
+    return Raytracer::DIRECTIONALLIGHT;
 }

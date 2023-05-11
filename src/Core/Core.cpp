@@ -209,14 +209,34 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                             cone.lookup("center.z") = elem->getCenter().getZ();
                         }
                     }
-                } else if (elem->getType() == Raytracer::LIGHT) {
+                } else if (elem->getType() == Raytracer::AMBIENTLIGHT) {
                     elem->translate(std::stof(x), std::stof(y), std::stof(z));
-                    libconfig::Setting& lights = config->lookup("lights.lights");
-                    for (auto &light : lights) {
-                        if (strcmp(light.lookup("name"), name.c_str()) == 0) {
-                            light.lookup("center.x") = elem->getCenter().getX();
-                            light.lookup("center.y") = elem->getCenter().getY();
-                            light.lookup("center.z") = elem->getCenter().getZ();
+                    libconfig::Setting& ambientlights = config->lookup("lights.ambientlights");
+                    for (auto &ambientlight : ambientlights) {
+                        if (strcmp(ambientlight.lookup("name"), name.c_str()) == 0) {
+                            ambientlight.lookup("center.x") = elem->getCenter().getX();
+                            ambientlight.lookup("center.y") = elem->getCenter().getY();
+                            ambientlight.lookup("center.z") = elem->getCenter().getZ();
+                        }
+                    }
+                } else if (elem->getType() == Raytracer::DIRECTIONALLIGHT) {
+                    elem->translate(std::stof(x), std::stof(y), std::stof(z));
+                    libconfig::Setting& directionallights = config->lookup("lights.directionallights");
+                    for (auto &directionallight : directionallights) {
+                        if (strcmp(directionallight.lookup("name"), name.c_str()) == 0) {
+                            directionallight.lookup("center.x") = elem->getCenter().getX();
+                            directionallight.lookup("center.y") = elem->getCenter().getY();
+                            directionallight.lookup("center.z") = elem->getCenter().getZ();
+                        }
+                    }
+                } else if (elem->getType() == Raytracer::SPOTLIGHT) {
+                    elem->translate(std::stof(x), std::stof(y), std::stof(z));
+                    libconfig::Setting& spotlights = config->lookup("lights.spotlights");
+                    for (auto &spotlight : spotlights) {
+                        if (strcmp(spotlight.lookup("name"), name.c_str()) == 0) {
+                            spotlight.lookup("center.x") = elem->getCenter().getX();
+                            spotlight.lookup("center.y") = elem->getCenter().getY();
+                            spotlight.lookup("center.z") = elem->getCenter().getZ();
                         }
                     }
                 }
@@ -284,14 +304,43 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                             cone.lookup("rotation.z") = elem->getRotation().getZ();
                         }
                     }
-                } else if (elem->getType() == Raytracer::LIGHT) {
+                } else if (elem->getType() == Raytracer::AMBIENTLIGHT) {
                     elem->rotate(std::stof(x), std::stof(y), std::stof(z));
+<<<<<<< HEAD
                     libconfig::Setting& lights = config->lookup("lights.lights");
                     for (auto &light : lights) {
                         if (strcmp(light.lookup("name"), name.c_str()) == 0) {
                             light.lookup("rotation.x") = elem->getRotation().getX();
                             light.lookup("rotation.y") = elem->getRotation().getY();
                             light.lookup("rotation.z") = elem->getRotation().getZ();
+=======
+                    libconfig::Setting& ambientlights = config->lookup("lights.ambientlights");
+                    for (auto &ambientlight : ambientlights) {
+                        if (strcmp(ambientlight.lookup("name"), name.c_str()) == 0) {
+                            ambientlight.lookup("rotation.x") = elem->getCenter().getX();
+                            ambientlight.lookup("rotation.y") = elem->getCenter().getY();
+                            ambientlight.lookup("rotation.z") = elem->getCenter().getZ();
+                        }
+                    }
+                } else if (elem->getType() == Raytracer::DIRECTIONALLIGHT) {
+                    elem->rotate(std::stof(x), std::stof(y), std::stof(z));
+                    libconfig::Setting& directionallights = config->lookup("lights.directionallights");
+                    for (auto &directionallight : directionallights) {
+                        if (strcmp(directionallight.lookup("name"), name.c_str()) == 0) {
+                            directionallight.lookup("rotation.x") = elem->getCenter().getX();
+                            directionallight.lookup("rotation.y") = elem->getCenter().getY();
+                            directionallight.lookup("rotation.z") = elem->getCenter().getZ();
+                        }
+                    }
+                } else if (elem->getType() == Raytracer::SPOTLIGHT) {
+                    elem->rotate(std::stof(x), std::stof(y), std::stof(z));
+                    libconfig::Setting& spotlights = config->lookup("lights.spotlights");
+                    for (auto &spotlight : spotlights) {
+                        if (strcmp(spotlight.lookup("name"), name.c_str()) == 0) {
+                            spotlight.lookup("rotation.x") = elem->getCenter().getX();
+                            spotlight.lookup("rotation.y") = elem->getCenter().getY();
+                            spotlight.lookup("rotation.z") = elem->getCenter().getZ();
+>>>>>>> 8c411a5 (ADD: Ambient, spot and directional light)
                         }
                     }
                 }
