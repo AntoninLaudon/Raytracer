@@ -53,13 +53,15 @@ double Raytracer::Cone::getLuminosity(std::vector<Raytracer::IElement *> &elemen
             Math::Vector3D centerToLand1((Z1.getX() - land.getX()), (Z1.getY() - land.getY()), (Z1.getZ() - land.getZ()));
             Math::Vector3D centerToLand2((Z2.getX() - land.getX()), (Z2.getY() - land.getY()), (Z2.getZ() - land.getZ()));
             Math::Vector3D landToLight((land.getX() - element->getCenter().getX()), (land.getY() - element->getCenter().getY()), (land.getZ() - element->getCenter().getZ()));
+            landToLight.normalize();
+            dot = landToLight.dot(element->getRotation());
+            if (-dot < 1 / (180 / (180 - element->getDouble2())) && element->getRotation() != Math::Vector3D(0, 0, 0))
+                continue;
             if (centerToLand1.length() < centerToLand2.length()) {
                 centerToLand1.normalize();
-                landToLight.normalize();
                 dot = centerToLand1.dot(landToLight);
             } else {
                 centerToLand2.normalize();
-                landToLight.normalize();
                 dot = centerToLand2.dot(landToLight);
             }
 
@@ -74,12 +76,13 @@ double Raytracer::Cone::getLuminosity(std::vector<Raytracer::IElement *> &elemen
                     }
                 }
             }
+            if (dot < 0)
+                dot = 0;
             luminosity += dot;
         }
     }
     if (nbrLights == 0)
         return luminosity;
-    luminosity /= nbrLights;
     luminosity = luminosity < 0.1 ? 0.1 : luminosity;
     if (luminosity == luminosity)
         return luminosity;

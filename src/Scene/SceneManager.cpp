@@ -246,3 +246,7 @@ std::vector<Raytracer::IElement*> Raytracer::SceneManager::getElements()
 std::pair<int, int> Raytracer::SceneManager::getSize() {
    return _size;
 }
+
+std::shared_ptr<Raytracer::Camera> Raytracer::SceneManager::getCamera() {
+    return _camera;
+}
