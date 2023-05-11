@@ -65,8 +65,10 @@ void Raytracer::Core::Render()
     sf::Uint8 *pix = new sf::Uint8[width*height*4];
     sf::Texture texture;
     texture.create(width, height); 
-    sf::Sprite sprite(texture); 
+    sf::Sprite sprite(texture);
 
+    for (int i = 0; i < width * height * 4; i++)
+        pix[i] = 0;
     for (int y = height - 1, test = 0; y > 0 ; y--) {
         for (int x = 0; x < width ; x++) {
             pix[test] = pixels->at(y * width + x).r;
