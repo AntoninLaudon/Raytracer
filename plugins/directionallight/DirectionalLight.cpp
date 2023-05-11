@@ -23,7 +23,7 @@ Raytracer::Light::Light(const std::string name, Math::Vector3D rotation, PPM::RG
 {
     _name = name;
     _rotation = Math::Vector3D(0, 0, 0);
-    _center = Math::Point3D(0, 0, 0) + rotation * 1000000;
+    _center = Math::Point3D(0, 0, 0) + rotation * -1000000;
     _type = LIGHT;
     _intensity = 1;
     _rgb = rgb;
