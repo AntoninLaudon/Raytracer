@@ -13,6 +13,17 @@ The plugins must be in the /plugins folder and generated as .so.
 
 The images are saved in /screenshots folder.
 
+## Commands
+
+You can use commands in the SFML Window:
+
+- "help" to print the commands.
+- "exit" to quit the program.
+- "translate" {name} {x} {y} {z} to translate an object.
+- "rotate" {name} {x} {y} {z} to rotate an object.
+- "list" to print the objects.
+- "resolution" {x} {y} to change the resolution.
+
 ## How to use ?
 
 Build with CMake. ( You must have SFML library. )
