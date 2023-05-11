@@ -48,7 +48,7 @@ void PPM::PPM::save(const char *filename)
 
         if (_version == "P3") {
             for (int i = _height; i > 0; i--) {
-                for (int j = _width; j > 0;j--) {
+                for (int j = 0; j < _width;j++) {
                     output << (int)pixels[i * _width + j].r << " ";
                     output << (int)pixels[i * _width + j].g << " ";
                     output << (int)pixels[i * _width + j].b << "\n";
