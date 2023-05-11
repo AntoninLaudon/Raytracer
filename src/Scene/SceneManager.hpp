@@ -29,7 +29,7 @@ namespace Raytracer {
         ~SceneManager();
         void ParseScene();
         std::shared_ptr<std::vector<PPM::RGB>> Render();
-        void RenderLine(std::vector<PPM::RGB> &pixels, double y);
+        void RenderLine(std::vector<PPM::RGB> &pixels, double y, int size);
         void CreateCamera(const libconfig::Setting *elem);
         void CreateElement(const libconfig::Setting *elem, std::shared_ptr<Factory> factory);
         std::string getPath();

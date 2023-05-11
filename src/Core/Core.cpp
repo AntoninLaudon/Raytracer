@@ -148,10 +148,12 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
         return 2;
     } else if (command == "help") {
         std::cout << "Available commands:" << std::endl;
+        std::cout << "\thelp\t\tDisplay this help" << std::endl;
         std::cout << "\texit\t\tExit the program" << std::endl;
         std::cout << "\ttranslate {name} {x} {y} {z}\tTranslate an element" << std::endl;
-        std::cout << "\thelp\t\tDisplay this help" << std::endl;
+        std::cout << "\trotate {name} {x} {y} {z}\tRotate an element" << std::endl;
         std::cout << "\tlist\t\tList all elements" << std::endl;
+        std::cout << "\tresolution {width} {height}\tChange the resolution" << std::endl;
     } else if (strncmp(command.c_str(), "translate", 9) == 0) {
         //Go to the configuration file and change the position of the element with the given name where command is : translate name x y z
         std::string name = command.substr(10, command.find(" ", 10) - 10);

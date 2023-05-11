@@ -65,12 +65,13 @@ double Raytracer::Cylinder::getLuminosity(std::vector<Raytracer::IElement *> &el
                     }
                 }
             }
+            if (dot < 0)
+                dot = 0;
             luminosity += dot;
         }
     }
     if (nbrLights == 0)
         return luminosity;
-    luminosity /= nbrLights;
 
     luminosity = luminosity < 0.1 ? 0.1 : luminosity;
     if (luminosity == luminosity)
