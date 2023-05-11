@@ -3,7 +3,7 @@ Epitech Raytracer
 
 Raytracer is a EPITECH 2nd year project. The purpose of our project is to render scenes using raytracing. In our project you can use .cfg file to configure scenes and create plugins.
 
-You can generate one image or open a SFML Window and rerender fast a new screenshot by applying commands or editing the cfg file.
+You can generate one image or open a SFML Window and fast rerender a new screenshot by applying commands or editing the cfg file.
 
 ## Organization
 
@@ -32,7 +32,7 @@ Build with CMake. ( You must have SFML library. )
 
 ./raytracer [scene]           | Launch with SFML the given .cfg file.
 
-./raytracer -render [scene]   | Generate in /screenshots the render of the .cfg file given.
+./raytracer -render [scene]   | Generate in /screenshots the render of the .cfg file given without open SFML.
 
 ./raytracer -h or --help      | Print informations.
 
@@ -85,7 +85,7 @@ primitives :
           y = 5.0;
           z = 0.0;
         };
-      rotation :          // rotation (it's useless for a sphere)
+      rotation :          // rotation
         {
           x = 0.0;
           y = 0.0;
@@ -105,30 +105,153 @@ primitives :
 #### Plane
 
 ```c
-
+  planes = (
+    {
+      name = "plane1";  // name
+      center :          // position
+      {
+        x = 0.0;
+        y = 0.0;
+        z = 0.0;
+      };
+      direction :       // direction
+      {
+        x = 1.0;
+        y = 0.0;
+        z = 0.0;
+      };
+      direction2 :      // direction2
+      {
+        x = 0.0;
+        y = 0.0;
+        z = 1.0;
+      };
+      rotation :        // rotation
+      {
+        x = 0.0;
+        y = 0.0;
+        z = 0.0;
+      };
+      color :           // color
+      {
+        r = 0;
+        g = 0;
+        b = 255;
+      };
+    } );
 ```
 
 #### Cylinder
 
 ```c
-
+  cylinders = ( 
+    {
+      name = "cylinder";    // name
+      center :              // position
+      {
+        x = -16.0;
+        y = 12.0;
+        z = 8.0;
+      };
+      direction :           // direction
+      {
+        x = 0.0;
+        y = 0.0;
+        z = 0.0;
+      };
+      rotation :            // rotation
+      {
+        x = 0.0;
+        y = 1.0;
+        z = 0.0;
+      };
+      double = 2.0;         // radius
+      color :               // color
+      {
+        r = 0;
+        g = 0;
+        b = 255;
+      };
+    } );
 ```
 
 #### Cone
 
 ```c
-
+  cones = ( 
+    {
+      name = "cone";    // name
+      center :          // position
+      {
+        x = 0.0;
+        y = 0.0;
+        z = 0.0;
+      };
+      double = 0.8;     // half the opening angle
+      direction :       // direction
+      {
+        x = 0.0;
+        y = 0.0;
+        z = 0.0;
+      };
+      rotation :        // rotation
+      {
+        x = 1.0;
+        y = 1.0;
+        z = 1.0;
+      };
+      color :           // color
+      {
+        r = 255;
+        g = 0;
+        b = 255;
+      };
+    } );
 ```
 
 #### Triangle
 
 ```c
-
+  triangles = ( 
+    {
+      name = "triangle1";   // name
+      center :              // position
+      {
+        x = 5.0;
+        y = 6.0;
+        z = 3.6;
+      };
+      rotation :            // rotation
+      {
+        x = 0.1;
+        y = 0.1;
+        z = 3.1;
+      };
+      direction :           // direction1
+      {
+        x = 6.0;
+        y = 0.0;
+        z = 0.0;
+      };
+      direction2 :          // direction2
+      {
+        x = 0.0;
+        y = 6.0;
+        z = 0.0;
+      };
+      color :               // color
+      {
+        r = 255;
+        g = 64;
+        b = 64;
+      };
+    } );
 ```
 
 ```
- };
+};
 ```
+
 
 ### Lights
 
