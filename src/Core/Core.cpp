@@ -362,7 +362,7 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
         return 0;
     } else if (command == "list") {
         std::cout << "Elements:" << std::endl;
-        std::cout << "\tCamera, position : { x:" << _scene->getCamera()->getOrigin().getX() << ", y:" << _scene->getCamera()->getOrigin().getY() << ", z:" << _scene->getCamera()->getOrigin().getZ() << "}" << std::endl;
+        std::cout << "\tcamera, position : { x:" << _scene->getCamera()->getOrigin().getX() << ", y:" << _scene->getCamera()->getOrigin().getY() << ", z:" << _scene->getCamera()->getOrigin().getZ() << "}" << std::endl;
         for (auto &elem : _scene->getElements()) {
             std::cout << "\t" << elem->getName() << ", position : { x:" << elem->getCenter().getX() << ", y:" << elem->getCenter().getY() << ", z:" << elem->getCenter().getZ() << "}, rotation : { x:" << elem->getRotation().getX() << ", y:" << elem->getRotation().getY() << ", z:" << elem->getRotation().getZ() << "}" << std::endl;
         }
