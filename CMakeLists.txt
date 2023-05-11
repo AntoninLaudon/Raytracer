@@ -28,7 +28,7 @@ find_library(LIBSFML_GRAPHICS sfml-graphics)
 find_library(LIBSFML_WINDOW sfml-window)
 find_library(LIBSFML_SYSTEM sfml-system)
 
-target_link_libraries(raytracer PUBLIC ${LIBCONFIG} ${LIBDL} ${LIBSFML_GRAPHICS} ${LIBSFML_WINDOW} ${LIBSFML_SYSTEM})
+target_link_libraries(raytracer PUBLIC ${LIBCONFIG} ${LIBDL} ${LIBSFML_GRAPHICS} ${LIBSFML_WINDOW} ${LIBSFML_SYSTEM} -pthread)
     
 target_include_directories(raytracer PUBLIC
     src/

@@ -65,18 +65,20 @@ void Raytracer::Core::Render()
     sf::Uint8 *pix = new sf::Uint8[width*height*4];
     sf::Texture texture;
     texture.create(width, height); 
-    sf::Sprite sprite(texture);
-    for(int i = 0, j = 0; i < width*height*4; i += 4, j++) {
-        pix[i] = pixels->at(j).r;
-        pix[i+1] = pixels->at(j).g;
-        pix[i+2] = pixels->at(j).b;
-        pix[i+3] = 255;
-        if (j % width == 0) {
-            texture.update(pix);
-            window.clear();
-            window.draw(sprite);
-            window.display();
+    sf::Sprite sprite(texture); 
+
+    for (int y = height - 1, test = 0; y > 0 ; y--) {
+        for (int x = 0; x < width ; x++) {
+            pix[test] = pixels->at(y * width + x).r;
+            pix[test + 1] = pixels->at(y * width + x).g;
+            pix[test + 2] = pixels->at(y * width + x).b;
+            pix[test + 3] = 255;
+            test += 4;
         }
+        texture.update(pix);
+        window.clear();
+        window.draw(sprite);
+        window.display();
     }
     file.close();
     texture.update(pix);
@@ -146,10 +148,12 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
         return 2;
     } else if (command == "help") {
         std::cout << "Available commands:" << std::endl;
+        std::cout << "\thelp\t\tDisplay this help" << std::endl;
         std::cout << "\texit\t\tExit the program" << std::endl;
         std::cout << "\ttranslate {name} {x} {y} {z}\tTranslate an element" << std::endl;
-        std::cout << "\thelp\t\tDisplay this help" << std::endl;
+        std::cout << "\trotate {name} {x} {y} {z}\tRotate an element" << std::endl;
         std::cout << "\tlist\t\tList all elements" << std::endl;
+        std::cout << "\tresolution {width} {height}\tChange the resolution" << std::endl;
     } else if (strncmp(command.c_str(), "translate", 9) == 0) {
         //Go to the configuration file and change the position of the element with the given name where command is : translate name x y z
         std::string name = command.substr(10, command.find(" ", 10) - 10);
@@ -241,6 +245,13 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                     }
                 }
             }
+        }
+        if (name == "camera") {
+            _scene->getCamera()->translate(std::stof(x), std::stof(y), std::stof(z));
+            libconfig::Setting& camera = config->lookup("camera");
+            camera.lookup("camera_position.x") = _scene->getCamera()->getOrigin().getX();
+            camera.lookup("camera_position.y") = _scene->getCamera()->getOrigin().getY();
+            camera.lookup("camera_position.z") = _scene->getCamera()->getOrigin().getZ();
         }
         config->writeFile(_file->getfilePath().c_str());
         return 0;
@@ -349,6 +360,7 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
         return 0;
     } else if (command == "list") {
         std::cout << "Elements:" << std::endl;
+        std::cout << "\tCamera, position : { x:" << _scene->getCamera()->getOrigin().getX() << ", y:" << _scene->getCamera()->getOrigin().getY() << ", z:" << _scene->getCamera()->getOrigin().getZ() << "}" << std::endl;
         for (auto &elem : _scene->getElements()) {
             std::cout << "\t" << elem->getName() << ", position : { x:" << elem->getCenter().getX() << ", y:" << elem->getCenter().getY() << ", z:" << elem->getCenter().getZ() << "}, rotation : { x:" << elem->getRotation().getX() << ", y:" << elem->getRotation().getY() << ", z:" << elem->getRotation().getZ() << "}" << std::endl;
         }

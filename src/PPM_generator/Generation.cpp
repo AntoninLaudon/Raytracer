@@ -47,16 +47,16 @@ void PPM::PPM::save(const char *filename)
         output << "255" << std::endl;
 
         if (_version == "P3") {
-            for (int i = 0; i < _height; i++) {
-                for (int j = 0; j < _width; j++) {
+            for (int i = _height; i > 0; i--) {
+                for (int j = 0; j < _width;j++) {
                     output << (int)pixels[i * _width + j].r << " ";
                     output << (int)pixels[i * _width + j].g << " ";
                     output << (int)pixels[i * _width + j].b << "\n";
                 }
             }
         } else {
-            for (int i = 0; i < _height; i++) {
-                for (int j = 0; j < _width; j++)
+            for (int i = _height; i > 0; i--) {
+                for (int j = _width; j > 0; j--)
                     output.write((char *)&pixels[i * _width + j], sizeof(RGB));
             }
         }

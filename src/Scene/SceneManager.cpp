@@ -6,6 +6,7 @@
 */
 
 #include <chrono>
+#include <thread>
 #include "SceneManager.hpp"
 
 Raytracer::SceneManager::SceneManager(const char *path)
@@ -78,23 +79,19 @@ void Raytracer::SceneManager::CreateCamera(const libconfig::Setting *elem)
     std::cout << "Camera loaded" << std::endl;
 }
 
-std::shared_ptr<std::vector<PPM::RGB>> Raytracer::SceneManager::Render()
+void Raytracer::SceneManager::RenderLine(std::vector<PPM::RGB> &pixels, double y, int sizeBatch)
 {
-    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-    std::cout << "Rendering..." << std::endl;
-    PPM::PPM img = PPM::PPM(_size.first, _size.second);
-    std::shared_ptr<std::vector<PPM::RGB>> pixels = std::make_shared<std::vector<PPM::RGB>>();
-    std::vector<std::shared_ptr<Math::Point3D>> p;
-    Math::Point3D shortest(0, 0, 0);
     Math::Vector3D tmp(0, 0, 0);
+    std::vector<std::shared_ptr<Math::Point3D>> p;
     size_t size = _elements.size();
+    Math::Point3D shortest(0, 0, 0);
     double shortestDist = -1;
-    for (double y = _size.second; y > 0; y--) {
+    int y2 = y;
+    for (int i = 0; i < sizeBatch; i++)
         for (double x = 0; x < _size.first; x++) {
-            // double percent = 100 - ((y * _size.second + x) / (_size.first * _size.second) * 100);
-            // std::cout << "PROGRESS [" << std::string(std::round(percent * 50.0 / 100.0), '#') << std::string(50 - std::round(percent * 50.0 / 100.0), ' ') << "] " << std::setprecision(2) << std::fixed << percent << "%   \r";
-            double u = x/_size.first;
-            double v = y/_size.second;
+            y = y2 + i;
+            double u = x / _size.first;
+            double v = y / _size.second;
             Math::Ray r = _camera->ray(u, v);
             p.clear();
             for (size_t i = 0; i < size; i++) {
@@ -112,15 +109,30 @@ std::shared_ptr<std::vector<PPM::RGB>> Raytracer::SceneManager::Render()
                 }
             }
             if (shortestDist != -1) {
-                // std::cout << shortest.getColor() << " * " << shortest.getLuminosity() << " | " << shortest << " | " << shortest.getColor() * shortest.getLuminosity() << std::endl;
-                pixels->push_back(shortest.getColor() * shortest.getLuminosity());
+                pixels[(int)y * _size.first + (int)x] = shortest.getColor() * shortest.getLuminosity();
                 shortestDist = -1;
             } else {
-                pixels->push_back(PPM::RGB(0, 0, 0));
-            }
+                pixels[(int)y * _size.first + (int)x] = PPM::RGB(0, 0, 0);
         }
     }
-    img.bufferToImage(pixels);
+}
+
+std::shared_ptr<std::vector<PPM::RGB>> Raytracer::SceneManager::Render()
+{
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+    std::cout << "Rendering..." << std::endl;
+    PPM::PPM img = PPM::PPM(_size.first, _size.second);
+    std::vector<PPM::RGB> pixels = std::vector<PPM::RGB>(_size.first * _size.second);
+    std::vector<std::thread> threads;
+    std::cout << "Number of threads : " << std::thread::hardware_concurrency() << std::endl;
+    int nbry = _size.second / std::thread::hardware_concurrency();
+    for (size_t i = 0; i < std::thread::hardware_concurrency(); i++) {
+        std::thread t(&SceneManager::RenderLine, this, std::ref(pixels), i * nbry, nbry);
+        threads.push_back(std::move(t));
+    }
+    for (auto &t : threads)
+        t.join();
+    img.bufferToImage(std::make_shared<std::vector<PPM::RGB>>(pixels));
     //Create a string with the name : screenshots/screen_[year]_[month]_[day]_[hour]_[minute]_[second].ppm
     std::string name = "screenshots/screen_";
     std::time_t t = std::time(nullptr);
@@ -130,7 +142,7 @@ std::shared_ptr<std::vector<PPM::RGB>> Raytracer::SceneManager::Render()
     img.save(name.c_str());
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
     std::cout << "Done, took: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "ms" << std::endl;
-    return pixels;
+    return std::make_shared<std::vector<PPM::RGB>>(pixels);
 }
 
 void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std::shared_ptr<Factory> factory)
@@ -233,4 +245,8 @@ std::vector<Raytracer::IElement*> Raytracer::SceneManager::getElements()
 
 std::pair<int, int> Raytracer::SceneManager::getSize() {
    return _size;
+}
+
+std::shared_ptr<Raytracer::Camera> Raytracer::SceneManager::getCamera() {
+    return _camera;
 }
