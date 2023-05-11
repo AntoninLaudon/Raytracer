@@ -199,6 +199,7 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                             triangle.lookup("center.z") = elem->getCenter().getZ();
                         }
                     }
+<<<<<<< HEAD
                 } else if (elem->getType() == Raytracer::CONE) {
                     elem->translate(std::stof(x), std::stof(y), std::stof(z));
                     libconfig::Setting& cones = config->lookup("primitives.cones");
@@ -211,6 +212,10 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                     }
                 } else if (elem->getType() == Raytracer::AMBIENTLIGHT) {
                     elem->translate(std::stof(x), std::stof(y), std::stof(z));
+=======
+                } else if (elem->getType() == Raytracer::AMBIENTLIGHT) {
+                    elem->translate(std::stof(x), std::stof(y), std::stof(z));
+>>>>>>> 8c411a5 (ADD: Ambient, spot and directional light)
                     libconfig::Setting& ambientlights = config->lookup("lights.ambientlights");
                     for (auto &ambientlight : ambientlights) {
                         if (strcmp(ambientlight.lookup("name"), name.c_str()) == 0) {
@@ -294,6 +299,7 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                             triangle.lookup("rotation.z") = elem->getRotation().getZ();
                         }
                     }
+<<<<<<< HEAD
                 } else if (elem->getType() == Raytracer::CONE) {
                     elem->rotate(std::stof(x), std::stof(y), std::stof(z));
                     libconfig::Setting& cones = config->lookup("primitives.cones");
@@ -314,6 +320,10 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                             light.lookup("rotation.y") = elem->getRotation().getY();
                             light.lookup("rotation.z") = elem->getRotation().getZ();
 =======
+=======
+                } else if (elem->getType() == Raytracer::AMBIENTLIGHT) {
+                    elem->rotate(std::stof(x), std::stof(y), std::stof(z));
+>>>>>>> 8c411a5 (ADD: Ambient, spot and directional light)
                     libconfig::Setting& ambientlights = config->lookup("lights.ambientlights");
                     for (auto &ambientlight : ambientlights) {
                         if (strcmp(ambientlight.lookup("name"), name.c_str()) == 0) {
@@ -340,6 +350,9 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                             spotlight.lookup("rotation.x") = elem->getCenter().getX();
                             spotlight.lookup("rotation.y") = elem->getCenter().getY();
                             spotlight.lookup("rotation.z") = elem->getCenter().getZ();
+<<<<<<< HEAD
+>>>>>>> 8c411a5 (ADD: Ambient, spot and directional light)
+=======
 >>>>>>> 8c411a5 (ADD: Ambient, spot and directional light)
                         }
                     }
