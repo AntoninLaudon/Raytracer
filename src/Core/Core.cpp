@@ -65,8 +65,9 @@ void Raytracer::Core::Render()
     sf::Uint8 *pix = new sf::Uint8[width*height*4];
     sf::Texture texture;
     texture.create(width, height); 
-    sf::Sprite sprite(texture);
-    for(int i = 0, j = 0; i < width*height*4; i += 4, j++) {
+    sf::Sprite sprite(texture); 
+
+    for(int i = 0, j = width * height - 1; i < width*height*4; i += 4, j--) {
         pix[i] = pixels->at(j).r;
         pix[i+1] = pixels->at(j).g;
         pix[i+2] = pixels->at(j).b;
@@ -76,9 +77,9 @@ void Raytracer::Core::Render()
             window.clear();
             window.draw(sprite);
             window.display();
+            file.close();
         }
     }
-    file.close();
     texture.update(pix);
     delete[] pix;
 
