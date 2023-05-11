@@ -83,7 +83,8 @@ double Raytracer::Plan::getLuminosity(std::vector<Raytracer::IElement *> &elemen
             if (-dot < 1 / (180 / (180 - element->getDouble2())) && element->getRotation() != Math::Vector3D(0, 0, 0))
                 continue;
 
-            landToLight = {land.getX() - element->getCenter().getX(), land.getX() - element->getCenter().getX(), land.getX() - element->getCenter().getX()};
+            landToLight = {land - element->getCenter()};
+            landToLight.normalize();
             dot = landToLight.dot(_normal);
             for (auto &primitive : elements) {
                 if (primitive->getType() >= Raytracer::PRIMITIVE && primitive->getName() != _name) {
