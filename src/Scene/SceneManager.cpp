@@ -110,13 +110,9 @@ void Raytracer::SceneManager::RenderLine(std::vector<PPM::RGB> &pixels, double y
         }
         // std::cout << pixels.size() << " | " << (int)x * _size.second + (int)y << " | x:" << x << " | y:" << y << std::endl;
         if (shortestDist != -1) {
-            // pixels.push_back(shortest.getColor() * shortest.getLuminosity());
-
             pixels[(int)y * _size.first + (int)x] = shortest.getColor() * shortest.getLuminosity();
             shortestDist = -1;
         } else {
-            // pixels.push_back(PPM::RGB(0, 0, 0));
-
             pixels[(int)y * _size.first + (int)x] = PPM::RGB(0, 0, 0);
         }
 
@@ -130,14 +126,12 @@ std::shared_ptr<std::vector<PPM::RGB>> Raytracer::SceneManager::Render()
     PPM::PPM img = PPM::PPM(_size.first, _size.second);
     std::vector<PPM::RGB> pixels = std::vector<PPM::RGB>(_size.first * _size.second);
     std::vector<std::thread> threads;
-    std::cout << "Number of threads : " << std::thread::hardware_concurrency() << std::endl;
     for (double y = 0; y < _size.second; y++) {
         std::thread t(&SceneManager::RenderLine, this, std::ref(pixels), y);
         threads.push_back(std::move(t));
     }
-    for (auto &t : threads) {
+    for (auto &t : threads)
         t.join();
-    }
     img.bufferToImage(std::make_shared<std::vector<PPM::RGB>>(pixels));
     //Create a string with the name : screenshots/screen_[year]_[month]_[day]_[hour]_[minute]_[second].ppm
     std::string name = "screenshots/screen_";
@@ -251,4 +245,8 @@ std::vector<Raytracer::IElement*> Raytracer::SceneManager::getElements()
 
 std::pair<int, int> Raytracer::SceneManager::getSize() {
    return _size;
+}
+
+std::shared_ptr<Raytracer::Camera> Raytracer::SceneManager::getCamera() {
+    return _camera;
 }

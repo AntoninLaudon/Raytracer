@@ -40,7 +40,6 @@ Math::Point3D Raytracer::Rectangle3D::pointAt(double u, double v)
 
 Raytracer::Camera::Camera(Math::Point3D origin, double fov)
 {
-    _screen = Rectangle3D(origin, Math::Vector3D(2, 0, 0), Math::Vector3D(0, 9.0/16.0*2.0, 0));
     if (fov < 0 || fov > 180)
         throw std::invalid_argument("fov must be between 0 and 180");
     _fov = fov;
@@ -58,13 +57,9 @@ Raytracer::Camera::Camera(Math::Point3D origin, double fov)
     } else if (dist < minDist) {
         dist = minDist;
     }
-
-    Math::Point3D position = _screen.getorigin();
-    position.setX((position.getX() + 1));
-    position.setY((position.getY() + 9.0/16.0));
-    position.setZ(position.getZ() + dist);
-
-    _origin = position;
+    _origin = Math::Point3D(origin.getX(), origin.getY(), origin.getZ());
+    _screen = Rectangle3D(origin, Math::Vector3D(2, 0, 0), Math::Vector3D(0, 9.0/16.0*2.0, 0));
+    _screen.translate(-1, -9.0/16.0, -dist);
 }
 
 Raytracer::Camera::~Camera()
@@ -86,4 +81,19 @@ Math::Ray Raytracer::Camera::ray(double u, double v)
     Math::Point3D point = _screen.pointAt(u, v);
     Math::Vector3D direction (point.getX() - _origin.getX(), point.getY() - _origin.getY(), point.getZ() - _origin.getZ());
     return Math::Ray(_origin, direction);
+}
+
+void Raytracer::Rectangle3D::translate(double x, double y, double z)
+{
+    _origin.setX(_origin.getX() + x);
+    _origin.setY(_origin.getY() + y);
+    _origin.setZ(_origin.getZ() + z);
+}
+
+void Raytracer::Camera::translate(double x, double y, double z)
+{
+    _origin.setX(_origin.getX() + x);
+    _origin.setY(_origin.getY() + y);
+    _origin.setZ(_origin.getZ() + z);
+    _screen.translate(x, y, z);
 }
