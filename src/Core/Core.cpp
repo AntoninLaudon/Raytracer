@@ -67,19 +67,22 @@ void Raytracer::Core::Render()
     texture.create(width, height); 
     sf::Sprite sprite(texture); 
 
-    for(int i = 0, j = width * height - 1; i < width*height*4; i += 4, j--) {
-        pix[i] = pixels->at(j).r;
-        pix[i+1] = pixels->at(j).g;
-        pix[i+2] = pixels->at(j).b;
-        pix[i+3] = 255;
-        if (j % width == 0) {
-            texture.update(pix);
-            window.clear();
-            window.draw(sprite);
-            window.display();
-            file.close();
+    std::cout << width << std::endl;
+    std::cout << height << std::endl;
+    for (int y = height - 1, test = 0; y > 0 ; y--) {
+        for (int x = 0; x < width ; x++) {
+            pix[test] = pixels->at(y * width + x).r;
+            pix[test + 1] = pixels->at(y * width + x).g;
+            pix[test + 2] = pixels->at(y * width + x).b;
+            pix[test + 3] = 255;
+            test += 4;
         }
+        texture.update(pix);
+        window.clear();
+        window.draw(sprite);
+        window.display();
     }
+    file.close();
     texture.update(pix);
     delete[] pix;
 
