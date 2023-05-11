@@ -148,8 +148,6 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
             std::string name;
             if (strcmp(elements.getName(), "spheres") == 0)
                 type = Raytracer::SPHERE;
-            if (strcmp(elements.getName(), "lights") == 0)
-                type = Raytracer::LIGHT;
             if (strcmp(elements.getName(), "planes") == 0)
                 type = Raytracer::PLANE;
             if (strcmp(elements.getName(), "cylinders") == 0)
@@ -158,6 +156,12 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
                 type = Raytracer::TRIANGLE;
             if (strcmp(elements.getName(), "cones") == 0)
                 type = Raytracer::CONE;
+            if (strcmp(elements.getName(), "ambientlights") == 0)
+                type = Raytracer::AMBIENTLIGHT;
+            if (strcmp(elements.getName(), "directionallights") == 0)
+                type = Raytracer::DIRECTIONALLIGHT;
+            if (strcmp(elements.getName(), "spotlights") == 0)
+                type = Raytracer::SPOTLIGHT;
             if (strcmp(elements.getName(), "resolution") == 0) {
                 _size.first = elements.lookup("x");
                 _size.second = elements.lookup("y");
@@ -199,8 +203,14 @@ void Raytracer::SceneManager::CreateElement(const libconfig::Setting *elem, std:
                     throw std::runtime_error("Color value must be between 0 and 255");
                 color = {(unsigned char)r, (unsigned char)g, (unsigned char)b};
             }
+            if (type == NONE) {
+                std::cerr << "Error: type not found: " << name << std::endl;
+                continue;
+            }
             Raytracer::Data data(type, name, center, direction, direction2, rotation, d, d2, color);
             Raytracer::IElement *element = factory->createObject(data);
+            if (element == nullptr)
+                throw std::runtime_error("Error: element not created");
             _elements.push_back(element);
         }
     }

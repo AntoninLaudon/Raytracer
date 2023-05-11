@@ -16,8 +16,11 @@ namespace Raytracer {
     enum ElemType {
         NONE,
         CAMERA,
-        LIGHT,
         SKYBOX,
+        DIRECTIONALLIGHT,
+        SPOTLIGHT,
+        AMBIENTLIGHT,
+        LIGHT,
         PRIMITIVE,
         SPHERE,
         PLANE,

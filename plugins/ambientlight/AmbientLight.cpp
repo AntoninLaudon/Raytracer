@@ -5,7 +5,7 @@
 ** Light
 */
 
-#include "Light.hpp"
+#include "AmbientLight.hpp"
 
 Raytracer::Light::Light()
 {
@@ -14,21 +14,21 @@ Raytracer::Light::Light()
     _rotation = Math::Vector3D(0, 0, 0);
     _type = LIGHT;
     _intensity = 1;
-    _rgb = PPM::RGB(0, 0, 0);
+    _rgb = PPM::RGB(255, 255, 255);
     _double = 1;
     _double2 = 1;
 }
 
-Raytracer::Light::Light(const std::string name, Math::Point3D center, Math::Vector3D rotation, double radius, double radius2)
+Raytracer::Light::Light(const std::string name, Math::Point3D center, double radius, PPM::RGB rgb)
 {
     _name = name;
     _center = center;
-    _rotation = rotation;
+    _rotation = Math::Vector3D(0, 0, 0);
     _type = LIGHT;
     _intensity = 1;
-    _rgb = PPM::RGB(255,255,255);
+    _rgb = rgb;
     _double = radius;
-    _double2 = radius2;
+    _double2 = 0.0;
 }
 
 Raytracer::Light::~Light()
@@ -118,10 +118,10 @@ std::shared_ptr<Math::Point3D> Raytracer::Light::hits(const Math::Ray &ray)
 }
 
 extern "C" Raytracer::IElement *createObject(Raytracer::Data data) {
-    std::cout << "Creating Light : " << data.getName() << std::endl;
-    return new Raytracer::Light(data.getName(), data.getCenter(), data.getRotation(), data.getDouble(), data.getDouble2());
+    std::cout << "Creating Ambient Light : " << data.getName() << std::endl;
+    return new Raytracer::Light(data.getName(), data.getCenter(), data.getDouble(), data.getRGB());
 }
 
 extern "C" Raytracer::ElemType getType() {
-    return Raytracer::LIGHT;
+    return Raytracer::AMBIENTLIGHT;
 }
