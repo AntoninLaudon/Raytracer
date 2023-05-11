@@ -45,12 +45,16 @@ double Raytracer::Triangle::getLuminosity(std::vector<Raytracer::IElement *> &el
     for (auto &element : elements) {
         if (element->getType() == Raytracer::LIGHT) {
             nbrLights++;
-            Math::Vector3D centerToLight((element->getCenter().getX() - land.getX()), (element->getCenter().getY() - land.getY()), (element->getCenter().getZ() - land.getZ()));
-            Math::Vector3D normal = _vector1.cross(_vector2);
-            Math::Vector3D centerToLand((_center.getX() - land.getX()), (_center.getY() - land.getY()), (_center.getZ() - land.getZ()));
-            centerToLand.normalize();
-            centerToLight.normalize();
-            dot = centerToLand.dot(centerToLight);
+
+            Math::Vector3D landToLight((element->getCenter().getX() - land.getX()), (element->getCenter().getY() - land.getY()), (element->getCenter().getZ() - land.getZ()));
+            landToLight.normalize();
+            dot = landToLight.dot(element->getRotation());
+            if (-dot < 1 / (180 / (180 - element->getDouble2())) && element->getRotation() != Math::Vector3D(0, 0, 0))
+                continue;
+
+            landToLight = {land - element->getCenter()};
+            landToLight.normalize();
+            dot = landToLight.dot(_vector1.cross(_vector2));
 
             for (auto &primitive : elements) {
                 if (primitive->getType() >= Raytracer::PRIMITIVE && primitive->getName() != _name) {
