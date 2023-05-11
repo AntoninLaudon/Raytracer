@@ -242,6 +242,13 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
                 }
             }
         }
+        if (name == "camera") {
+            _scene->getCamera()->translate(std::stof(x), std::stof(y), std::stof(z));
+            libconfig::Setting& camera = config->lookup("camera");
+            camera.lookup("camera_position.x") = _scene->getCamera()->getOrigin().getX();
+            camera.lookup("camera_position.y") = _scene->getCamera()->getOrigin().getY();
+            camera.lookup("camera_position.z") = _scene->getCamera()->getOrigin().getZ();
+        }
         config->writeFile(_file->getfilePath().c_str());
         return 0;
     } else if (strncmp(command.c_str(), "rotate", 6) == 0) {
@@ -349,6 +356,7 @@ int Raytracer::Core::ExecuteCommand(std::string command, std::shared_ptr<libconf
         return 0;
     } else if (command == "list") {
         std::cout << "Elements:" << std::endl;
+        std::cout << "\tCamera, position : { x:" << _scene->getCamera()->getOrigin().getX() << ", y:" << _scene->getCamera()->getOrigin().getY() << ", z:" << _scene->getCamera()->getOrigin().getZ() << "}" << std::endl;
         for (auto &elem : _scene->getElements()) {
             std::cout << "\t" << elem->getName() << ", position : { x:" << elem->getCenter().getX() << ", y:" << elem->getCenter().getY() << ", z:" << elem->getCenter().getZ() << "}, rotation : { x:" << elem->getRotation().getX() << ", y:" << elem->getRotation().getY() << ", z:" << elem->getRotation().getZ() << "}" << std::endl;
         }
